@@ -450,6 +450,30 @@ class createAvailUnit{
         }//if
         
     }//function
+    
+    function createReserve($tfLotId,$tfStatus,$selectCustomer,$dateCreated,$tfModeOfPayment,$selectYear,$tfDownpaymentFinal,$dateDownpayment,$tfAmountFinal){
+
+		$sql = "INSERT INTO `dbholygarden`.`tblavailunit` (`intLotId`, `intCustomerId`, `dateAvailUnit`, `strModeOfPayment`, `deciAmountPaid`, `intStatus`, `intInterestId`, `deciDownpayment`, `datDueDate`) 
+                                                    VALUES ('$tfLotId', '$selectCustomer', '$dateCreated', '$tfModeOfPayment', '$tfAmountFinal', '$tfStatus', '$selectYear', '$tfDownpaymentFinal', '$dateDownpayment')";
+                                            
+        $sql1 = "UPDATE `dbholygarden`.`tbllot` 
+                            SET `intLotStatus`='1' WHERE `intLotID`= '$tfLotId'";
+        
+        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+        mysql_select_db(constant('mydb'));
+        if(mysql_query($sql,$conn)){
+            
+            if(mysql_query($sql1,$conn)){
+                 mysql_close($conn);
+                    $alertAvail = new alerts();
+                    $alertAvail -> alertSold();
+                    //echo "<script>alert('Succesfully created!')</script>";
+            }//if
+            
+           
+        }//if
+        
+    }//function
         
 }//class
 
