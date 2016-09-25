@@ -4,7 +4,7 @@ class lot{
 
     function viewLot(){
         
-		$sql = "Select l.intLotID, l.strLotName, b.strBlockName, t.strTypeName, t.deciSellingPrice, s.strSectionName, l.intLotStatus, l.intStatus 
+		$sql = "Select l.intLotID, l.strLotName, b.strBlockName, t.strTypeName, t.deciSellingPrice, t.intNoOfLot, s.strSectionName, l.intLotStatus, l.intStatus 
                     FROM tbllot l  
                         INNER JOIN tblBlock b ON l.intBlockID = b.intBlockID 
                         INNER JOIN	tbltypeoflot t ON b.intTypeID = t.intTypeID
@@ -22,6 +22,7 @@ class lot{
           $strLotName =$row['strLotName'];
           $strBlockName =$row['strBlockName'];
           $strTypeName=$row['strTypeName'];
+          $intNoOfLot=$row['intNoOfLot'];
           $deciSellingPrice=$row['deciSellingPrice'];
           $strSectionName =$row['strSectionName'];
           $intStatus =$row['intStatus'];
@@ -36,16 +37,18 @@ class lot{
                     
                     <td align='center'>
                         <button type='button' class='btn  btn-success btn-sm' data-toggle='modal' data-target='#modalSpot$intLotID'>Spotcash</button>
-                        <button type='button' class='btn  btn-success btn-sm' data-toggle='modal' data-target='#modalReserve'>Reserve</button>
+                        <button type='button' class='btn  btn-success btn-sm' data-toggle='modal' data-target='#modalReserve$intLotID'>Reserve</button>
                         <button type='button' class='btn  btn-success btn-sm' data-toggle='modal' data-target='#modalAtneed'>Atneed</button>
                     </td>";
                     require("../modals/transaction/spotcash-modal.php");
+                    require('../modals/transaction/reserve-modal.php');
+
                     
                     
               echo"</tr>";
                 
             }//while($row = mysql_fetch_array($result))
-			  mysql_close($conn);         
+            mysql_close($conn);         
     }//function viewLot()    
     
 	
