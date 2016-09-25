@@ -162,7 +162,7 @@ if (isset($_POST['btnArchive'])){
                                             </select>
                                   </div>
 
-                                   <button type = 'button' class = 'btn btn-primary' onClick="window.open('../sales-report-daily.php')">
+                                   <button type = 'button' class = 'btn btn-primary' onClick="window.open('../report-pdf/sales-report-daily.php')">
                                                             <i class='glyphicon glyphicon-print'> PRINT</i></button>
                                                          
 

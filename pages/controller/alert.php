@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="../../dist/sweetalert.min.js"></script>
-  <script src="../../dist/sweetalert.js"></script>
-  <link rel="stylesheet" type="text/css" href="../../dist/sweetalert.css">
+ <script src="../../dist/sweetalert.min.js"></script> 
+ <script src="../../dist/sweetalert.js"></script> 
+ <script src="../../dev/sweetalert.es6.js"></script> 
+ <link rel="stylesheet" type="text/css" href="../../dist/sweetalert.css">
 </head>
 <body>
 
@@ -13,8 +14,15 @@ class alerts{
 
   function alertSuccess(){
 
-      echo '<script type="text/javascript">';
+     /* echo '<script type="text/javascript">';
       echo 'setTimeout(function () { swal("Nice!","Successfuly Created!","success");';
+      echo '}, 1000);</script>';
+*/
+      echo '<script type="text/javascript">';
+      echo 'setTimeout(function () {  swal ({   title: "Nice!",
+               text: "Successfuly Created!",
+               imageUrl: "../images/thumbs-up.jpg" });';
+
       echo '}, 1000);</script>';
   }
 
@@ -50,7 +58,7 @@ class alerts{
   function alertUpdate(){
 
       echo '<script type="text/javascript">';
-      echo 'setTimeout(function () { swal("Nice!","Successfuly Updated!","success");';
+      echo 'setTimeout(function () { swal("Nice!","Successfully Updated!","success");';
       echo '}, 1000);</script>';
 
   }
@@ -59,6 +67,21 @@ class alerts{
 
       echo '<script type="text/javascript">';
       echo 'setTimeout(function () { swal("Opps! Sorry!","Insufficient Amount Paid!","error");';
+      echo '}, 1000);</script>';
+  }
+
+  function alertRetrieve(){
+
+      echo '<script type="text/javascript">';
+      echo 'setTimeout(function () { swal("Good Job!","Successfuly Retrieved!","success");';
+      echo '}, 1000);</script>';
+
+  }
+
+  function alertDeac(){
+
+      echo '<script type="text/javascript">';
+      echo 'setTimeout(function () { swal("Good!","Successfuly Deactivated!","success");';
       echo '}, 1000);</script>';
   }
 
