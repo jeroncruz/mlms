@@ -51,6 +51,46 @@ if (isset($_POST['btnSubmitSpotcash'])){
     }//else
 }//if
 
+if (isset($_POST['btnSubmitReserve'])){
+
+    $tfLotId = $_POST['tfLotId'];
+    $tfStatus = $_POST['tfStatus'];
+    $selectCustomer = $_POST['selectCustomer'];
+    $tfDate = $_POST['tfDate'];
+    $tfModeOfPayment= $_POST['tfModeOfPayment'];
+    $selectYear= $_POST['selectYear'];
+    $tfDownpayment= $_POST['tfDownpayment'];
+    $tfDueDate=$_POST['tfDueDate'];
+    $tfReservationFee=$_POST['tfReservationFee'];
+    $tfAmountPaid=$_POST['tfAmountPaid'];
+    
+    $dateCreated = date("Y-m-d", strtotime($tfDate));
+    $dateDownpayment = date("Y-m-d", strtotime($tfDueDate));
+    $tfDownpaymentFinal = preg_replace('/,/', '', $tfDownpayment);
+    $tfReservationFinal = preg_replace('/,/', '', $tfReservationFee);
+    $tfAmountFinal = preg_replace('/,/', '', $tfAmountPaid);
+    
+    if($tfAmountFinal >= $tfReservationFinal){
+    
+        $createAvailUnit =  new createAvailUnit();
+        $createAvailUnit->createReserve($tfLotId,$tfStatus,$selectCustomer,$dateCreated,$tfModeOfPayment,$selectYear,$tfDownpaymentFinal,$dateDownpayment,$tfAmountFinal);
+    }else{
+        //echo "<script>alert('Insufficient Amount Paid!')</script>";
+        $alertChange = new alerts();
+        $alertChange -> alertChange();        
+    }//else
+}//if
+
+if (isset($_POST['btnCancelReservation'])){
+
+    $tfAvailUnitId = $_POST['tfAvailUnitId'];
+    $tfLotId = $_POST['tfLotId'];
+    
+    
+    $deactivateReserve =  new deactivateReserve();
+    $deactivateReserve->deactivate($tfAvailUnitId,$tfLotId);
+}//if
+
 
 ?>
 
@@ -64,7 +104,7 @@ if (isset($_POST['btnSubmitSpotcash'])){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Unit Avail-Transaction</title>
+    <title>Avail Unit-Transaction</title>
     <!-- Bootstrap -->
     <link href="../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -225,7 +265,7 @@ if (isset($_POST['btnSubmitSpotcash'])){
                                                                                     $filter1 = $_POST['filter1'];
                                                                                     $filter2 = $_POST['filter2'];
                                                                                     
-                                                                                    $sql = "Select l.intLotID, l.strLotName, b.strBlockName, t.strTypeName, t.deciSellingPrice, s.strSectionName, l.intLotStatus, l.intStatus 
+                                                                                    $sql = "Select l.intLotID, l.strLotName, b.strBlockName, t.strTypeName, t.intNoOfLot, t.deciSellingPrice, s.strSectionName, l.intLotStatus, l.intStatus 
                                                                                             FROM tbllot l  
                                                                                                 INNER JOIN tblBlock b ON l.intBlockID = b.intBlockID 
                                                                                                 INNER JOIN	tbltypeoflot t ON b.intTypeID = t.intTypeID
@@ -244,6 +284,7 @@ if (isset($_POST['btnSubmitSpotcash'])){
                                                                                     $strBlockName =$row['strBlockName'];
                                                                                     $strTypeName=$row['strTypeName'];
                                                                                     $deciSellingPrice=$row['deciSellingPrice'];
+                                                                                    $intNoOfLot=$row['intNoOfLot'];
                                                                                     $strSectionName =$row['strSectionName'];
                                                                                     $intStatus =$row['intStatus'];
                                                                                     $intLotStatus =$row['intLotStatus'];
@@ -264,13 +305,32 @@ if (isset($_POST['btnSubmitSpotcash'])){
                                                                                                     <button type='button' class='btn  btn-success btn-sm' data-toggle='modal' data-target='#modalAtneed'>Atneed</button>
                                                                                                 </td>";
                                                                                                 require("../modals/transaction/spotcash-modal.php");
+                                                                                                require("../modals/transaction/reserve-modal.php");
                                                                                                 
                                                                                                 
                                                                                         echo"</tr>";
           
                                                                                         
-                                                                                    }else{
+                                                                                    }else if($intLotStatus==1){
                                                                                                 
+                                                                                        echo 
+                                                                                            "<tr>
+                                                                                                <td style ='font-size:18px;'>$strLotName</td>
+                                                                                                <td style ='font-size:18px;'>$strBlockName</td>
+                                                                                                <td style ='font-size:18px;'>$strTypeName</td>
+                                                                                                <td style ='font-size:18px;'>$strSectionName</td>
+                                                                                                <td style ='font-size:18px; text-align:right;'>₱ ".number_format($deciSellingPrice,2)."</td>
+                                                                                                
+                                                                                                <td align='center'>
+                                                                                                    <button type='button' class='btn  btn-success btn-md' title='view' data-toggle='modal' data-target='#viewReserveLot$intLotID'>
+                                                                                                        <i class='glyphicon glyphicon-eye-open'></i>
+                                                                                                    </button>
+                                                                                                </td>";
+                                                                                                require("../modals/transaction/viewReserveLot-modal.php");
+
+                                                                                            echo"</tr>";
+                                                                                    }else if($intLotStatus==2){
+                                                                                        
                                                                                         echo 
                                                                                             "<tr>
                                                                                                 <td style ='font-size:18px;'>$strLotName</td>
@@ -287,7 +347,27 @@ if (isset($_POST['btnSubmitSpotcash'])){
                                                                                                 require("../modals/transaction/viewOwnedLot-modal.php");
 
                                                                                             echo"</tr>";
-                                                                                        }
+                                                                                        
+                                                                                    }else{
+                                                                                        
+                                                                                        echo 
+                                                                                            "<tr>
+                                                                                                <td style ='font-size:18px;'>$strLotName</td>
+                                                                                                <td style ='font-size:18px;'>$strBlockName</td>
+                                                                                                <td style ='font-size:18px;'>$strTypeName</td>
+                                                                                                <td style ='font-size:18px;'>$strSectionName</td>
+                                                                                                <td style ='font-size:18px; text-align:right;'>₱ ".number_format($deciSellingPrice,2)."</td>
+                                                                                                
+                                                                                                <td align='center'>
+                                                                                                    <button type='button' class='btn  btn-success btn-md' title='view' data-toggle='modal' data-target='#viewAtNeedLot$intLotID'>
+                                                                                                        <i class='glyphicon glyphicon-eye-open'></i>
+                                                                                                    </button>
+                                                                                                </td>";
+                                                                                                require("../modals/transaction/viewAtNeedLot-modal.php");
+
+                                                                                            echo"</tr>";
+                                                                                        
+                                                                                    }
                                                                                         
                                                                                     }//while($row = mysql_fetch_array($result))
                                                                                         mysql_close($conn);         
@@ -447,146 +527,6 @@ if (isset($_POST['btnSubmitSpotcash'])){
 
 
 
-
-<!----------------------------------------------Reserve FORM---------------------------------->
-<div class="modal fade" id="modalReserve" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="z-index: 1500;display:none;">
-    <div class="modal-dialog" role="document" style = "width:80%; height: 90%;">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type = "button" class = "close" data-dismiss = "modal">&times;</button>
-        <h4 class="modal-title" id="myModalLabel"><b>BILL OUT FORM</b></h4>
-
-
-        <div class="row">
-              <div class="col-md-12">
-                <div class="panel panel-default">
-                  <div class="panel-body">
-                        
-                        <select class="form-control" name = "selectCustomer">
-                          <option value=""> --Choose Customer--</option>
-                        </select>
-
-
-                   <div class="panel-body">
-                    
-                    <div class="col-md-6">
-                      <div class ="panel panel-default">
-                        
-                        
-                        <div class="panel-body">
-                        
-                          <div class="form-group">
-                            <label class="col-md-7" style = "font-size: 18px;"  style="margin-top:.30em">Due Date for Downpayment:</label>
-                            <div class="col-md-5">
-                              <input type="text" class="form-control input-md" align="left" name= "tfDescription" readonly>
-                            </div>
-                          </div>
-                          
-                          <div class="form-group">
-                            <label class="col-md-7" style = "font-size: 18px;"  style="margin-top:.30em">Reservation Fee:</label>
-                            <div class="col-md-5">
-                              <input type="text" class="form-control input-md" align="left" name= "tfDescription" readonly>
-                            </div>
-                          </div>
-                          
-                          <div class="form-group">
-                            <label class="col-md-7" style = "font-size: 18px;"  style="margin-top:.30em">Unit Name:</label>
-                            <div class="col-md-5">
-                              <input type="text" class="form-control input-md" align="left" name= "tfDescription" readonly>
-                            </div>
-                          </div>
-
-                          <div class="form-group">
-                            <label class="col-md-7" style = "font-size: 18px;"  style="margin-top:.30em">Lot Type:</label>
-                            <div class="col-md-5">
-                              <input type="text" class="form-control input-md" align="left" name= "tfDescription" readonly>
-                            </div>
-                          </div>
-
-                          <div class="form-group">
-                            <label class="col-md-7" style = "font-size: 18px;"  style="margin-top:.30em">Location:</label>
-                            <div class="col-md-5">
-                              <input type="text" class="form-control input-md" align="left" name= "tfDescription" readonly>
-                            </div>
-                          </div>
-                          <div class="divider"></div>
-                          
-                          <div class="form-group">
-                            <label class="col-md-7" style = "font-size: 18px;"  style="margin-top:.30em">Total Amount:</label>
-                            <div class="col-md-5">
-                              <div class=" input-group">
-                                <span class = "input-group-addon">₱</span>
-                                <input type="text" class="form-control input-md" align="left" name= "tfSellingPrice" id="tfPriceCreate" onkeypress="return validateNumber(event)" readonly/>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div class="col-md-6">
-                      <div class ="panel panel-default">
-                        
-                        
-                        <div class="panel-body">
-
-                        <div class="form-group">
-                            <label class="col-md-7" style = "font-size: 18px;"  style="margin-top:.30em">Mode of Payment:</label>
-                            <div class="col-md-5">
-                             
-                             <input type="text" class="form-control input-md" align="left" name= "tfSellingPrice" id="tfPriceCreate" onkeypress="return validateNumber(event)" disabled value="Reservation">
-                            
-                            </div>
-                          </div>
-                        
-                          
-                          <div class="form-group">
-                            <label class="col-md-7" style = "font-size: 18px;"  style="margin-top:.30em">Total Amount to Pay:</label>
-                            <div class="col-md-5">
-                              <div class=" input-group">
-                                <span class = "input-group-addon">₱</span>
-                                <input type="text" class="form-control input-md" align="left" name= "tfSellingPrice" id="tfPriceCreate" onkeypress="return validateNumber(event)" readonly/>
-                              </div>
-                            </div>
-                          </div>
-                          
-                          <div class="form-group">
-                            <label class="col-md-7" style = "font-size: 18px;"  style="margin-top:.30em">Amount Paid:</label>
-                            <div class="col-md-5">
-                              <div class=" input-group">
-                                <span class = "input-group-addon">₱</span>
-                                <input type="text" class="form-control input-md" align="left" name= "tfSellingPrice" id="tfPriceCreate" onkeypress="return validateNumber(event)" required>
-                              </div>
-                            </div>
-                          </div>
-                  
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="modal-footer"> 
-                            
-                                <button type="submit" class="btn btn-success" name= "btnSubmit">Submit</button>
-                                <input class = "btn btn-default" type="reset" name = "btnClear" value = "Clear Entries">
-                          
-                           
-                        </div>
-                    
-                  </div>
-                    
-
-          </div>
-      </div>
-      </div>
-    </div>
-           
-      </div>
-    
- 
-        </div>
-</div><!--/modal body-->
-
-</div>
 
 
 <!----------------------------------------------Atneed FORM---------------------------------->
