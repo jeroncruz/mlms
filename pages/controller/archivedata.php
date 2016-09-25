@@ -106,7 +106,7 @@ class deactivatedTypes{
                 
 				<!--ARCHIVE MODAL-->
 				<div class = 'modal fade' id = 'archive$intTypeID'>
-					<div class = 'modal-dialog' style = 'width: 40%;'>
+					<div class = 'modal-dialog' style = 'width: 50%;'>
 						<div class = 'modal-content' style = 'height: 220px;'>
                                                 
 							<!--header-->
@@ -127,7 +127,7 @@ class deactivatedTypes{
 									</div>
                                                             
 									<div class='modal-footer'> 
-										<div class='col-sm-8'  style = 'margin-top: 10px;'>
+										<div class='col-sm-8'>
 											<button type='submit' class='btn btn-danger' name= 'btnArchive'>Yes</button>
 											<button type='button' class='btn btn-default' data-dismiss='modal'>No</button>
 										</div>
@@ -269,7 +269,7 @@ class deactivatedBlock{
 									</div>
 									
 									<div class='modal-footer'> 
-										<div class='col-sm-offset-4 col-sm-8'  style = 'margin-top: 10px;'>
+										<div class=' col-sm-8' >
 											<button type='submit' class='btn btn-danger' name= 'btnArchive'>Yes</button>
 											<button type='button' class='btn btn-default' data-dismiss='modal'>No</button>
 										</div>
@@ -630,7 +630,8 @@ class deactivatedRequirement{
 					<td style ='font-size:18px;'>$strRequirementName</td>
 					<td style ='font-size:18px;'>$strRequirementDesc</td>
 						
-					<td align = 'center'>
+					
+                    <td align = 'center'>
 						<button type = 'button' class = 'btn btn-success' data-toggle = 'modal' title='Retrieve' data-target = '#archive$intRequirementId'>
 							<i class='glyphicon glyphicon-repeat'></i>
 						</button>
@@ -640,7 +641,7 @@ class deactivatedRequirement{
 				<!--ARCHIVE MODAL-->
 				<div class = 'modal fade' id='archive$intRequirementId'>
 					<div class = 'modal-dialog' style = 'width: 40%;'>
-						<div class = 'modal-content' style = 'height: 220px;'>
+						<div class = 'modal-content' style = 'height: 230px;'>
 							
 							<!--header-->
 							<div class = 'modal-header' style='background: light-red'>
@@ -661,7 +662,7 @@ class deactivatedRequirement{
 									</div>
 									
 									<div class='modal-footer'> 
-										<div class='col-sm-8'  style = 'margin-top: 10px;'>
+										<div class='col-sm-8'>
 											<button type='submit' class='btn btn-danger' name= 'btnArchive'>Yes</button>
 											<button type='button' class='btn btn-default' data-dismiss='modal'>No</button>
 										</div>
@@ -707,6 +708,12 @@ class deactivatedService{
 					<td style = 'text-align: right; font-size:18px;'>Php $dblServicePrice</td>
 						
 					<td align = 'center'>
+						<button type = 'button' class = 'btn btn-success' data-toggle = 'modal' title='Retrieve' data-target = ''>
+							<i class='glyphicon glyphicon-eye-open'></i>
+						</button>
+					</td>
+                    
+                    <td align = 'center'>
 						<button type = 'button' class = 'btn btn-success' data-toggle = 'modal' title='Retrieve' data-target = '#archive$intServiceID'>
 							<i class='glyphicon glyphicon-repeat'></i>
 						</button>

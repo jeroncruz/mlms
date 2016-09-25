@@ -31,7 +31,9 @@ if (isset($_POST['btnSubmit'])){
 			mysql_close($conn);
             
 			if(($row['curr'] + 1) > $row['max']){
-				echo "<script>alert('This block reach max limit unit!')</script>";
+				//echo "<script>alert('This block reach max limit unit!')</script>";
+                $alertLevel = new alerts();
+                $alertLevel -> alertMax();
 			}else{
 				
 				$num_of_ids = $row['max']; //limit sa block
@@ -47,7 +49,9 @@ if (isset($_POST['btnSubmit'])){
 					
 					$i++; 
 				}//while
-				echo "<script>alert('Succesfully created!')</script>";
+				//echo "<script>alert('Succesfully created!')</script>";
+                $alertLevel1 = new alerts();
+                $alertLevel1 -> alertSuccess();
 			}//else
         }//while
 	}//if	
@@ -83,6 +87,11 @@ if (isset($_POST['btnArchive'])){
 	$archiveLA =  new archiveLA();
 	$archiveLA->archive($tfLevelAshID);
 }//if
+
+session_start();
+
+if(isset($_SESSION['use'])){
+
   
 ?>
 
@@ -154,8 +163,8 @@ if (isset($_POST['btnArchive'])){
     <div class="container body"> 
         <div class="main_container">
            <?php 
-				require("sidemenu-main.php");
-				require("topnav-main.php"); 
+                require('../menu/maintenance-sidemenu.php');
+                require('../menu/topnav.php'); 
 			?>
 
             <!-- page content -->
@@ -219,12 +228,12 @@ if (isset($_POST['btnArchive'])){
                                                     </div>
                                                 </div>
                                                 
+                                                <h6 class="col-md-12" style = "color: red;" align="left" style="margin-top:.30em">ALL FIELDS ARE REQUIRED </h6>
 												<div class="form-group modal-footer"> 
 													<div class="col-md-12 col-md-offset-3">
 														<button type="submit" class="btn btn-success col-md-4" name= "btnSubmit">Create</button>
 														<input class = "btn btn-default col-md-5" type="reset" name = "btnClear" value = "Clear Entries">
 													</div>
-													<h4 class="col-md-12" style = "color: red;" align="left" style="margin-top:.30em">ALL FIELDS ARE REQUIRED </h4>
 												</div>
                                                 
 							                </form><!--Form-->
@@ -236,17 +245,18 @@ if (isset($_POST['btnArchive'])){
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
                                             <form class="form-vertical" role="form" action = "levelAsh.php" method= "post">
-												<div class="form-group col-md-offset-7">
-													<label class="col-md-5" style = "font-size: 18px;" align="right">Filter by:</label>
+												<div class="form-group col-md-offset-4">
+													<label class="col-md-4" style = "font-size: 18px;" align="right">Filter by:</label>
 													<div class="col-md-5">
-														<select class="form-control input-md" name = "filter" required>
-															<option value="0">Active</option>
+														<select class="form-control input-md" name = "filter" required> 
+                                                            <option value="" selected disabled>--Choose your filter--</option>
+                                                            <option value="0">Active</option>
 															<option value="1">Inactive</option>
 														</select>
 													</div>
+                                                    <button type="submit" class="btn btn-success col-md-2" name= "btnGo">Go</button>
 												</div>
 											
-												<button type="submit" class="btn btn-success pull-right" name= "btnGo">Go</button>
 											</form>
                      	                  </div><!-- /.panel-heading -->
                                            
@@ -344,3 +354,15 @@ if (isset($_POST['btnArchive'])){
     
 </body>
 </html>
+
+
+<?php
+    }else{
+?>
+    <div align="center" style="margin-top: 15em">
+        <p>You need to Login first before you proceed</p>
+        <a href="../login.php">Go to Login Form</a>
+    </div>
+<?php
+    }
+?>

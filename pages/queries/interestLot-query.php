@@ -25,7 +25,7 @@ require('../controller/retrieve.php');
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>MLMS-Interest Lot-Query</title>
+    <title>Interest Query</title>
 
     <!-- Bootstrap -->
     <link href="../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -53,8 +53,10 @@ require('../controller/retrieve.php');
 <body class="nav-sm">
     <div class="container body">
         <div class="main_container">
-           <?php require("sidemenu-query.php");
-                  require("topnav-query.php");  ?>
+           <?php 
+                require("sidemenu-query.php");
+                require("topnav-query.php"); 
+            ?>
         
             <!-- page content -->
             <div class="right_col" role="main">
@@ -73,27 +75,19 @@ require('../controller/retrieve.php');
                                     <div class="panel-heading">
                                         <form class="form-vertical" role="form" action = "interestLot-query.php" method= "post">
                                             <div class="row">
-                                                <div class="form-group">
+                                                <div class="form-group col-md-offset-3">
                                                     <label class="col-md-2" style = "font-size: 18px;" align="right" style="margin-top:.30em">Filter by:</label>
                                                     <div class="col-md-4">
                                                         <select class="form-control" name = "filter">
-                                                            <option value=""> --Choose Interest Status--</option>
-                                                            <option value="0">Pre-need</option>
+                                                            <option value="" selected disabled> --Choose your filter--</option>
+                                                            <option value="0">All Interest</option>
                                                             <option value="1">At-need</option>
+                                                            <option value="2">Pre-need</option>
                                                         </select>
                                                     </div>
-                                                    <div class="col-md-4">
-                                                        <select class="form-control" name = "filter1">
-                                                            <option value=""> --Choose Lot Type--</option>
-                                                            <?php
-                                                                $view = new interest();
-                                                                $view->selectTypeBlock();
-                                                            ?>                                    
-                                                        </select>
-                                                    </div>
+                                                    
                                                     <div class="col-md-2">
                                                         <button type="submit" class="btn btn-success pull-left" name= "btnGo">Go</button>
-                                                        <button type="submit" class="btn btn-default pull-left" name= "btnBack">Back</button>
                                                     </div>
                                                 </div><!-- FORM GROUP -->
                                             
@@ -108,60 +102,28 @@ require('../controller/retrieve.php');
                                                     <tr>
                                                         <th class = "success" style = "text-align: center; font-size: 20px;">Lot Type</th>
                                                         <th class = "success" style = "text-align: center; font-size: 20px;">No. of Year</th>
-                                                        <th class = "success" style = "text-align: center; font-size: 20px;">At Need</th>
-                                                        <th class = "success" style = "text-align: center; font-size: 20px;">Percent</th>
+                                                        <th class = "success" style = "text-align: center; font-size: 20px;">At-Need</th>
+                                                        <th class = "success" style = "text-align: center; font-size: 20px;">Pre-Need</th>
                                                     </tr>
                                                 </thead>
                                                 
                                                 <tbody>
                                                     <?php
                                                         if (isset($_POST['btnGo'])){
-                                                            $filter = $_POST['filter'];
-                                                            $filter1 = $_POST['filter1'];
-                                                            
-                                                            $sql = "SELECT i.intInterestID, i.intYear, i.dblPercent,i.intStatus, i.intAtNeed, t.strTypeName, t.intStatus FROM tblinterest i
-		                                                                          INNER JOIN tbltypeoflot t ON i.intTypeID = t.intTypeID WHERE i.intStatus = '0'  AND i.intAtNeed = '".$filter."' AND t.intTypeID = '".$filter1."'  ORDER BY t.strTypeName ASC";
-
-                                                            $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
-                                                                    mysql_select_db(constant('mydb'));
-                                                                    $result = mysql_query($sql,$conn);
-                                                                    while($row = mysql_fetch_array($result)){
-                                                                        
-                                                                        $intInterestID =$row['intInterestID'];
-                                                                        $strTypeName =$row['strTypeName'];
-                                                                        $intYear     =$row['intYear'];
-                                                                        $dblPercent =$row['dblPercent'];
-                                                                        $intStatus=$row['intStatus'];
-                                                                        $intAtNeed=$row['intAtNeed'];
-                                                                        
-                                                                        if($intAtNeed==1){
-                                                                        $tfAtNeed ="Yes";
-                                                                        }else{
-                                                                            $tfAtNeed="No";
-                                                                        }
-                                                                    
-                                                                        
-                                                                        $dblPercentValue = $dblPercent*100;
-            
-                                                                        
-                                                                        echo 
-                                                                            "<tr><td style = 'font-size:18px;'>$strTypeName</td>
-                                                                                <td style = 'font-size:18px; text-align: right;'>$intYear</td>
-                                                                                <td style = 'font-size:18px;'>$tfAtNeed</td>
-                                                                                <td style = 'font-size:18px; text-align: right;'>$dblPercentValue %</td>
-			   
-                                                                            </tr>";
-                                                                    }
-                                                                    mysql_close($conn);
-                                                                    
-                                                        }else if(isset($_POST['btnBack'])){
-                                                            $view = new interest();
-                                                            $view->viewInterest();
-                                                        }
-                                                        else{
-                                                            $view1 = new interest();
-                                                            $view1->viewInterest();
-                                                        }
+															$filter = $_POST['filter'];
+															
+															if($filter == 1){
+																$viewDeactivate = new deactivatedInterest();
+																$viewDeactivate->viewDeactivatedInterest();
+															}else if($filter == 0){
+																$view = new interest();
+																$view->viewInterest();
+															}
+															
+														}else{
+															$view1 = new interest();
+															$view1->viewInterest();
+														}
                                                     ?>
                                                 </tbody>
                                         </table>

@@ -62,8 +62,10 @@ require('../controller/retrieve.php');
     <div class="container body">
       <div class="main_container">
         <div class="main_container">
-           <?php require("sidemenu-query.php");
-                  require("topnav-query.php");  ?>
+           <?php 
+                require('../menu/query-sidemenu.php');
+                require('../menu/topnav.php');
+           ?>
                          
             <!-- page content -->
             <div class="right_col" role="main">

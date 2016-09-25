@@ -9,47 +9,6 @@ require('../controller/archivedata.php');
 require('../controller/retrieve.php');
 
 
-if (isset($_POST['btnSubmit'])){
-
-    $tfServiceName = $_POST['tfServiceName'];
-    $serviceType = $_POST['serviceType'];
-    $tfServicePrice= $_POST['tfServicePrice'];
-    $tfStatus=$_POST['tfStatus'];
-    
-    $createService =  new createService();
-    $createService->Create($tfServiceName,$serviceType,$tfServicePrice,$tfStatus);
-}
-    
-if (isset($_POST['btnSave'])){
-
-    $tfServiceID = $_POST['tfServiceID'];
-    $tfServiceName = $_POST['tfServiceName'];
-    $serviceType = $_POST['serviceType'];
-    $tfServicePrice = $_POST['tfServicePrice'];
-    
-    
-    $updateservice =  new updateService();
-    $updateservice->update($tfServiceID,$serviceType,$tfServiceName,$tfServicePrice);
-}
-
-     
-      
-if (isset($_POST['btnDeactivate'])){
-
-    $tfServiceID = $_POST['tfServiceID'];
-    
-    $deactivateService =  new deactivateService();
-    $deactivateService->deactivate($tfServiceID);
-}
-
-if (isset($_POST['btnArchive'])){
-
-        $tfServiceID = $_POST['tfServiceID'];
-        
-        $archiveService =  new archiveService();
-        $archiveService->archive($tfServiceID);
-}
-    
 ?>
 
 
@@ -100,8 +59,10 @@ if (isset($_POST['btnArchive'])){
 <body class="nav-sm"> 
     <div class="container body">
         <div class="main_container">
-           <?php require("sidemenu-query.php");
-                  require("topnav-query.php");  ?>
+           <?php 
+                require('../menu/query-sidemenu.php');
+                require('../menu/topnav.php');
+           ?>
                   
             <!-- page content -->
             <div class="right_col" role="main">
@@ -124,10 +85,22 @@ if (isset($_POST['btnArchive'])){
                                                             <label class="col-md-2" style = "font-size: 18px;" align="right" style="margin-top:.30em">Filter by:</label>
                                                             <div class="col-md-4">
                                                                 <select class="form-control" name = "filter">
-                                                                    <option value=""> --Choose Service Type--</option>
-                                                                    <option value="0"> Service Request</option>
-                                                                    <option value="1"> Service Scheduling</option>
-                                                                                                        
+                                                                    <option value="hehe" selected disabled> --Choose Service Type--</option>
+                                                                    <?php
+                                                                         $sql = "SELECT * FROM tblservicetype ORDER BY strServiceTypeName ASC";
+
+                                                                        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+                                                                        mysql_select_db(constant('mydb'));
+                                                                        $result = mysql_query($sql,$conn);
+                                                                        while($row = mysql_fetch_array($result)){
+                                                                            
+                                                                            $intServiceTypeId = $row['intServiceTypeId'];
+                                                                            $strServiceTypeName = $row['strServiceTypeName'];
+                                                                            
+                                                                            echo "<option value = '$intServiceTypeId'> $strServiceTypeName </option>";
+                                                                        }//while
+                                                                        mysql_close($conn);
+                                                                    ?>                                   
                                                                 </select>
                                                             </div>
                                                             
@@ -164,7 +137,8 @@ if (isset($_POST['btnArchive'])){
                                                                   
                                                                   $filter = $_POST['filter'];
                                                               
-                                                                  $sql = "SELECT * FROM tblservice WHERE intStatus='0' AND intServiceType='".$filter."' ORDER BY strServiceName ASC";
+                                                                  $sql = "SELECT s.intServiceID, s.strServiceName, s.dblServicePrice, st.strServiceTypeName FROM tblservice s 
+                                                                            INNER JOIN tblservicetype st ON s.intServiceTypeId = st.intServiceTypeId WHERE s.intStatus='0' AND s.intServiceTypeId='".$filter."' ORDER BY s.strServiceName ASC";
         
                                                                   $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
                                                                   mysql_select_db(constant('mydb'));
@@ -175,18 +149,13 @@ if (isset($_POST['btnArchive'])){
                                                                     
                                                                     $intServiceID = $row['intServiceID'];
                                                                     $strServiceName = $row['strServiceName'];
-                                                                    $intServiceType = $row['intServiceType'];
+                                                                    $strServiceTypeName = $row['strServiceTypeName'];
                                                                     $dblServicePrice = $row['dblServicePrice'];
-                                                                    
-                                                                    if($intServiceType==0){
-                                                                            $serviceType="Service Request";
-                                                                    }else
-                                                                            $serviceType="Service Scheduling";
                                                                     
                                                                     
                                                                     echo "<tr>
                                                                                 <td style ='font-size:18px;'>$strServiceName</td>
-                                                                                <td style ='font-size:18px;'>$serviceType</td>
+                                                                                <td style ='font-size:18px;'>$strServiceTypeName</td>
                                                                                 <td style = 'text-align: right; font-size:18px;'>₱ ".number_format($dblServicePrice,2)."</td>
                                                                             </tr>";
                                                                         
@@ -346,9 +315,5 @@ if (isset($_POST['btnArchive'])){
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
 
-     <script>
-        $('#tfPriceCreate').mask('000000000000.00',{reverse:true});
-        $('.tfPriceUpdate').mask('000000000000.00',{reverse:true});
- </script>
-  </body>
+</body>
 </html>

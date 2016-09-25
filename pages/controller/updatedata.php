@@ -1,4 +1,6 @@
+
 <?php
+require('alert.php');
 
 class updateInterest{
 
@@ -12,7 +14,8 @@ class updateInterest{
         if(mysql_query($sql,$conn)){
             
             mysql_close($conn);
-			echo "<script>alert('Succesfully updated!')</script>";
+			$alertInterest = new alerts();
+            $alertInterest -> alertUpdate();
 		}//if
     }//function        
 }//updateInterest
@@ -20,7 +23,7 @@ class updateInterest{
 class updateType{
 
     function update($tfTypeID,$tfTypeName,$tfNoOfLot,$tfSellingPriceFinal){
-        echo "<script>alert('$tfSellingPriceFinal')</script>";
+       // echo "<script>alert('$tfSellingPriceFinal')</script>";
 		
 		$sql = "UPDATE `dbholygarden`.`tbltypeoflot` SET `strTypeName`='$tfTypeName', `intNoOfLot`='$tfNoOfLot', `deciSellingPrice`='$tfSellingPriceFinal' WHERE `intTypeID`= '$tfTypeID'";
         
@@ -30,7 +33,10 @@ class updateType{
 		if(mysql_query($sql,$conn)){
 			
             mysql_close($conn);
-			echo "<script>alert('Succesfully updated!')</script>";
+			//echo "<script>alert('Succesfully updated!')</script>";
+            $alertType = new alerts();
+            $alertType -> alertUpdate();
+
 		}//if
     }//function        
 }//updateType
@@ -46,7 +52,9 @@ class updateSection{
 		
         if(mysql_query($sql,$conn)){
             mysql_close($conn);
-			echo "<script>alert('Succesfully updated!')</script>";
+			//echo "<script>alert('Succesfully updated!')</script>";
+            $alertSection = new alerts();
+            $alertSection -> alertUpdate();
 		}//if
     }//function        
 }//updateSection
@@ -65,7 +73,9 @@ class updateBlock{
         mysql_select_db(constant('mydb'));
         if(mysql_query($sql,$conn)){
             mysql_close($conn);
-			echo "<script>alert('Succesfully updated!')</script>";
+			//echo "<script>alert('Succesfully updated!')</script>";
+            $alertBlock = new alerts();
+            $alertBlock -> alertUpdate();
 		}//if
     }//function      
 }//updateBlock
@@ -82,7 +92,9 @@ class updateLot{
         
 		if(mysql_query($sql,$conn)){
             mysql_close($conn);
-			echo "<script>alert('Succesfully updated!')</script>";
+			//echo "<script>alert('Succesfully updated!')</script>";
+            $alertLot = new alerts();
+            $alertLot -> alertUpdate();
 		}//if
     }//function      
 }//updateLot
@@ -98,7 +110,9 @@ class updateAC{
         
 		if(mysql_query($sql,$conn)){
             mysql_close($conn);
-			echo "<script>alert('Succesfully updated!')</script>";
+			//echo "<script>alert('Succesfully updated!')</script>";
+            $alertAC = new alerts();
+            $alertAC -> alertUpdate();
 		}//if
     }//function      
 }//updateAC
@@ -113,7 +127,9 @@ class updateLA{
         
         if(mysql_query($sql,$conn)){
             mysql_close($conn);
-			echo "<script>alert('Succesfully updated!')</script>";
+			//echo "<script>alert('Succesfully updated!')</script>";
+            $alertLevel = new alerts();
+            $alertLevel -> alertUpdate();
 		}//if
     }//function        
 }//updateLA
@@ -128,7 +144,9 @@ class updateAshUnit	{
         
 		if(mysql_query($sql,$conn)){
             mysql_close($conn);
-			echo "<script>alert('Succesfully updated!')</script>";
+			//echo "<script>alert('Succesfully updated!')</script>";
+            $alertAsh = new alerts();
+            $alertAsh -> alertUpdate();
 		}//if
     }//function
 }//updateAshUnit
@@ -141,7 +159,9 @@ class updateRequirement	{
         mysql_select_db(constant('mydb'));
         if(mysql_query($sql,$conn)){
             mysql_close($conn);
-			echo "<script>alert('Succesfully updated!')</script>";
+			//echo "<script>alert('Succesfully updated!')</script>";
+            $alertRequire = new alerts();
+            $alertRequire -> alertUpdate();
 		}//if
     }//function 
 }//updateRequirement
@@ -155,7 +175,9 @@ class updateService	{
         mysql_select_db(constant('mydb'));
         if(mysql_query($sql,$conn)){
             mysql_close($conn);
-			echo "<script>alert('Succesfully updated!')</script>";
+			//echo "<script>alert('Succesfully updated!')</script>";
+            $alertService = new alerts();
+            $alertService -> alertUpdate();
 		}//if
     }//function 
 }//updateService
@@ -171,7 +193,9 @@ class updateDiscount{
         mysql_select_db(constant('mydb'));
         if(mysql_query($sql,$conn)){
             mysql_close($conn);
-			echo "<script>alert('Succesfully updated!')</script>";
+			//echo "<script>alert('Succesfully updated!')</script>";
+            $alertDiscount = new alerts();
+            $alertDiscount -> alertUpdate();
 		}//if
     }//function       
 }//updateDiscount

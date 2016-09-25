@@ -1,5 +1,6 @@
 <?php
 
+
 class createInterest{
 
     function Create($tfNoOfYear,$tfAtNeedInterest,$tfRegularInterest,$tfStatus){
@@ -13,7 +14,9 @@ class createInterest{
         if(mysql_query($sql,$conn)){
             
             mysql_close($conn);
-            echo "<script>alert('Succesfully created!')</script>";
+           // echo "<script>alert('Succesfully created!')</script>";
+            $alertInterest = new alerts();
+            $alertInterest -> alertSuccess();
           
         }
         
@@ -45,11 +48,15 @@ class createTypes{
 		
 			if(mysql_query($sql,$conn)){
 				mysql_close($conn);
-				echo "<script>alert('Succesfully created!')</script>";
+				//echo "<script>alert('Succesfully created!')</script>";
+                $alertTypes = new alerts();
+                $alertTypes -> alertSuccess();
 			}//if
 
 		}else{
-			echo "<script>alert('duplicate data')</script>";
+			//echo "<script>alert('duplicate data')</script>";
+                $alertTypes1 = new alerts();
+                $alertTypes1 -> alertWarning();
         }//else
         
     }//function
@@ -79,11 +86,15 @@ class createSection{
 			
 			if(mysql_query($sql,$conn)){
 				mysql_close($conn);
-				echo "<script>alert('Succesfully created!')</script>";
+				//echo "<script>alert('Succesfully created!')</script>";
+                $alertSection = new alerts();
+                $alertSection -> alertSuccess();
 
 			}//if
 		}else{
-            echo "<script>alert('duplicate data')</script>";
+            //echo "<script>alert('duplicate data')</script>";
+                $alertSection1 = new alerts();
+                $alertSection1 -> alertWarning();
         }//else
         
     }//function
@@ -95,14 +106,6 @@ class createBlock{
 
     function Create($tfBlockName,$typeBlock,$section,$tfNoOfLot,$tfStatus){
 
-        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
-        mysql_select_db(constant('mydb'));
-
-        $sql = "SELECT * from tblblock WHERE strBlockName LIKE '$tfBlockName'";
-        $result = mysql_query($sql);
-        $check_duplicate = mysql_num_rows($result);
-
-        if($check_duplicate == 0){
 
 			$sql = "INSERT INTO `dbholygarden`.`tblblock` (`strBlockName`,`intTypeID` ,`intSectionID`, `intNoOfLot`, `intStatus`) 
 												VALUES ('$tfBlockName','$typeBlock' ,'$section', '$tfNoOfLot','$tfStatus')";
@@ -114,10 +117,6 @@ class createBlock{
 				mysql_close($conn);
 			}//if
 
-        }else{
-            echo "<script>alert('duplicate data')</script>";
-        }//else
-        
     }//function
 }//createBlock
 
@@ -161,11 +160,15 @@ class createAC{
 			
 			if(mysql_query($sql,$conn)){
 				mysql_close($conn);
-				echo "<script>alert('Succesfully created!')</script>";
+				//echo "<script>alert('Succesfully created!')</script>";
+                $alertAC = new alerts();
+                $alertAC -> alertSuccess();
 			  
 			}//if
 		}else{
-			echo "<script>alert('Duplicate Data!')</script>";
+			//echo "<script>alert('Duplicate Data!')</script>";
+            $alertAC1 = new alerts();
+            $alertAC1 -> alertWarning();
           
         }//else
     }//function
@@ -194,7 +197,9 @@ class createLevelAC{
                 
             }else{
                 $flag = false;
-                echo "<script>alert('An error occurred because: $error1, $error2')</script>";
+                //echo "<script>alert('An error occurred because: $error1, $error2')</script>";
+                $alertLevel = new alerts();
+                $alertLevel -> alertWarnAsh();
                 break;
             }//else
         }//while
@@ -248,11 +253,15 @@ class createRequirement{
 			
 			if(mysql_query($sql,$conn)){
 				mysql_close($conn);
-			  echo "<script>alert('Succesfully created!')</script>";
+			  //echo "<script>alert('Succesfully created!')</script>";
+                $alertRequire = new alerts();
+                $alertRequire -> alertSuccess();
 			  
 			}//if
 		}else{
-            echo "<script>alert('Duplicate Data!')</script>";
+           // echo "<script>alert('Duplicate Data!')</script>";
+                 $alertRequire1 = new alerts();
+                $alertRequire1 -> alertWarning();
 
         }//else
         
@@ -264,6 +273,8 @@ class createRequirement{
 class createService{
 
     function Create($tfServiceName,$serviceType,$tfServicePriceFinal,$tfStatus,$checkRequirement){
+        // echo "$tfServiceName--$serviceType--$tfServicePriceFinal--$tfStatus,";
+        // echo json_encode($checkRequirement);
 
         $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
         mysql_select_db(constant('mydb'));
@@ -275,33 +286,37 @@ class createService{
         if($check_duplicate == 0){
 
 			$sql = "call insertService('$tfServiceName','$tfServicePriceFinal','$tfStatus','$serviceType')";
+            
 			$conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
 			mysql_select_db(constant('mydb'));
-			$result = mysql_query($sql);
-            
+            $result = mysql_query($sql);
+           
             if(mysql_num_rows($result) > 0){
                 $row = mysql_fetch_array($result);
-                
-                
+                $serviceId = $row['id'];
+                mysql_close($conn);
                 for ($x = 0; $x < sizeof($checkRequirement); $x++){
                       
                     
                     $sql = "INSERT INTO `dbholygarden`.`tblservicerequirement` (`intServiceId`, `intRequirementId`) 
-                                                                    VALUES ('$row[0]', '$checkRequirement[$x]')";
-                  
-                    $conn2 = mysql_connect(constant('server'),constant('user'),constant('pass'));
+                                                                    VALUES ('$serviceId', '$checkRequirement[$x]');";
+                    
+                    $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
                     mysql_select_db(constant('mydb'));
                     mysql_query($sql);
-                    mysql_close($conn2);
+                    mysql_close($conn);
                     
                 }//for
                 
-			  echo "<script>alert('Success')</script>";
+			  //echo "<script>alert('Success')</script>";
+                $alertService = new alerts();
+                $alertService -> alertSuccess();
 			  
 			}//if
 		}else{
-            echo "<script>alert('Duplicate Data!')</script>";
-
+            //echo "<script>alert('Duplicate Data!')</script>";
+                $alertService1 = new alerts();
+                $alertService1 -> alertWarning();
         }//else
         
     }//function
@@ -328,11 +343,16 @@ class createServiceType{
 			
 			if(mysql_query($sql,$conn)){
 				mysql_close($conn);
-			  echo "<script>alert('Succesfully created!')</script>";
+			  //echo "<script>alert('Succesfully created!')</script>";
+                $alertSerType = new alerts();
+                $alertSerType -> alertSuccess();
 			  
 			}//if
 		}else{
-            echo "<script>alert('Duplicate Data!')</script>";
+            //echo "<script>alert('Duplicate Data!')</script>";
+
+                $alertSerType1 = new alerts();
+                $alertSerType1 -> alertWarning();
 
         }//else
         
@@ -347,7 +367,7 @@ class createDiscount{
         $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
         mysql_select_db(constant('mydb'));
 
-        $sql = "Select * from tblservice WHERE strDescription like '$tfDescription'";
+        $sql = "Select * from tbldiscount WHERE strDescription like '$tfDescription'";
         $result = mysql_query($sql);
         $check_duplicate = mysql_num_rows($result);
 
@@ -359,53 +379,147 @@ class createDiscount{
 			mysql_select_db(constant('mydb'));
 			if(mysql_query($sql,$conn)){
 				mysql_close($conn);
-			   echo "<script>alert('Succesfully created!')</script>";
+			   //echo "<script>alert('Succesfully created!')</script>";
+                $alertDiscount = new alerts();
+                $alertDiscount -> alertSuccess();
 			 
 			}//if
 
 		}else{
-				echo "<script>alert('Duplicate Data!')</script>";
+				//echo "<script>alert('Duplicate Data!')</script>";
+                $alertDiscount1 = new alerts();
+                $alertDiscount1 -> alertWarning();
 		}//else
     }//function
 }//createDiscount
 
 
+
 //TRANSACTION
+
+
+//FIRST TRANSACTION
 
 class createCustomer{
 
 
+    function Create($tfFirstName,$tfMiddleName,$newLastName,$tfAddress,$tfContactNo,$dateCreated,$gender,$civilStatus){
 
-    function Create($tfFirstName,$tfMiddleName,$tfLastName,$tfAddress,$tfContactNo,$dateCreated,$gender,$civilStatus){
-
+        
+		$sql = "call insertCustomer('$tfFirstName','$tfMiddleName','$newLastName','$tfAddress','$tfContactNo','$dateCreated','$gender','$civilStatus')";
         $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
         mysql_select_db(constant('mydb'));
-
-        $sql = "Select * from tblcustomer WHERE strLastName like '$tfLastName'";
-        $result = mysql_query($sql);
-        $check_duplicate = mysql_num_rows($result);
-
-        if($check_duplicate == 0){
-
-		$sql = "INSERT INTO `dbholygarden`.`tblcustomer` (`strFirstName`,`strMiddleName`, `strLastName`, `strAddress`, `strContactNo`, `datBirthday`, `intGender`, `intCivilStatus`) 
-                                            VALUES ('$tfFirstName','$tfMiddleName','$tfLastName','$tfAddress','$tfContactNo','$dateCreated','$gender','$civilStatus')";
-        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
-        mysql_select_db(constant('mydb'));
-        if(mysql_query($sql,$conn))
-        {
+       
+        if(mysql_query($sql,$conn)){
+            
             mysql_close($conn);
-           echo "Succesfully created!";
-         
+           // echo "<script>alert('Succesfully created!')</script>";
+            $alertCust = new alerts();
+            $alertCust -> alertSuccess();
+     
+        }//if
+
+
+        
+    }//function
+        
+}//class
+
+class createAvailUnit{
+
+    function Create($tfLotId,$selectCustomer,$dateCreated,$tfModeOfPayment,$tfAmountFinal){
+
+		$sql = "INSERT INTO `dbholygarden`.`tblavailunit` (`intLotId`,`intCustomerId`,`dateAvailUnit`,`strModeOfPayment`,`deciAmountPaid`) 
+                                                VALUES ('$tfLotId','$selectCustomer','$dateCreated','$tfModeOfPayment','$tfAmountFinal')";
+                                            
+        $sql1 = "UPDATE `dbholygarden`.`tbllot` 
+                            SET `intLotStatus`='2' WHERE `intLotID`= '$tfLotId'";
+        
+        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+        mysql_select_db(constant('mydb'));
+        if(mysql_query($sql,$conn)){
+            
+            if(mysql_query($sql1,$conn)){
+                 mysql_close($conn);
+                    $alertAvail = new alerts();
+                    $alertAvail -> alertSold();
+                    //echo "<script>alert('Succesfully created!')</script>";
+            }//if
+            
+           
+        }//if
+        
+    }//function
+        
+}//class
+
+//UTILITIES
+class createColor{
+
+    function Create($tfColor,$tfID){
+
+        $sql = "UPDATE `dbholygarden`.`tblcompanysettings` SET `strColor`='$tfColor' WHERE `intCompanyID`= '$tfID' ";
+                                            
+             
+        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+        mysql_select_db(constant('mydb'));
+
+        
+        if(mysql_query($sql,$conn)){
+            
+            mysql_close($conn);
+            
+          
         }
 
-    }
-        else{
+              
+    }//function
+        
+}//class
 
-           echo "Duplicate Data!";
+class createDetails{
+
+    function Create($tfID,$tfCompanyName,$tfCompanyAddress,$tfContactNo,$tfEmailAdd){
+
+        $sql = "UPDATE `dbholygarden`.`tblcompanysettings` SET `strCompanyName`='$tfCompanyName' , `strAddress`='$tfCompanyAddress',`strContactNo`='$tfContactNo',`strEmailAddress`='$tfEmailAdd' WHERE `intCompanyID`= '$tfID' ";
+                                            
+             
+        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+        mysql_select_db(constant('mydb'));
+
+        
+        if(mysql_query($sql,$conn)){
+            
+            mysql_close($conn);
+            
+          
         }
-        
-    }
-        
-}
 
+              
+    }//function
+        
+}//class
+
+class createImgPath{
+
+    function Create($tfID,$tfLogo){
+
+        $sql = "UPDATE `dbholygarden`.`tblcompanysettings` SET `strLogo`='$tfLogo' WHERE `intCompanyID`= '$tfID' ";
+                                            
+             
+        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+        mysql_select_db(constant('mydb'));
+
+        
+        if(mysql_query($sql,$conn)){
+            
+            mysql_close($conn);
+            
+          
+        }
+
+              
+    }//function
+        
+}//class
 ?>

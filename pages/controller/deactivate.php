@@ -17,7 +17,7 @@ class deactivateType{
 
     function deactivate($tfTypeID){
         
-		$sql = "call deactivateLotType($tfTypeID)";
+		$sql = "UPDATE `dbholygarden`.`tbltypeoflot` SET `intStatus`='1' WHERE `intTypeID`= '$tfTypeID'";
         $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
         mysql_select_db(constant('mydb'));
         if(mysql_query($sql,$conn)){

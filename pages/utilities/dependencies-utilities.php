@@ -81,8 +81,10 @@ if (isset($_POST['btnSave'])){
 <body class="nav-sm">
     <div class="container body">
       <div class="main_container">
-        <?php require("sidemenu-util.php");
-              require("topnav-util.php");  ?>
+        <?php 
+             require('../menu/utilities-sidemenu.php');
+             require('../menu/topnav.php');
+        ?>
 
         <!-- page content -->
         <div class="right_col" role="main">
@@ -100,39 +102,42 @@ if (isset($_POST['btnSave'])){
                                                 <div class="form-group">
                                                     <label class="col-md-4"  align="right" style="margin-top:.30em">Downpayment:</label>
                                                     <div class="col-md-2">
+                                                        <div class="input-group">
                                                         
-                                                         <?php
-                                                            $sql = "SELECT * FROM tblbusinessdependency WHERE intBusinessDependencyId='1'";
-                                                            $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
-                                                            mysql_select_db(constant('mydb'));
-                                                            $result = mysql_query($sql,$conn);
-                                                            $row = mysql_fetch_array($result);
-                                                            $downpayment = $row['deciBusinessDependencyValue'];
-                                                            
-                                                            
-                                                        
-                                                        ?>		
+                                                            <?php
+                                                                $sql = "SELECT * FROM tblbusinessdependency WHERE intBusinessDependencyId='1'";
+                                                                $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+                                                                mysql_select_db(constant('mydb'));
+                                                                $result = mysql_query($sql,$conn);
+                                                                $row = mysql_fetch_array($result);
+                                                                $downpayment = $row['deciBusinessDependencyValue'];
+                                                             
+                                                            ?>		
 
                                                           <input type='text' id="downpayment" class='form-control input-md' name=<?php echo"1";?> value="<?php echo"$downpayment";?>"  required>
+                                                          <span class = "input-group-addon">%</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 
                                                 <div class="form-group">
                                                     <label class="col-md-4"  align="right" style="margin-top:.30em">Reservation Fee:</label>
                                                     <div class="col-md-2">
+                                                        <div class="input-group">
+                                                            <span class = "input-group-addon">₱</span>
 
-                                                        <?php
-                                                            $sql = "SELECT * FROM tblbusinessdependency WHERE intBusinessDependencyId='2'";
-                                                            $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
-                                                            mysql_select_db(constant('mydb'));
-                                                            $result = mysql_query($sql,$conn);
-                                                            $row = mysql_fetch_array($result);
-                                                            $reservationFee = $row['deciBusinessDependencyValue'];
-															
-                                                        ?>
+                                                            <?php
+                                                                $sql = "SELECT * FROM tblbusinessdependency WHERE intBusinessDependencyId='2'";
+                                                                $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+                                                                mysql_select_db(constant('mydb'));
+                                                                $result = mysql_query($sql,$conn);
+                                                                $row = mysql_fetch_array($result);
+                                                                $reservationFee = $row['deciBusinessDependencyValue'];
+                                                                
+                                                            ?>
                                                         
-                                                        <input type="text" id="reservation" class="form-control input-md"  name= "<?php echo"2";?>" value="<?php echo"$reservationFee";?>" required>
-
+                                                            <input type="text" id="reservation" class="form-control input-md"  name= "<?php echo"2";?>" value="<?php echo"$reservationFee";?>" required>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div><!--ROW-->
@@ -141,74 +146,83 @@ if (isset($_POST['btnSave'])){
                                                 <div class="form-group">
                                                     <label class="col-md-4" align="right" style="margin-top:.30em">Discounted Price for SpotCash:</label>
                                                     <div class="col-md-2">
+                                                        <div class="input-group">
 
-                                                        <?php
-                                                            $sql = "SELECT * FROM tblbusinessdependency WHERE intBusinessDependencyId='3'";
-                                                            $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
-                                                            mysql_select_db(constant('mydb'));
-                                                            $result = mysql_query($sql,$conn);
-                                                            $row = mysql_fetch_array($result);
-                                                            $discountSpotcash = $row['deciBusinessDependencyValue'];
-                                                        
-                                                        ?>
+                                                            <?php
+                                                                $sql = "SELECT * FROM tblbusinessdependency WHERE intBusinessDependencyId='3'";
+                                                                $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+                                                                mysql_select_db(constant('mydb'));
+                                                                $result = mysql_query($sql,$conn);
+                                                                $row = mysql_fetch_array($result);
+                                                                $discountSpotcash = $row['deciBusinessDependencyValue'];
+                                                            
+                                                            ?>
                                                   
-                                                        <input type="text" id="discount" class="form-control input-md" name=<?php echo"3";?> value="<?php echo"$discountSpotcash";?>"  required>
-
+                                                            <input type="text" id="discount" class="form-control input-md" name=<?php echo"3";?> value="<?php echo"$discountSpotcash";?>"  required>
+                                                            <span class = "input-group-addon">%</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 
                                                 <div class="form-group">
                                                     <label class="col-md-4"  align="right" style="margin-top:.30em">Refund for cancelation of Reservation:</label>
                                                     <div class="col-md-2">
+                                                        <div class="input-group">
 
-                                                        <?php
-                                                            $sql = "SELECT * FROM tblbusinessdependency WHERE intBusinessDependencyId='4'";
-                                                            $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
-                                                            mysql_select_db(constant('mydb'));
-                                                            $result = mysql_query($sql,$conn);
-                                                            $row = mysql_fetch_array($result);
-                                                            $refund = $row['deciBusinessDependencyValue'];
-                                                        
-                                                        ?>
-                                                        <input type="text" id="refund" class="form-control input-md" name=<?php echo"4";?> value="<?php echo"$refund";?>"  required>
+                                                            <?php
+                                                                $sql = "SELECT * FROM tblbusinessdependency WHERE intBusinessDependencyId='4'";
+                                                                $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+                                                                mysql_select_db(constant('mydb'));
+                                                                $result = mysql_query($sql,$conn);
+                                                                $row = mysql_fetch_array($result);
+                                                                $refund = $row['deciBusinessDependencyValue'];
+                                                            
+                                                            ?>
+                                                            <input type="text" id="refund" class="form-control input-md" name=<?php echo"4";?> value="<?php echo"$refund";?>" required>
+                                                            <span class = "input-group-addon">%</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div><!--ROW-->
                                                 
                                              <div class="row">
                                                 <div class="form-group">
-                                                    <label class="col-md-4"  align="right" style="margin-top:.30em">Penalty for unpayable Balanced:</label>
+                                                    <label class="col-md-4"  align="right" style="margin-top:.30em">Penalty:</label>
                                                     <div class="col-md-2">
+                                                        <div class="input-group">
 
-                                                         <?php
-                                                            $sql = "SELECT * FROM tblbusinessdependency WHERE intBusinessDependencyId='5'";
-                                                            $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
-                                                            mysql_select_db(constant('mydb'));
-                                                            $result = mysql_query($sql,$conn);
-                                                            $row = mysql_fetch_array($result);
-                                                            $penalty = $row['deciBusinessDependencyValue'];
-                                                        
-                                                        ?>
-                                                        <input type="text" id="penalty" class="form-control input-md"  name=<?php echo"5";?> value="<?php echo"$penalty";?>"   required>
-
+                                                            <?php
+                                                                $sql = "SELECT * FROM tblbusinessdependency WHERE intBusinessDependencyId='5'";
+                                                                $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+                                                                mysql_select_db(constant('mydb'));
+                                                                $result = mysql_query($sql,$conn);
+                                                                $row = mysql_fetch_array($result);
+                                                                $penalty = $row['deciBusinessDependencyValue'];
+                                                            
+                                                            ?>
+                                                            <input type="text" id="penalty" class="form-control input-md"  name=<?php echo"5";?> value="<?php echo"$penalty";?>" required>
+                                                            <span class = "input-group-addon">%</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 
                                                 <div class="form-group">
                                                     <label class="col-md-4"  align="right" style="margin-top:.30em">Charge for Transfering ownership:</label>
                                                     <div class="col-md-2">
+                                                        <div class="input-group">
+                                                            <span class = "input-group-addon">₱</span>
 
-                                                        <?php
-                                                            $sql = "SELECT * FROM tblbusinessdependency WHERE intBusinessDependencyId='6'";
-                                                            $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
-                                                            mysql_select_db(constant('mydb'));
-                                                            $result = mysql_query($sql,$conn);
-                                                            $row = mysql_fetch_array($result);
-                                                            $charge = $row['deciBusinessDependencyValue'];
-                                                        
-                                                        ?>
-                                                        <input type="text" id="charge" class="form-control input-md"  name=<?php echo"6";?> value="<?php echo"$charge";?>"  required>
-
+                                                            <?php
+                                                                $sql = "SELECT * FROM tblbusinessdependency WHERE intBusinessDependencyId='6'";
+                                                                $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+                                                                mysql_select_db(constant('mydb'));
+                                                                $result = mysql_query($sql,$conn);
+                                                                $row = mysql_fetch_array($result);
+                                                                $charge = $row['deciBusinessDependencyValue'];
+                                                            
+                                                            ?>
+                                                            <input type="text" id="charge" class="form-control input-md"  name=<?php echo"6";?> value="<?php echo"$charge";?>"  required>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div><!--ROW-->
@@ -217,6 +231,7 @@ if (isset($_POST['btnSave'])){
                                                 <div class="form-group">
                                                     <label class="col-md-4"  align="right" style="margin-top:.30em">Grace Period days:</label>
                                                     <div class="col-md-2">
+                                                        <div class="input-group">
 
                                                          <?php
                                                             $sql = "SELECT * FROM tblbusinessdependency WHERE intBusinessDependencyId='7'";
@@ -228,13 +243,14 @@ if (isset($_POST['btnSave'])){
                                                         
                                                         ?>
                                                         <input type="text" id="gracePeriod" class="form-control input-md" name=<?php echo"7";?> value="<?php echo"$gracePeriod";?>" required>
-
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 
                                                 <div class="form-group">
                                                     <label class="col-md-4"  align="right" style="margin-top:.30em">Day/s Before Forfeting Reservation w/ No Downpayment:</label>
                                                     <div class="col-md-2">
+                                                        <div class="input-group">
 
                                                         <?php
                                                             $sql = "SELECT * FROM tblbusinessdependency WHERE intBusinessDependencyId='8'";
@@ -246,7 +262,7 @@ if (isset($_POST['btnSave'])){
                                                         
                                                         ?>
                                                         <input type="text" id="reservationNoDown" class="form-control input-md" name=<?php echo"8";?> value="<?php echo"$reservationNoDown";?>"  required>
-
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div><!--ROW-->
@@ -255,6 +271,7 @@ if (isset($_POST['btnSave'])){
                                                 <div class="form-group">
                                                     <label class="col-md-4"  align="right" style="margin-top:.30em">Day/s Before Forfeting Reservation w/out Full Payment:</label>
                                                     <div class="col-md-2">
+                                                        <div class="input-group">
 
                                                         <?php
                                                             $sql = "SELECT * FROM tblbusinessdependency WHERE intBusinessDependencyId='9'";
@@ -266,13 +283,14 @@ if (isset($_POST['btnSave'])){
                                                         
                                                         ?>
                                                         <input type="text" id="reservationNotFull" class="form-control input-md" name=<?php echo"9";?>  value="<?php echo"$reservationNotFull";?>"  required>
-
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 
                                                 <div class="form-group">
                                                     <label class="col-md-4"  align="right" style="margin-top:.30em">Overdue months for forfeiting ownership:</label>
                                                     <div class="col-md-2">
+                                                        <div class="input-group">
 
                                                         <?php
                                                             $sql = "SELECT * FROM tblbusinessdependency WHERE intBusinessDependencyId='10'";
@@ -284,7 +302,7 @@ if (isset($_POST['btnSave'])){
                                                         
                                                         ?>
                                                         <input type="text" id="overdue" class="form-control input-md" name=<?php echo"10";?> value="<?php echo"$overdue";?>"  required>
-
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div><!--ROW-->

@@ -1,5 +1,40 @@
 <?php
 
+class interest{
+
+    function viewInterest(){
+        
+		$sql = "SELECT * FROM tblinterest ORDER BY intNoOfYear ASC";
+        
+        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+        mysql_select_db(constant('mydb'));
+        $result = mysql_query($sql,$conn);
+        
+		while($row = mysql_fetch_array($result)){
+             
+            $intInterestId      =$row['intInterestId'];
+            $intNoOfYear        =$row['intNoOfYear'];
+            $deciAtNeedInterest =$row['deciAtNeedInterest'];
+            $deciRegularInterest=$row['deciRegularInterest'];
+            $intStatus          =$row['intStatus'];
+              
+            echo 
+                "<tr>
+                   <td style = 'font-size:18px; text-align: right;'>$intNoOfYear</td>
+				   <td style = 'font-size:18px; text-align: right;'>$deciAtNeedInterest</td>
+				   <td style = 'font-size:18px; text-align: right;'>$deciRegularInterest</td>
+                </tr>";
+                
+            }//while($row = mysql_fetch_array($result))
+			  mysql_close($conn);         
+    }//function viewInterest()
+    
+   
+
+}//class interest
+//______________________________________________________________
+
+
 class types{
 
     function viewTypes(){
@@ -30,62 +65,6 @@ class types{
 }//class lot type
 //_________________________________________
 
-class interest{
-
-    function viewInterest(){
-        
-		$sql = "Select i.intInterestID, i.intYear, i.dblPercent,i.intStatus, i.intAtNeed, t.strTypeName FROM tblinterest i
-                INNER JOIN tbltypeoflot t ON i.intTypeID = t.intTypeID WHERE i.intStatus = '0' ORDER BY t.strTypeName ASC";
-        
-        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
-        mysql_select_db(constant('mydb'));
-        $result = mysql_query($sql,$conn);
-        
-		while($row = mysql_fetch_array($result))
-		  { 
-            $intInterestID =$row['intInterestID'];
-            $strTypeName =$row['strTypeName'];
-            $intYear     =$row['intYear'];
-            $dblPercent =$row['dblPercent'];
-            $intStatus=$row['intStatus'];
-            $intAtNeed=$row['intAtNeed'];
-            
-            if($intAtNeed==1){
-              $tfAtNeed ="Yes";
-            }else{
-                $tfAtNeed="No";
-            }
-          
-            
-            $dblPercentValue = $dblPercent*100;
-              
-		echo "<tr>
-                   <td style = 'font-size:18px;'>$strTypeName</td>
-				   <td style = 'font-size:18px; text-align: right;'>$intYear</td>
-				   <td style = 'font-size:18px;'>$tfAtNeed</td>
-				   <td style = 'font-size:18px; text-align: right;'>$dblPercentValue %</td>
-             </tr>";
-                
-            }//while($row = mysql_fetch_array($result))
-			  mysql_close($conn);         
-    }//function viewInterest()
-    
-    function selectTypeBlock(){
-        
-		$sql = " select * from dbholygarden.tbltypeoflot where intStatus='0' order by strTypeName asc";
-        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
-        mysql_select_db(constant('mydb'));
-        $result = mysql_query($sql,$conn);
-        while($row = mysql_fetch_array($result))
-        {
-            echo "
-                  <option value =". $row['intTypeID'].">".$row['strTypeName']."</option>";
-        }
-         mysql_close($conn);
-    }//function selectTypeBlock
-
-}//class interest
-//______________________________________________________________
 
 class section{
     
@@ -464,7 +443,8 @@ class service{
 
     function viewService(){
 		
-        $sql = "Select * from tblservice where intStatus='0' ORDER BY strServiceName ASC";
+        $sql = "SELECT s.intServiceID, s.strServiceName, s.dblServicePrice, st.strServiceTypeName FROM tblservice s 
+                    INNER JOIN tblservicetype st ON s.intServiceTypeId = st.intServiceTypeId WHERE s.intStatus='0' ORDER BY s.strServiceName ASC";
         
         $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
         mysql_select_db(constant('mydb'));
@@ -475,24 +455,36 @@ class service{
              
               $intServiceID = $row['intServiceID'];
               $strServiceName = $row['strServiceName'];
-              $intServiceType = $row['intServiceType'];
+              $strServiceTypeName = $row['strServiceTypeName'];
               $dblServicePrice = $row['dblServicePrice'];
               
-              if($intServiceType==0){
-                    $serviceType="Service Request";
-              }else
-                    $serviceType="Service Scheduling";
-            
+             
               
 	           echo "<tr>
                         <td style ='font-size:18px;'>$strServiceName</td>
-                        <td style ='font-size:18px;'>$serviceType</td>
+                        <td style ='font-size:18px;'>$strServiceTypeName</td>
                         <td style = 'text-align: right; font-size:18px;'>₱ ".number_format($dblServicePrice,2)."</td>
                     </tr>";
                 
             }//while($row = mysql_fetch_array($result))
 			  mysql_close($conn);         
     }//function viewService()
+    
+    function selectServiceType(){
+		$sql = "SELECT * FROM tblservicetype ORDER BY strServiceTypeName ASC";
+
+        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+        mysql_select_db(constant('mydb'));
+        $result = mysql_query($sql,$conn);
+        while($row = mysql_fetch_array($result)){
+            
+            $intServiceTypeId = $row['intServiceTypeId'];
+            $strServiceTypeName = $row['strServiceTypeName'];
+            
+            echo "<option value = '$intServiceTypeId'> $strServiceTypeName </option>";
+        }//while
+         mysql_close($conn);
+    }//function selectServiceType()
 
 
 }//class service

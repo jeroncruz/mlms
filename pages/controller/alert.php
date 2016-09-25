@@ -1,18 +1,72 @@
+<!DOCTYPE html>
 <html>
-  <head>
-    <link type="text/css" rel="stylesheet" href="css/bootstrap.css">
-    <link type="text/css" rel="stylesheet" href="css/custom.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
-  </head>
-  <body>
-    <div id="try"></div>
-  </body>
-  <script>
-    function loadUnSolved(){
-      $("#try").load("alert.php");
-    }
-    $(document).ready(loadUnSolved());
-  </script>
+<head>
+  <script src="../../dist/sweetalert.min.js"></script>
+  <script src="../../dist/sweetalert.js"></script>
+  <link rel="stylesheet" type="text/css" href="../../dist/sweetalert.css">
+</head>
+<body>
+
+<?php
+
+class alerts{
+
+  function alertSuccess(){
+
+      echo '<script type="text/javascript">';
+      echo 'setTimeout(function () { swal("Nice!","Successfuly Created!","success");';
+      echo '}, 1000);</script>';
+  }
+
+   function alertSold(){
+
+      echo '<script type="text/javascript">';
+      echo 'setTimeout(function () { swal("Nice!","Unit has been Sold!","success");';
+      echo '}, 1000);</script>';
+  }
+
+  function alertWarning(){
+
+      echo '<script type="text/javascript">';
+      echo 'setTimeout(function () { swal("Opps! Sorry!","Data Already Existing!","error");';
+      echo '}, 1000);</script>';
+  }
+
+   function alertWarnAsh(){
+
+      echo '<script type="text/javascript">';
+      echo 'setTimeout(function () { swal("Opps! Sorry!","An error occurred because: $error1,$error2","error");';
+      echo '}, 1000);</script>';
+  }
+
+  function alertMax(){
+
+      echo '<script type="text/javascript">';
+      echo 'setTimeout(function () { swal("Opps! Sorry!","This section reach max limit of block!","warning");';
+      echo '}, 1000);</script>';
+
+  }
+
+  function alertUpdate(){
+
+      echo '<script type="text/javascript">';
+      echo 'setTimeout(function () { swal("Nice!","Successfuly Updated!","success");';
+      echo '}, 1000);</script>';
+
+  }
+
+  function alertChange(){
+
+      echo '<script type="text/javascript">';
+      echo 'setTimeout(function () { swal("Opps! Sorry!","Insufficient Amount Paid!","error");';
+      echo '}, 1000);</script>';
+  }
+
+}
+
+
+
+?>
+
+</body>
 </html>

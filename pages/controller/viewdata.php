@@ -239,7 +239,7 @@ class types{
 				<!--DEACTIVATED MODAL-->
 				<div class = 'modal fade' id = 'deactivate$intTypeID'>
 					<div class = 'modal-dialog' style = 'width: 40%;'>
-						<div class = 'modal-content' style = 'height: 220px;'>
+						<div class = 'modal-content' style = 'height: 230px;'>
 							
 							<!--header-->
 							<div class = 'modal-header' style='background: light-red'>
@@ -259,7 +259,7 @@ class types{
 									</div>
 									
 									<div class='modal-footer'> 
-										<div class='col-sm-8'  style = 'margin-top: 10px;'>
+										<div class='col-sm-8'>
 											<button type='submit' class='btn btn-danger' name= 'btnDeactivate'>Yes</button>
 											<button type='button' class='btn btn-default' data-dismiss='modal'>No</button>
 										</div>
@@ -633,9 +633,11 @@ class lot{
 			  $LotStatus ="Available";
 			}else if($intLotStatus==1){
 			  $LotStatus="Reserved";
+			}else if($intLotStatus==2){
+			  $LotStatus="Owned";
 			}else{
-			  $LotStatus="Occupied";
-			}
+              $LotStatus="At-Need";
+            }
             
 			echo 
 				"<tr>
@@ -1412,7 +1414,7 @@ class requirement{
 					<!--DEACTIVATED MODAL-->
 					<div class = 'modal fade' id='deactivate$intRequirementId'>
 						<div class = 'modal-dialog' style = 'width: 40%;'>
-							<div class = 'modal-content' style = 'height: 220px;'>
+							<div class = 'modal-content' style = 'height: 230px;'>
 								
 								<!--header-->
 								<div class = 'modal-header' style='background: light-red'>
@@ -1433,7 +1435,7 @@ class requirement{
 										</div>
 										
 										<div class='modal-footer'> 
-											<div class='col-sm-8'  style = 'margin-top: 10px;'>
+											<div class='col-sm-8'>
 												<button type='submit' class='btn btn-danger' name= 'btnDeactivate'>Yes</button>
 												<button type='button' class='btn btn-default' data-dismiss='modal'>No</button>
 											</div>
@@ -1461,8 +1463,8 @@ class service{
     function viewService(){
 		
         $sql = "SELECT d.intServiceID,  d.strServiceName,  d.dblServicePrice, d.intStatus, d.intServiceTypeId, s.strServiceTypeName FROM tblservice d
-                    INNER JOIN tblservicetype s ON d.intServiceTypeId = s.intServiceTypeId where d.intStatus='0' ORDER BY d.strServiceName ASC";
-        
+	               INNER JOIN tblservicetype s ON d.intServiceTypeId = s.intServiceTypeId WHERE d.intStatus='0' ORDER BY d.strServiceName ASC";
+       
         $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
         mysql_select_db(constant('mydb'));
         $result = mysql_query($sql,$conn);
@@ -1481,7 +1483,7 @@ class service{
 				   <td style ='font-size:18px;'>$strServiceTypeName</td>
                    <td style = 'text-align: right; font-size:18px;'>Php ".number_format($dblServicePrice,2)."</td>
                    <td align = 'center'>
-                        <button type = 'button' class = 'btn btn-success' data-toggle = 'modal'  title='View' data-target = ''>
+                        <button type = 'button' class = 'btn btn-success' data-toggle = 'modal'  title='View' data-target = '#view$intServiceID'>
                             <i class='glyphicon glyphicon-eye-open'></i>
                         </button>
                    </td>    
@@ -1494,7 +1496,8 @@ class service{
                         </button>
                     </td>
 				</tr>
-               
+                
+                <!--UPDATE MODAL-->
                 <div class = 'modal fade' id = 'update$intServiceID'>
 					<div class = 'modal-dialog' style = 'width: 40%;'>
 						<div class = 'modal-content'>
@@ -1611,6 +1614,44 @@ class service{
                             </div><!--modal-content-->
 						</div><!--modal-dialog-->
 					</div><!--modal-fade-->
+                    
+                    <!--VIEW MODAL-->
+                    <div class = 'modal fade' id='view$intServiceID'>
+                        <div class = 'modal-dialog' style = 'width: 40%;'>
+                            <div class = 'modal-content' style = 'height: 230px;'>
+                                
+                                <!--header-->
+                                <div class = 'modal-header' style='background:#b3ffb3;'>
+                                    <button type = 'button' class = 'close' data-dismiss = 'modal'>&times;</button>
+                                    <center><b><h3>List of Requirements</h3></b></center>
+                                </div>
+                                
+                                <!--body (form)-->
+                                <div class = 'modal-body'>";
+                                    
+                                           
+                                    $sql6 = 'SELECT sr.intServiceId, sr.intRequirementId, r.strRequirementName FROM tblservicerequirement sr
+                                                INNER JOIN tblrequirement r ON sr.intRequirementId = r.intRequirementId WHERE sr.intServiceId = '.$intServiceID.' ORDER BY r.strRequirementName ASC';
+                                            
+                                    $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+                                    mysql_select_db(constant('mydb'));
+                                    $result6 = mysql_query($sql6,$conn);
+                                    
+                                    while($row6 = mysql_fetch_array($result6)){
+                                        
+                                        $strRequirementName =$row6['strRequirementName'];
+                                        
+                                        echo "<center><b><h3>$strRequirementName</h3></b></center>";
+                                    }//while
+                                  echo "<div class='modal-footer'>
+                                            <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+                                        </div>  
+                                </div><!--modal-body-->
+                            </div><!--modal-content-->
+                        </div><!--modal-dialog-->
+                    </div><!--modal-fade-->
+                    
+                    
 				";
                 
             }//while($row = mysql_fetch_array($result))
