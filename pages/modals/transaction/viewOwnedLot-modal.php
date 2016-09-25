@@ -149,7 +149,7 @@
                                         <div class='col-md-5'>
                                             <div class=' input-group'>
                                                 <span class = 'input-group-addon'>₱</span>
-                                                <input type='text' class='form-control input-md' id='tfAmountPaid' name='tfAmountPaid' value='<?php echo"".number_format($deciAmountPaid,2)."   ";?>' readonly/>
+                                                <input type='text' class='form-control input-md' id='tfAmountPaid' name='tfAmountPaid' value='<?php echo"".number_format($deciAmountPaid,2)."";?>' readonly/>
                                             </div>
                                         </div>
                                     </div>
