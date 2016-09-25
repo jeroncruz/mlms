@@ -150,6 +150,31 @@ class deactivateDiscount{
     }        
 }
 
+//TRANSACTION
 
+class deactivateReserve{
+    
+     function deactivate($tfAvailUnitId,$tfLotId){
+
+		$sql = "UPDATE `dbholygarden`.`tblavailunit` SET `intStatus`='1' WHERE `intAvailUnitId`= '$tfAvailUnitId'";                      
+        
+        $sql1 = "UPDATE `dbholygarden`.`tbllot` 
+                            SET `intLotStatus`='0' WHERE `intLotID`= '$tfLotId'";
+        
+        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+        mysql_select_db(constant('mydb'));
+        if(mysql_query($sql,$conn)){
+            
+            if(mysql_query($sql1,$conn)){
+                 mysql_close($conn);
+                    
+                    echo "<script>alert('Your reservation has cancelled!')</script>";
+            }//if
+            
+           
+        }//if
+        
+    }//function
+}
 
 ?>
