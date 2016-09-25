@@ -122,46 +122,53 @@ $pdf-> SetFillColor(232,232,232);
 // $pdf-> SetX(130);
 // $pdf-> Cell(40,6,"Reservation Fee",1,0,"C",1);
 
-$pdf-> SetFont("Arial", "B", 12);
+$pdf-> SetFont("Arial", "B", 10);
 $pdf-> SetY($_Fields_Name_Position);
-$pdf-> SetX(20);
-$pdf-> Cell(30,6,"Unit Type",1,0,"C",1);
+$pdf-> SetX(15);
+$pdf-> Cell(25,6,"Unit Type",1,0,"C",1);
 
-$pdf-> SetX(50);
-$pdf-> Cell(25,6,"Section",1,0,"C",1);
+$pdf-> SetX(40);
+$pdf-> Cell(20,6,"Section",1,0,"C",1);
 
-$pdf-> SetX(75);
-$pdf-> Cell(25,6,"Block",1,0,"C",1);
+$pdf-> SetX(60);
+$pdf-> Cell(20,6,"Block",1,0,"C",1);
+
+$pdf-> SetX(80);
+$pdf-> Cell(20,6,"Lot",1,0,"C",1);
 
 $pdf-> SetX(100);
-$pdf-> Cell(25,6,"Lot",1,0,"C",1);
-
-$pdf-> SetX(125);
 $pdf-> Cell(30,6,"Unit Price",1,0,"C",1);
 
+$pdf-> SetX(130);
+$pdf-> Cell(25,6,"Year/s to Pay",1,0,"C",1);
+
 $pdf-> SetX(155);
-$pdf-> Cell(40,6,"Reservation Fee",1,0,"C",1);
+$pdf-> Cell(40,6,"Monthly Amortization",1,0,"C",1);
 
 $pdf-> SetFont("Arial","",10);
 $pdf-> SetY($_Table_Position);
-$pdf-> SetX(20);
-$pdf-> MultiCell(30,6,"",1,"L");
-
-$pdf-> SetY($_Table_Position);
-$pdf-> SetX(50);
+$pdf-> SetX(15);
 $pdf-> MultiCell(25,6,"",1,"L");
 
 $pdf-> SetY($_Table_Position);
-$pdf-> SetX(75);
-$pdf-> MultiCell(25,6,"",1,"L");
+$pdf-> SetX(40);
+$pdf-> MultiCell(20,6,"",1,"L");
+
+$pdf-> SetY($_Table_Position);
+$pdf-> SetX(60);
+$pdf-> MultiCell(20,6,"",1,"L");
+
+$pdf-> SetY($_Table_Position);
+$pdf-> SetX(80);
+$pdf-> MultiCell(20,6,"",1,"L");
 
 $pdf-> SetY($_Table_Position);
 $pdf-> SetX(100);
-$pdf-> MultiCell(25,6,"",1,"L");
+$pdf-> MultiCell(30,6,"",1,"L");
 
 $pdf-> SetY($_Table_Position);
-$pdf-> SetX(125);
-$pdf-> MultiCell(30,6,"",1,"L");
+$pdf-> SetX(130);
+$pdf-> MultiCell(25,6,"",1,"L");
 
 $pdf-> SetY($_Table_Position);
 $pdf-> SetX(155);
