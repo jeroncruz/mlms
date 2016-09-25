@@ -156,7 +156,7 @@ if (isset($_POST['btnArchive'])){
                                             </select>
                                   </div>
 
-                                   <button type = 'button' class = 'btn btn-primary' onClick="window.open('../collection-report-daily.php')"><i class='glyphicon glyphicon-print'> PRINT</i></button>
+                                   <button type = 'button' class = 'btn btn-primary' onClick="window.open('../report-pdf/collection-report-daily.php')"><i class='glyphicon glyphicon-print'> PRINT</i></button>
     
                             
                                    <div class="table-responsive col-md-12 col-lg-12 col-xs-12">
