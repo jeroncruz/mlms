@@ -155,9 +155,9 @@
                         
                     </div><!--row-->
                     <div class='form-group modal-footer'> 
-                                        <button type='submit' class='btn btn-success' name= 'btnSubmitSpotcash'>Submit</button>
-                                        <input class = 'btn btn-default' type='reset' name = 'btnClear' value = 'Clear Entries'>
-                                    </div>
+                        <button type='submit' class='btn btn-success' name= 'btnSubmitSpotcash'>Submit</button>
+                        <input class = 'btn btn-default' type='reset' name = 'btnClear' value = 'Clear Entries'>
+                    </div>
                         
                 </form>
 			</div><!--modal-body-->
