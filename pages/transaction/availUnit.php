@@ -91,6 +91,45 @@ if (isset($_POST['btnCancelReservation'])){
     $deactivateReserve->deactivate($tfAvailUnitId,$tfLotId);
 }//if
 
+if (isset($_POST['btnSubmitAtNeed'])){
+
+    $tfLotId = $_POST['tfLotId'];
+    $tfStatus = $_POST['tfStatus'];
+    $selectCustomer = $_POST['selectCustomer'];
+    $tfDate = $_POST['tfDate'];
+    $tfModeOfPayment= $_POST['tfModeOfPayment'];
+    $selectYear= $_POST['selectYear'];
+    $tfDownpayment= $_POST['tfDownpayment'];
+    $tfDueDate=$_POST['tfDueDate'];
+    $tfReservationFee=$_POST['tfReservationFee'];
+    $tfAmountPaid=$_POST['tfAmountPaid'];
+    
+    $dateCreated = date("Y-m-d", strtotime($tfDate));
+    $dateDownpayment = date("Y-m-d", strtotime($tfDueDate));
+    $tfDownpaymentFinal = preg_replace('/,/', '', $tfDownpayment);
+    $tfReservationFinal = preg_replace('/,/', '', $tfReservationFee);
+    $tfAmountFinal = preg_replace('/,/', '', $tfAmountPaid);
+    
+    if($tfAmountFinal >= $tfReservationFinal){
+    
+        $createAvailUnit =  new createAvailUnit();
+        $createAvailUnit->createAtNeed($tfLotId,$tfStatus,$selectCustomer,$dateCreated,$tfModeOfPayment,$selectYear,$tfDownpaymentFinal,$dateDownpayment,$tfAmountFinal);
+    }else{
+        //echo "<script>alert('Insufficient Amount Paid!')</script>";
+        $alertChange = new alerts();
+        $alertChange -> alertChange();        
+    }//else
+}//if
+
+if (isset($_POST['btnCancelAtNeed'])){
+
+    $tfAvailUnitId = $_POST['tfAvailUnitId'];
+    $tfLotId = $_POST['tfLotId'];
+    
+    
+    $deactivateReserve =  new deactivateReserve();
+    $deactivateReserve->deactivateAtNeed($tfAvailUnitId,$tfLotId);
+}//if
 
 ?>
 
@@ -367,7 +406,7 @@ if (isset($_POST['btnCancelReservation'])){
 
                                                                                             echo"</tr>";
                                                                                         
-                                                                                    }
+                                                                                    }//else
                                                                                         
                                                                                     }//while($row = mysql_fetch_array($result))
                                                                                         mysql_close($conn);         
@@ -526,173 +565,6 @@ if (isset($_POST['btnCancelReservation'])){
   
 
 
-
-
-
-<!----------------------------------------------Atneed FORM---------------------------------->
-<div class="modal fade" id="modalAtneed" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="z-index: 1500;display:none;">
-    <div class="modal-dialog" role="document" style = "width:80%; height: 90%;">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type = "button" class = "close" data-dismiss = "modal">&times;</button>
-        <h4 class="modal-title" id="myModalLabel"><b>BILL OUT FORM</b></h4>
-            <div class="row">
-              <div class="col-md-12">
-                <div class="panel panel-default">
-                  <div class="panel-body">
-                        
-                        <select class="form-control" name = "selectCustomer">
-                          <option value=""> --Choose Customer--</option>
-                        </select>
-
-
-                   <div class="panel-body">
-                    
-                    <div class="col-md-6">
-                      <div class ="panel panel-default">
-                        
-                        
-                        <div class="panel-body">
-                        
-                          <div class="form-group">
-                            <label class="col-md-7" style = "font-size: 18px;"  style="margin-top:.30em">Due Date for Downpayment:</label>
-                            <div class="col-md-5">
-                              <input type="text" class="form-control input-md" align="left" name= "tfDescription" readonly>
-                            </div>
-                          </div>
-                          
-                          <div class="form-group">
-                            <label class="col-md-7" style = "font-size: 18px;"  style="margin-top:.30em">Atneed Fee:</label>
-                            <div class="col-md-5">
-                              <input type="text" class="form-control input-md" align="left" name= "tfDescription" readonly>
-                            </div>
-                          </div>
-                          
-                          <div class="form-group">
-                            <label class="col-md-7" style = "font-size: 18px;"  style="margin-top:.30em">Unit Name:</label>
-                            <div class="col-md-5">
-                              <input type="text" class="form-control input-md" align="left" name= "tfDescription" readonly>
-                            </div>
-                          </div>
-
-                          <div class="form-group">
-                            <label class="col-md-7" style = "font-size: 18px;"  style="margin-top:.30em">Lot Type:</label>
-                            <div class="col-md-5">
-                              <input type="text" class="form-control input-md" align="left" name= "tfDescription" readonly>
-                            </div>
-                          </div>
-
-                          <div class="form-group">
-                            <label class="col-md-7" style = "font-size: 18px;"  style="margin-top:.30em">Location:</label>
-                            <div class="col-md-5">
-                              <input type="text" class="form-control input-md" align="left" name= "tfDescription" readonly>
-                            </div>
-                          </div>
-                          <div class="divider"></div>
-                          
-                          <div class="form-group">
-                            <label class="col-md-7" style = "font-size: 18px;"  style="margin-top:.30em">Total Amount:</label>
-                            <div class="col-md-5">
-                              <div class=" input-group">
-                                <span class = "input-group-addon">₱</span>
-                                <input type="text" class="form-control input-md" align="left" name= "tfSellingPrice" id="tfPriceCreate" onkeypress="return validateNumber(event)" readonly/>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div class="col-md-6">
-                      <div class ="panel panel-default">
-                        
-                        
-                        <div class="panel-body">
-
-                        <div class="form-group">
-                            <label class="col-md-7" style = "font-size: 18px;"  style="margin-top:.30em">Mode of Payment:</label>
-                            <div class="col-md-5">
-                             
-                             <input type="text" class="form-control input-md" align="left" name= "tfSellingPrice" id="tfPriceCreate" onkeypress="return validateNumber(event)" disabled value="ATNEED">
-                            
-                            </div>
-                          </div>
-                        
-                          
-                          <div class="form-group">
-                            <label class="col-md-7" style = "font-size: 18px;"  style="margin-top:.30em">Total Amount to Pay:</label>
-                            <div class="col-md-5">
-                              <div class=" input-group">
-                                <span class = "input-group-addon">₱</span>
-                                <input type="text" class="form-control input-md" align="left" name= "tfSellingPrice" id="tfPriceCreate" onkeypress="return validateNumber(event)" readonly/>
-                              </div>
-                            </div>
-                          </div>
-                          
-                          <div class="form-group">
-                            <label class="col-md-7" style = "font-size: 18px;"  style="margin-top:.30em">Amount Paid:</label>
-                            <div class="col-md-5">
-                              <div class=" input-group">
-                                <span class = "input-group-addon">₱</span>
-                                <input type="text" class="form-control input-md" align="left" name= "tfSellingPrice" id="tfPriceCreate" onkeypress="return validateNumber(event)" required>
-                              </div>
-                            </div>
-                          </div>
-                  
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="modal-footer"> 
-                            
-                                <button type="submit" class="btn btn-success" name= "btnSubmit">Submit</button>
-                                <input class = "btn btn-default" type="reset" name = "btnClear" value = "Clear Entries">
-                          
-                           
-                        </div>
-                    
-                  </div>
-                    
-
-          </div>
-      </div>
-      </div>
-    </div>
-      </div>
-    
- 
-        </div>
-</div><!--/modal body-->
-
-</div>
-
-
-<!---------------------------------------------- View ---------------------------------->
-<div class="modal fade" id="modalView" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="z-index: 1500;display:none;">
-    <div class="modal-dialog" role="document" style = "width:50%; height: 50%;">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type = "button" class = "close" data-dismiss = "modal">&times;</button>
-        <h4 class="modal-title" id="myModalLabel"><b>VIEW DETAILS</b></h4>
-        <div class="row">
-              <div class="col-md-12">
-                <div class="panel panel-default">
-                  <div class="panel-body">
-                        
-                  DEATAL
-                   </div>
-      </div>
-      </div>
-    </div>
-      </div>
-    
- 
-        </div>
-</div><!--/modal body-->
-
-</div>
-
-
-  </body>
+</body>
 
 </html>
