@@ -38,10 +38,11 @@ class lot{
                     <td align='center'>
                         <button type='button' class='btn  btn-success btn-sm' data-toggle='modal' data-target='#modalSpot$intLotID'>Spotcash</button>
                         <button type='button' class='btn  btn-success btn-sm' data-toggle='modal' data-target='#modalReserve$intLotID'>Reserve</button>
-                        <button type='button' class='btn  btn-success btn-sm' data-toggle='modal' data-target='#modalAtneed'>Atneed</button>
+                        <button type='button' class='btn  btn-success btn-sm' data-toggle='modal' data-target='#modalAtneed$intLotID'>Atneed</button>
                     </td>";
                     require("../modals/transaction/spotcash-modal.php");
                     require('../modals/transaction/reserve-modal.php');
+                    require('../modals/transaction/atneed-modal.php');
 
                     
                     
