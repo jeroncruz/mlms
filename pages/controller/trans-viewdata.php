@@ -72,6 +72,79 @@ class lot{
 //___________________________________________________
 
 
+class ashUnit{
+
+    function viewAshUnit(){
+        
+		$sql = "SELECT ac.intUnitID, ac.strUnitName, ac.intUnitStatus, ac.intStatus, l.strLevelName, l.dblSellingPrice, a.strAshName FROM tblacunit ac 
+                    INNER JOIN tbllevelash l ON ac.intLevelAshID = l.intLevelAshID
+                    INNER JOIN tblashcrypt a ON l.intAshID = a.intAshID WHERE ac.intStatus = 0 AND ac.intUnitStatus = 'Available' ORDER BY ac.strUnitName ASC";
+ 
+        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+        mysql_select_db(constant('mydb'));
+        $result = mysql_query($sql,$conn);
+        
+		while($row = mysql_fetch_array($result)){ 
+            
+            $intUnitID =$row['intUnitID'];
+            $strUnitName =$row['strUnitName'];
+            $strLevelName =$row['strLevelName'];
+            $strAshName =$row['strAshName'];
+            $dblSellingPrice =$row['dblSellingPrice'];
+            $intStatus=$row['intStatus'];
+            
+              
+            echo 
+                "<tr>
+                    <td style ='font-size:18px;'>$strUnitName</td>
+                    <td style ='font-size:18px;'>$strLevelName</td>
+                    <td style ='font-size:18px;'>$strAshName</td>
+                    <td style ='font-size:18px; text-align:right;'>₱ ".number_format($dblSellingPrice,2)."</td>
+                    
+                    <td align='center'>
+                        <button type='button' class='btn  btn-success btn-sm' data-toggle='modal' data-target='#modalSpot$intUnitID'>Spotcash</button>
+                        <button type='button' class='btn  btn-success btn-sm' data-toggle='modal' data-target='#modalReserve$intUnitID'>Reserve</button>
+                        <button type='button' class='btn  btn-success btn-sm' data-toggle='modal' data-target='#modalAtneed$intUnitID'>Atneed</button>
+                    </td>";
+                    require("../modals/transaction/spotcashAsh-modal.php");
+                    require('../modals/transaction/reserveAsh-modal.php');
+                    require('../modals/transaction/atneedAsh-modal.php');
+
+                
+                
+            echo"</tr>";
+                
+        }//while($row = mysql_fetch_array($result))
+        mysql_close($conn);
+                 
+    }//function viewAshUnit()
+
+
+	
+	function selectLevel(){
+        
+		$sql = " select la.intLevelAshID as levelAsh, la.strLevelName as levelName, la.dblSellingPrice, ac.strAshName as ashName, la.intStatus from tbllevelash la
+		            INNER JOIN tblashcrypt ac ON la.intAshID = ac.intAshID WHERE la.intStatus = '0' ORDER BY ac.strAshName ASC";
+
+        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+        mysql_select_db(constant('mydb'));
+        $result = mysql_query($sql,$conn);
+        
+        while($row = mysql_fetch_array($result)){
+            
+            $intLevelAshID = $row['levelAsh'];
+            $strLevelName = $row['levelName'];
+            $strAshName = $row['ashName'];
+            
+            echo "<option value = '$intLevelAshID'>$strLevelName ($strAshName)</option>";
+        }//while
+        mysql_close($conn);
+    }//function selectLevel()
+	
+}//class AC-Unit
+//________________________________________________
+
+
 
 class interest{
 
@@ -369,72 +442,6 @@ class interestForLevel{
 
 }//class interestForlevel
 //_______________________________________________________
-
-class ashUnit{
-
-    function viewAshUnit(){
-        
-		$sql = "select acUnit.intUnitID, acUnit.strUnitName, acUnit.intUnitStatus, acUnit.intStatus, la.strLevelName, ac.strAshName, acUnit.intCapacity from tblacunit acUnit
-                inner join tbllevelash la ON acUnit.intLevelAshID = la.intLevelAshID 
-                inner join tblashcrypt ac ON la.intAshID = ac.intAshID where acUnit.intStatus='0' order by acUnit.strUnitName asc";    
-        
-        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
-        mysql_select_db(constant('mydb'));
-        $result = mysql_query($sql,$conn);
-        
-		while($row = mysql_fetch_array($result))
-		  { 
-            $intUnitID =$row['intUnitID'];
-            $strUnitName =$row['strUnitName'];
-            $strLevelName =$row['strLevelName'];
-            $strAshName =$row['strAshName'];
-            $intCapacity =$row['intCapacity'];
-            
-            $intUnitStatus =$row['intUnitStatus'];
-            $intStatus=$row['intStatus'];
-            
-            if($intUnitStatus==0){
-                $AshStatus="Available";
-            }else if($intUnitStatus==1){
-                $AshStatus="Reserved";
-            }else{
-                $AshStatus="Occupied";
-            }
-              
-			 echo "<tr>
-                    <td style ='font-size:18px;'>$strUnitName</td>
-                    <td style ='font-size:18px;'>$strLevelName</td>
-                    <td style ='font-size:18px;'>$strAshName</td>
-                    <td align='right'; style ='font-size:18px;'>$intCapacity</td>
-                    <td style ='font-size:18px;'>$AshStatus</td>
-                  </tr>";
-                
-            }//while($row = mysql_fetch_array($result))
-			  mysql_close($conn);         
-    }//function viewAshUnit()
-
-
-	
-	function selectLevel(){
-		$sql = " select la.intLevelAshID as levelAsh, la.strLevelName as levelName, la.dblSellingPrice, ac.strAshName as ashName, la.intStatus from tbllevelash la
-		            INNER JOIN tblashcrypt ac ON la.intAshID = ac.intAshID WHERE la.intStatus = '0' ORDER BY ac.strAshName ASC";
-
-        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
-        mysql_select_db(constant('mydb'));
-        $result = mysql_query($sql,$conn);
-        while($row = mysql_fetch_array($result))
-        {
-            $intLevelAshID = $row['levelAsh'];
-            $strLevelName = $row['levelName'];
-            $strAshName = $row['ashName'];
-            
-            echo "<option value = '$intLevelAshID'>$strLevelName ($strAshName)</option>";
-        }
-         mysql_close($conn);
-    }//function selectLevel()
-	
-}//class AC-Unit
-//________________________________________________
 
 class service{
 
