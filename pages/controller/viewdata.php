@@ -1139,12 +1139,15 @@ class ashUnit{
             $intUnitStatus =$row['intUnitStatus'];
             $intStatus=$row['intStatus'];
             
+            
             if($intUnitStatus==0){
-                $AshStatus="Available";
-            }else if($intUnitStatus==1){
-                $AshStatus="Reserved";
-            }else{
-                $AshStatus="Occupied";
+			  $AshStatus ="Available";
+			}else if($intUnitStatus==1){
+			  $AshStatus="Reserved";
+			}else if($intUnitStatus==2){
+			  $AshStatus="Owned";
+			}else{
+              $AshStatus="At-Need";
             }
             
 			echo 
