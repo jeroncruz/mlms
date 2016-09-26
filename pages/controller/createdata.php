@@ -501,6 +501,82 @@ class createAvailUnit{
         
 }//class
 
+class createAvailUnitAsh{
+    
+    function createSpotAsh($tfUnitId,$selectCustomer,$dateCreated,$tfModeOfPayment,$tfAmountFinal){
+
+		$sql = "INSERT INTO `dbholygarden`.`tblavailunitash` (`intUnitId`,`intCustomerId`,`dateAvailUnit`,`strModeOfPayment`,`deciAmountPaid`) 
+                                                VALUES ('$tfUnitId','$selectCustomer','$dateCreated','$tfModeOfPayment','$tfAmountFinal')";
+                                            
+        $sql1 = "UPDATE `dbholygarden`.`tblacunit` 
+                            SET `intUnitStatus`='2' WHERE `intUnitID`= '$tfUnitId'";
+        
+        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+        mysql_select_db(constant('mydb'));
+        if(mysql_query($sql,$conn)){
+            
+            if(mysql_query($sql1,$conn)){
+                 mysql_close($conn);
+                    $alertAvail = new alerts();
+                    $alertAvail -> alertSold();
+                    //echo "<script>alert('Succesfully created!')</script>";
+            }//if
+            
+           
+        }//if
+        
+    }//function
+    
+    function createReserveAsh($tfUnitId,$tfStatus,$selectCustomer,$dateCreated,$tfModeOfPayment,$selectYear,$tfDownpaymentFinal,$dateDownpayment,$tfAmountFinal){
+
+		$sql = "INSERT INTO `dbholygarden`.`tblavailunitash` (`intUnitId`, `intCustomerId`, `dateAvailUnit`, `strModeOfPayment`, `deciAmountPaid`, `intStatus`, `intInterestId`, `deciDownpayment`, `datDueDate`) 
+                                                    VALUES ('$tfUnitId', '$selectCustomer', '$dateCreated', '$tfModeOfPayment', '$tfAmountFinal', '$tfStatus', '$selectYear', '$tfDownpaymentFinal', '$dateDownpayment')";
+                                            
+        $sql1 = "UPDATE `dbholygarden`.`tblacunit` 
+                            SET `intUnitStatus`='1' WHERE `intUnitID`= '$tfUnitId'";
+        
+        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+        mysql_select_db(constant('mydb'));
+        if(mysql_query($sql,$conn)){
+            
+            if(mysql_query($sql1,$conn)){
+                 mysql_close($conn);
+                    $alertAvail = new alerts();
+                    $alertAvail -> alertSold();
+                    //echo "<script>alert('Succesfully created!')</script>";
+            }//if
+            
+           
+        }//if
+        
+    }//function
+    
+    function createAtNeedAsh($tfUnitId,$tfStatus,$selectCustomer,$dateCreated,$tfModeOfPayment,$selectYear,$tfDownpaymentFinal,$dateDownpayment,$tfAmountFinal){
+
+		$sql = "INSERT INTO `dbholygarden`.`tblavailunitash` (`intUnitId`, `intCustomerId`, `dateAvailUnit`, `strModeOfPayment`, `deciAmountPaid`, `intStatus`, `intInterestId`, `deciDownpayment`, `datDueDate`) 
+                                                    VALUES ('$tfUnitId', '$selectCustomer', '$dateCreated', '$tfModeOfPayment', '$tfAmountFinal', '$tfStatus', '$selectYear', '$tfDownpaymentFinal', '$dateDownpayment')";
+                                            
+        $sql1 = "UPDATE `dbholygarden`.`tblacunit` 
+                            SET `intUnitStatus`='3' WHERE `intUnitID`= '$tfUnitId'";
+        
+        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+        mysql_select_db(constant('mydb'));
+        if(mysql_query($sql,$conn)){
+            
+            if(mysql_query($sql1,$conn)){
+                 mysql_close($conn);
+                    $alertAvail = new alerts();
+                    $alertAvail -> alertSold();
+                    //echo "<script>alert('Succesfully created!')</script>";
+            }//if
+            
+           
+        }//if
+        
+    }//function
+
+}//class
+
 //UTILITIES
 class createColor{
 
