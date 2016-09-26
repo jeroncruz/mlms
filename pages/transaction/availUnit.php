@@ -131,6 +131,111 @@ if (isset($_POST['btnCancelAtNeed'])){
     $deactivateReserve->deactivateAtNeed($tfAvailUnitId,$tfLotId);
 }//if
 
+if (isset($_POST['btnSubmitSpotcashAsh'])){
+
+    $tfUnitId = $_POST['tfUnitId'];
+    $selectCustomer = $_POST['selectCustomer'];
+    $tfDate = $_POST['tfDate'];
+    $tfModeOfPayment= $_POST['tfModeOfPayment'];
+    $tfDiscountedPrice=$_POST['tfDiscountedPrice'];
+    $tfAmountPaid=$_POST['tfAmountPaid'];
+    
+    $dateCreated = date("Y-m-d", strtotime($tfDate));
+    $tfDiscountedFinal = preg_replace('/,/', '', $tfDiscountedPrice);
+    $tfAmountFinal = preg_replace('/,/', '', $tfAmountPaid);
+    
+    if($tfAmountFinal >= $tfDiscountedFinal){
+    
+        $createAvailUnit =  new createAvailUnitAsh();
+        $createAvailUnit->createSpotAsh($tfUnitId,$selectCustomer,$dateCreated,$tfModeOfPayment,$tfAmountFinal);
+    }else{
+        //echo "<script>alert('Insufficient Amount Paid!')</script>";
+        $alertChange = new alerts();
+        $alertChange -> alertChange();        
+    }//else
+}//if
+
+if (isset($_POST['btnSubmitReserveAsh'])){
+
+    $tfUnitId = $_POST['tfUnitId'];
+    $tfStatus = $_POST['tfStatus'];
+    $selectCustomer = $_POST['selectCustomer'];
+    $tfDate = $_POST['tfDate'];
+    $tfModeOfPayment= $_POST['tfModeOfPayment'];
+    $selectYear= $_POST['selectYear'];
+    $tfDownpayment= $_POST['tfDownpayment'];
+    $tfDueDate=$_POST['tfDueDate'];
+    $tfReservationFee=$_POST['tfReservationFee'];
+    $tfAmountPaid=$_POST['tfAmountPaid'];
+    
+    $dateCreated = date("Y-m-d", strtotime($tfDate));
+    $dateDownpayment = date("Y-m-d", strtotime($tfDueDate));
+    $tfDownpaymentFinal = preg_replace('/,/', '', $tfDownpayment);
+    $tfReservationFinal = preg_replace('/,/', '', $tfReservationFee);
+    $tfAmountFinal = preg_replace('/,/', '', $tfAmountPaid);
+    
+    if($tfAmountFinal >= $tfReservationFinal){
+    
+        $createAvailUnit =  new createAvailUnitAsh();
+        $createAvailUnit->createReserveAsh($tfUnitId,$tfStatus,$selectCustomer,$dateCreated,$tfModeOfPayment,$selectYear,$tfDownpaymentFinal,$dateDownpayment,$tfAmountFinal);
+    }else{
+        //echo "<script>alert('Insufficient Amount Paid!')</script>";
+        $alertChange = new alerts();
+        $alertChange -> alertChange();        
+    }//else
+}//if
+
+if (isset($_POST['btnCancelReservationAsh'])){
+
+    $tfAvailUnitAshId = $_POST['tfAvailUnitAshId'];
+    $tfUnitId = $_POST['tfUnitId'];
+    
+    
+    $deactivateReserve =  new deactivateReserveAsh();
+    $deactivateReserve->deactivate($tfAvailUnitAshId,$tfUnitId);
+}//if
+
+
+if (isset($_POST['btnSubmitAtNeedAsh'])){
+
+    $tfUnitId = $_POST['tfUnitId'];
+    $tfStatus = $_POST['tfStatus'];
+    $selectCustomer = $_POST['selectCustomer'];
+    $tfDate = $_POST['tfDate'];
+    $tfModeOfPayment= $_POST['tfModeOfPayment'];
+    $selectYear= $_POST['selectYear'];
+    $tfDownpayment= $_POST['tfDownpayment'];
+    $tfDueDate=$_POST['tfDueDate'];
+    $tfReservationFee=$_POST['tfReservationFee'];
+    $tfAmountPaid=$_POST['tfAmountPaid'];
+    
+    $dateCreated = date("Y-m-d", strtotime($tfDate));
+    $dateDownpayment = date("Y-m-d", strtotime($tfDueDate));
+    $tfDownpaymentFinal = preg_replace('/,/', '', $tfDownpayment);
+    $tfReservationFinal = preg_replace('/,/', '', $tfReservationFee);
+    $tfAmountFinal = preg_replace('/,/', '', $tfAmountPaid);
+    
+    if($tfAmountFinal >= $tfReservationFinal){
+    
+        $createAvailUnit =  new createAvailUnitAsh();
+        $createAvailUnit->createAtNeedAsh($tfUnitId,$tfStatus,$selectCustomer,$dateCreated,$tfModeOfPayment,$selectYear,$tfDownpaymentFinal,$dateDownpayment,$tfAmountFinal);
+    }else{
+        //echo "<script>alert('Insufficient Amount Paid!')</script>";
+        $alertChange = new alerts();
+        $alertChange -> alertChange();        
+    }//else
+}//if
+
+if (isset($_POST['btnCancelAtNeedAsh'])){
+
+    $tfAvailUnitAshId = $_POST['tfAvailUnitAshId'];
+    $tfUnitId = $_POST['tfUnitId'];
+    
+    
+    $deactivateReserve =  new deactivateReserveAsh();
+    $deactivateReserve->deactivateAtNeedAsh($tfAvailUnitAshId,$tfUnitId);
+}//if
+
 ?>
 
 
@@ -181,7 +286,7 @@ if (isset($_POST['btnCancelAtNeed'])){
 	<!-- Datatables -->
 	<script>
       $(document).ready(function(){
-        $('#datatable-acunit').DataTable();
+        $('#datatable-ash').DataTable();
         $('#datatable-lot').DataTable();
       });
     </script>
@@ -194,7 +299,8 @@ if (isset($_POST['btnCancelAtNeed'])){
 	   });
      
     </script>
-	
+    
+    
     
 </head>
 
@@ -214,7 +320,7 @@ if (isset($_POST['btnCancelAtNeed'])){
                         <div class="panel-body">
                             
                             <div class="" role="tabpanel" data-example-id="togglable-tabs">
-                                <ul id="myTab1" class="nav nav-tabs bar_tabs left" role="tablist">
+                                <ul id="myTab" class="nav nav-tabs bar_tabs left" role="tablist">
                                     <li role="presentation" class="active">
                                         <a href="#tab_content11" id="home-tabb" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Lot-Unit</a>
                                     </li>
@@ -226,7 +332,7 @@ if (isset($_POST['btnCancelAtNeed'])){
 								<div id="myTabContent2" class="tab-content">
 									<div role="tabpanel" class="tab-pane fade active in" id="tab_content11" aria-labelledby="home-tab">
 
-                                        
+                                        <!-- LOT -->
                                         <div class = "row">
                                             <div class="col-md-12">
                                                 <div class="panel panel-success ">
@@ -243,42 +349,42 @@ if (isset($_POST['btnCancelAtNeed'])){
                                                             <div class="panel panel-default">
                                                                 <div class="panel-heading">
                                                                     <form class="form-vertical" role="form" action = "availUnit.php" method= "post">
-                                                                            <div class="row">
-                                                                                <div class="form-group">
-                                                                                    <label class="col-md-2" style = "font-size: 18px;" align="right" style="margin-top:.30em">Filter by:</label>
-                                                                                    
-                                                                                    <div class="col-md-3">
-                                                                                        <select class="form-control" name = "filter1">
-                                                                                            <option value="" selected disabled> --Choose Block (Section)--</option>
-                                                                                            <?php
-                                                                                                
-                                                                                                $view = new lot();
-                                                                                                $view->selectBlock(); 
-                                                                                                
-                                                                                            ?>
-                                                                                        </select>
-                                                                                    </div>
-                                                                                    
-                                                                                    <div class="col-md-3">
-                                                                                        <select class="form-control" name = "filter2">
-                                                                                            <option value="" selected disabled> --Choose Lot Status--</option>
-                                                                                            <option value="0"> Available</option>
-                                                                                            <option value="1"> Reserve</option>
-                                                                                            <option value="2"> Owned</option>
-                                                                                            <option value="3"> At-Need</option>
-                                                                                            
-                                                                                        </select>
-                                                                                    </div>
-                                                                                    
-                                                                                    <div class="col-md-4">
-                                                                                        <button type="submit" class="btn btn-success pull-left" name= "btnGo">Go</button>
-                                                                                        <button type="submit" class="btn btn-default pull-left" name= "btnBack">ALL</button>
-                                                                                        
-                                                                                    </div>
-                                                                                </div><!-- FORM GROUP -->
-                                                                            
-                                                                            </div><!-- ROW -->
-                                                                        </form>
+																		<div class="row">
+																			<div class="form-group">
+																				<label class="col-md-2" style = "font-size: 18px;" align="right" style="margin-top:.30em">Filter by:</label>
+																				
+																				<div class="col-md-3">
+																					<select class="form-control" name = "filter1">
+																						<option value="" selected disabled> --Choose Block (Section)--</option>
+																						<?php
+																							
+																							$view = new lot();
+																							$view->selectBlock(); 
+																							
+																						?>
+																					</select>
+																				</div>
+																				
+																				<div class="col-md-3">
+																					<select class="form-control" name = "filter2">
+																						<option value="" selected disabled> --Choose Lot Status--</option>
+																						<option value="0"> Available</option>
+																						<option value="1"> Reserve</option>
+																						<option value="2"> Owned</option>
+																						<option value="3"> At-Need</option>
+																						
+																					</select>
+																				</div>
+																				
+																				<div class="col-md-4">
+																					<button type="submit" class="btn btn-success pull-left" name= "btnGo">Go</button>
+																					<button type="submit" class="btn btn-default pull-left" name= "btnBack">ALL</button>
+																					
+																				</div>
+																			</div><!-- FORM GROUP -->
+																		
+																		</div><!-- ROW -->
+																	</form>
                                                                 </div><!-- /.panel-heading -->
                                                                 
                                                                 <div class="panel-body"> 
@@ -301,125 +407,127 @@ if (isset($_POST['btnCancelAtNeed'])){
                                                                                     
                                                                                     if (isset($_POST['btnGo'])){
 
-                                                                                    $filter1 = $_POST['filter1'];
-                                                                                    $filter2 = $_POST['filter2'];
-                                                                                    
-                                                                                    $sql = "Select l.intLotID, l.strLotName, b.strBlockName, t.strTypeName, t.intNoOfLot, t.deciSellingPrice, s.strSectionName, l.intLotStatus, l.intStatus 
-                                                                                            FROM tbllot l  
-                                                                                                INNER JOIN tblBlock b ON l.intBlockID = b.intBlockID 
-                                                                                                INNER JOIN	tbltypeoflot t ON b.intTypeID = t.intTypeID
-                                                                                                INNER JOIN tblsection s	ON b.intSectionID = s.intSectionID WHERE l.intStatus = '0' AND l.intLotStatus='".$filter2."' AND b.intBlockID = '".$filter1."'  ORDER BY  strLotName ASC";
+																						$filter1 = $_POST['filter1'];
+																						$filter2 = $_POST['filter2'];
+																						
+																						$sql = "Select l.intLotID, l.strLotName, b.strBlockName, t.strTypeName, t.intNoOfLot, t.deciSellingPrice, s.strSectionName, l.intLotStatus, l.intStatus 
+																								FROM tbllot l  
+																									INNER JOIN tblBlock b ON l.intBlockID = b.intBlockID 
+																									INNER JOIN	tbltypeoflot t ON b.intTypeID = t.intTypeID
+																									INNER JOIN tblsection s	ON b.intSectionID = s.intSectionID WHERE l.intStatus = '0' AND l.intLotStatus='".$filter2."' AND b.intBlockID = '".$filter1."'  ORDER BY  strLotName ASC";
 
-                                                                                    $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
-                                                                                    mysql_select_db(constant('mydb'));
-                                                                                    $result = mysql_query($sql,$conn);
+																						$conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+																						mysql_select_db(constant('mydb'));
+																						$result = mysql_query($sql,$conn);
 
 
 
-                                                                                    while($row = mysql_fetch_array($result)){ 
-                                                                                        
-                                                                                    $intLotID =$row['intLotID'];
-                                                                                    $strLotName =$row['strLotName'];
-                                                                                    $strBlockName =$row['strBlockName'];
-                                                                                    $strTypeName=$row['strTypeName'];
-                                                                                    $deciSellingPrice=$row['deciSellingPrice'];
-                                                                                    $intNoOfLot=$row['intNoOfLot'];
-                                                                                    $strSectionName =$row['strSectionName'];
-                                                                                    $intStatus =$row['intStatus'];
-                                                                                    $intLotStatus =$row['intLotStatus'];
-                                                                                    
-                                                                                    if($intLotStatus==0){
-                                                                                        
-                                                                                        echo 
-                                                                                            "<tr>
-                                                                                                <td style ='font-size:18px;'>$strLotName</td>
-                                                                                                <td style ='font-size:18px;'>$strBlockName</td>
-                                                                                                <td style ='font-size:18px;'>$strTypeName</td>
-                                                                                                <td style ='font-size:18px;'>$strSectionName</td>
-                                                                                                <td style ='font-size:18px; text-align:right;'>₱ ".number_format($deciSellingPrice,2)."</td>
-                                                                                                
-                                                                                                <td align='center'>
-                                                                                                    <button type='button' class='btn  btn-success btn-sm' data-toggle='modal' data-target='#modalSpot$intLotID'>Spotcash</button>
-                                                                                                    <button type='button' class='btn  btn-success btn-sm' data-toggle='modal' data-target='#modalReserve'>Reserve</button>
-                                                                                                    <button type='button' class='btn  btn-success btn-sm' data-toggle='modal' data-target='#modalAtneed'>Atneed</button>
-                                                                                                </td>";
-                                                                                                require("../modals/transaction/spotcash-modal.php");
-                                                                                                require("../modals/transaction/reserve-modal.php");
-                                                                                                
-                                                                                                
-                                                                                        echo"</tr>";
-          
-                                                                                        
-                                                                                    }else if($intLotStatus==1){
-                                                                                                
-                                                                                        echo 
-                                                                                            "<tr>
-                                                                                                <td style ='font-size:18px;'>$strLotName</td>
-                                                                                                <td style ='font-size:18px;'>$strBlockName</td>
-                                                                                                <td style ='font-size:18px;'>$strTypeName</td>
-                                                                                                <td style ='font-size:18px;'>$strSectionName</td>
-                                                                                                <td style ='font-size:18px; text-align:right;'>₱ ".number_format($deciSellingPrice,2)."</td>
-                                                                                                
-                                                                                                <td align='center'>
-                                                                                                    <button type='button' class='btn  btn-success btn-md' title='view' data-toggle='modal' data-target='#viewReserveLot$intLotID'>
-                                                                                                        <i class='glyphicon glyphicon-eye-open'></i>
-                                                                                                    </button>
-                                                                                                </td>";
-                                                                                                require("../modals/transaction/viewReserveLot-modal.php");
+																						while($row = mysql_fetch_array($result)){ 
+																							
+																							$intLotID =$row['intLotID'];
+																							$strLotName =$row['strLotName'];
+																							$strBlockName =$row['strBlockName'];
+																							$strTypeName=$row['strTypeName'];
+																							$deciSellingPrice=$row['deciSellingPrice'];
+																							$intNoOfLot=$row['intNoOfLot'];
+																							$strSectionName =$row['strSectionName'];
+																							$intStatus =$row['intStatus'];
+																							$intLotStatus =$row['intLotStatus'];
+																							
+																							if($intLotStatus==0){
+																								
+																								echo 
+																									"<tr>
+																										<td style ='font-size:18px;'>$strLotName</td>
+																										<td style ='font-size:18px;'>$strBlockName</td>
+																										<td style ='font-size:18px;'>$strTypeName</td>
+																										<td style ='font-size:18px;'>$strSectionName</td>
+																										<td style ='font-size:18px; text-align:right;'>₱ ".number_format($deciSellingPrice,2)."</td>
+																										
+																										<td align='center'>
+																											<button type='button' class='btn  btn-success btn-sm' data-toggle='modal' data-target='#modalSpot$intLotID'>Spotcash</button>
+																											<button type='button' class='btn  btn-success btn-sm' data-toggle='modal' data-target='#modalReserve$intLotID'>Reserve</button>
+																											<button type='button' class='btn  btn-success btn-sm' data-toggle='modal' data-target='#modalAtneed$intLotID'>Atneed</button>
+																										</td>";
+																										require("../modals/transaction/spotcash-modal.php");
+																										require("../modals/transaction/reserve-modal.php");
+                                                                                                        require('../modals/transaction/atneed-modal.php');
 
-                                                                                            echo"</tr>";
-                                                                                    }else if($intLotStatus==2){
-                                                                                        
-                                                                                        echo 
-                                                                                            "<tr>
-                                                                                                <td style ='font-size:18px;'>$strLotName</td>
-                                                                                                <td style ='font-size:18px;'>$strBlockName</td>
-                                                                                                <td style ='font-size:18px;'>$strTypeName</td>
-                                                                                                <td style ='font-size:18px;'>$strSectionName</td>
-                                                                                                <td style ='font-size:18px; text-align:right;'>₱ ".number_format($deciSellingPrice,2)."</td>
-                                                                                                
-                                                                                                <td align='center'>
-                                                                                                    <button type='button' class='btn  btn-success btn-md' title='view' data-toggle='modal' data-target='#viewOwnedLot$intLotID'>
-                                                                                                        <i class='glyphicon glyphicon-eye-open'></i>
-                                                                                                    </button>
-                                                                                                </td>";
-                                                                                                require("../modals/transaction/viewOwnedLot-modal.php");
+																										
+																										
+																								echo"</tr>";
+				  
+																								
+																							}else if($intLotStatus==1){
+																										
+																								echo 
+																									"<tr>
+																										<td style ='font-size:18px;'>$strLotName</td>
+																										<td style ='font-size:18px;'>$strBlockName</td>
+																										<td style ='font-size:18px;'>$strTypeName</td>
+																										<td style ='font-size:18px;'>$strSectionName</td>
+																										<td style ='font-size:18px; text-align:right;'>₱ ".number_format($deciSellingPrice,2)."</td>
+																										
+																										<td align='center'>
+																											<button type='button' class='btn  btn-success btn-md' title='view' data-toggle='modal' data-target='#viewReserveLot$intLotID'>
+																												<i class='glyphicon glyphicon-eye-open'></i>
+																											</button>
+																										</td>";
+																										require("../modals/transaction/viewReserveLot-modal.php");
 
-                                                                                            echo"</tr>";
-                                                                                        
-                                                                                    }else{
-                                                                                        
-                                                                                        echo 
-                                                                                            "<tr>
-                                                                                                <td style ='font-size:18px;'>$strLotName</td>
-                                                                                                <td style ='font-size:18px;'>$strBlockName</td>
-                                                                                                <td style ='font-size:18px;'>$strTypeName</td>
-                                                                                                <td style ='font-size:18px;'>$strSectionName</td>
-                                                                                                <td style ='font-size:18px; text-align:right;'>₱ ".number_format($deciSellingPrice,2)."</td>
-                                                                                                
-                                                                                                <td align='center'>
-                                                                                                    <button type='button' class='btn  btn-success btn-md' title='view' data-toggle='modal' data-target='#viewAtNeedLot$intLotID'>
-                                                                                                        <i class='glyphicon glyphicon-eye-open'></i>
-                                                                                                    </button>
-                                                                                                </td>";
-                                                                                                require("../modals/transaction/viewAtNeedLot-modal.php");
+																								echo"</tr>";
+																							}else if($intLotStatus==2){
+																								
+																								echo 
+																									"<tr>
+																										<td style ='font-size:18px;'>$strLotName</td>
+																										<td style ='font-size:18px;'>$strBlockName</td>
+																										<td style ='font-size:18px;'>$strTypeName</td>
+																										<td style ='font-size:18px;'>$strSectionName</td>
+																										<td style ='font-size:18px; text-align:right;'>₱ ".number_format($deciSellingPrice,2)."</td>
+																										
+																										<td align='center'>
+																											<button type='button' class='btn  btn-success btn-md' title='view' data-toggle='modal' data-target='#viewOwnedLot$intLotID'>
+																												<i class='glyphicon glyphicon-eye-open'></i>
+																											</button>
+																										</td>";
+																										require("../modals/transaction/viewOwnedLot-modal.php");
 
-                                                                                            echo"</tr>";
-                                                                                        
-                                                                                    }//else
-                                                                                        
-                                                                                    }//while($row = mysql_fetch_array($result))
-                                                                                        mysql_close($conn);         
+																								echo"</tr>";
+																								
+																							}else{
+																								
+																								echo 
+																									"<tr>
+																										<td style ='font-size:18px;'>$strLotName</td>
+																										<td style ='font-size:18px;'>$strBlockName</td>
+																										<td style ='font-size:18px;'>$strTypeName</td>
+																										<td style ='font-size:18px;'>$strSectionName</td>
+																										<td style ='font-size:18px; text-align:right;'>₱ ".number_format($deciSellingPrice,2)."</td>
+																										
+																										<td align='center'>
+																											<button type='button' class='btn  btn-success btn-md' title='view' data-toggle='modal' data-target='#viewAtNeedLot$intLotID'>
+																												<i class='glyphicon glyphicon-eye-open'></i>
+																											</button>
+																										</td>";
+																										require("../modals/transaction/viewAtNeedLot-modal.php");
+
+																								echo"</tr>";
+																								
+																							}//else
+																								
+																						}//while($row = mysql_fetch_array($result))
+																						mysql_close($conn);         
                                                                                         
                                                                                             
                                                                                     }else if(isset($_POST['btnBack'])){
-                                                                                    $view = new lot();
-                                                                                    $view->viewLot();
-                                                                                    }
+																						$view = new lot();
+																						$view->viewLot();
+                                                                                    }//else-if
                                                                                     else{
-                                                                                    $view1 = new lot();
-                                                                                    $view1->viewLot();
-                                                                                    }
+																						$view1 = new lot();
+																						$view1->viewLot();
+                                                                                    }//else
 
 																				?>
 																			
@@ -438,75 +546,206 @@ if (isset($_POST['btnCancelAtNeed'])){
 									</div><!--tab-panel-->
 					  
 									<div role="tabpanel" class="tab-pane fade" id="tab_content22" aria-labelledby="profile-tab">
-										<div class="col-md-4">
-											<div class="panel panel-success ">
-												<div class="panel-heading">
-												  <H3><b>Select Ashcrypt</b></H3>
-												</div><!-- /.panel-heading -->
-									 
-												<div class="panel-body">
-													<div class="form-group">
-														<label class="col-md-4" style = "font-size: 18px;" align="right" style="margin-top:.50em">Ashcrypt: </label>
-														<div class="col-md-7">
-															<select class="form-control input-md" id="selectAsh" onchange="changeAsh(this.value)">
-																<option selected disabled>--Choose Ashcrypt--</option>
-															</select>
-														</div>
-													</div>
+                                        
+                                        <!-- ASH - CRYPT -->
+										<div class = "row">
+                                            <div class="col-md-12">
+                                                <div class="panel panel-success ">
+                                                    <div class="panel-heading">
+                                                        <button type="button" data-target="#modalCust" data-toggle="modal" class="btn btn-success pull-right" name= "btnAdd">New Customer</button>
+                    
+                                                        <H1><b>AVAIL-UNIT</b></H1>
+                                                        
+                                                    </div><!-- /.panel-heading -->
+                                                            
+                                                    <div class="panel-body">
+                                                        
+                                                        <div class="col-md-12">
+                                                            <div class="panel panel-default">
+                                                                <div class="panel-heading">
+                                                                    <form class="form-vertical" role="form" action = "availUnit.php" method= "post">
+																		<div class="row">
+																			<div class="form-group">
+																				<label class="col-md-2" style = "font-size: 18px;" align="right" style="margin-top:.30em">Filter by:</label>
+																				
+																				<div class="col-md-3">
+																					<select class="form-control" name = "filterAsh1">
+																						<option value="" selected disabled> --Choose Level (Ash-Crypt)--</option>
+																						<?php
+																							
+																							$view = new ashUnit();
+																							$view->selectLevel(); 
+																							
+																						?>
+																					</select>
+																				</div>
+																				
+																				<div class="col-md-3">
+																					<select class="form-control" name = "filterAsh2">
+																						<option value="" selected disabled> --Choose Unit Status--</option>
+																						<option value="0"> Available</option>
+																						<option value="1"> Reserve</option>
+																						<option value="2"> Owned</option>
+																						<option value="3"> At-Need</option>
+																						
+																					</select>
+																				</div>
+																				
+																				<div class="col-md-4">
+																					<button type="submit" class="btn btn-success pull-left" name= "btnGo1">Go</button>
+																					<button type="submit" class="btn btn-default pull-left" name= "btnBack1">ALL</button>
+																					
+																				</div>
+																			</div><!-- FORM GROUP -->
+																		
+																		</div><!-- ROW -->
+																	</form>
+                                                                </div><!-- /.panel-heading -->
+                                                                
+                                                                <div class="panel-body"> 
+                                                                    <div class="table-responsive col-md-12 col-lg-12 col-xs-12">
+                                                                        <table id="datatable-ash" class="table table-striped table-bordered ">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th class = "success" style = "text-align: center; font-size: 18px;">Unit Name</th>
+                                                                                    <th class = "success" style = "text-align: center; font-size: 18px;">Level</th>
+                                                                                    <th class = "success" style = "text-align: center; font-size: 18px;">Ash-crypt</th>
+                                                                                    <th class = "success" style = "text-align: center; font-size: 18px;">Price</th>
+                                                                                    <th class = "success" style = "text-align: center; font-size: 18px;">Action</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            
+                                                                            <tbody>
+                                                                 
+                                                                                <?php
+                                                                                    
+                                                                                    if (isset($_POST['btnGo1'])){
 
-													<div class="form-group">
-														<label class="col-md-4" style = "font-size: 18px;" align="right" style="margin-top:.50em">Level:</label>
-														<div class="col-md-7">
-															<select class="form-control input-md" id="selectBlock" style="margin-top:.50em">
-																<option selected disabled>--Choose Level--</option>
-															</select>
-														</div>
-													</div>
-													
-												</div><!--panel-body-->
+																						$filterAsh1 = $_POST['filterAsh1'];
+																						$filterAsh2 = $_POST['filterAsh2'];
+																						
+																						$sql = "SELECT ac.intUnitID, ac.strUnitName, ac.intUnitStatus, ac.intStatus, l.strLevelName, l.dblSellingPrice, a.strAshName FROM tblacunit ac 
+                                                                                                    INNER JOIN tbllevelash l ON ac.intLevelAshID = l.intLevelAshID
+                                                                                                    INNER JOIN tblashcrypt a ON l.intAshID = a.intAshID WHERE ac.intStatus = 0 AND ac.intUnitStatus = '".$filterAsh2."' AND ac.intLevelAshID = '".$filterAsh1."' ORDER BY ac.strUnitName ASC";
+ 
+																						$conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+																						mysql_select_db(constant('mydb'));
+																						$result = mysql_query($sql,$conn);
 
-												<div class="form-group modal-footer"> 
-													<div class="col-md-12 col-md-offset-3">
-														<button type="submit" class="btn btn-success col-md-4" name= "btnSubmit">Proceed</button>
-														<input class = "btn btn-default col-md-5" type="reset" name = "btnClear" value = "Clear Entries">
-													</div>
-												</div>
-											
-											</div><!--panel-success-->
-										</div><!--ASH/col-md-4-->
+																						while($row = mysql_fetch_array($result)){ 
+																							
+																							$intUnitID =$row['intUnitID'];
+																							$strUnitName =$row['strUnitName'];
+																							$strLevelName =$row['strLevelName'];
+																							$strAshName=$row['strAshName'];
+																							$dblSellingPrice=$row['dblSellingPrice'];
+																							$intStatus =$row['intStatus'];
+																							$intUnitStatus =$row['intUnitStatus'];
+																							
+																							if($intUnitStatus==0){
+																								
+																								echo 
+																									"<tr>
+																										<td style ='font-size:18px;'>$strUnitName</td>
+																										<td style ='font-size:18px;'>$strLevelName</td>
+																										<td style ='font-size:18px;'>$strAshName</td>
+																										<td style ='font-size:18px; text-align:right;'>₱ ".number_format($dblSellingPrice,2)."</td>
+																										
+																										<td align='center'>
+																											<button type='button' class='btn  btn-success btn-sm' data-toggle='modal' data-target='#modalSpot$intUnitID'>Spotcash</button>
+																											<button type='button' class='btn  btn-success btn-sm' data-toggle='modal' data-target='#modalReserve$intUnitID'>Reserve</button>
+																											<button type='button' class='btn  btn-success btn-sm' data-toggle='modal' data-target='#modalAtneed$intUnitID'>Atneed</button>
+																										</td>";
+																										require("../modals/transaction/spotcashAsh-modal.php");
+																										require("../modals/transaction/reserveAsh-modal.php");
+                                                                                                        require('../modals/transaction/atneedAsh-modal.php');
 
-										<div class="col-md-8">
-											<div class="panel-body">
-												<div class="table-responsive col-md-12 col-lg-12 col-xs-12">
-													<table id="datatable-acunit" class="table table-striped table-bordered">
-														<thead>
-															<tr>
-																<th class = "success" style = "text-align: center; font-size: 20px;">Unit ID</th>
-																<th class = "success" style = "text-align: center; font-size: 20px;">Ash Level</th>
-																<th class = "success" style = "text-align: center; font-size: 20px;">Price</th>
-																<th class = "success" style = "text-align: center; font-size: 20px;">Capacity</th>
-																<th class = "success" style = "text-align: center; font-size: 20px;">Actions</th>
+																										
+																								echo"</tr>";
+				  
+																								
+																							}else if($intUnitStatus==1){
+																										
+																								echo 
+																									"<tr>
+																										<td style ='font-size:18px;'>$strUnitName</td>
+																										<td style ='font-size:18px;'>$strLevelName</td>
+																										<td style ='font-size:18px;'>$strAshName</td>
+																										<td style ='font-size:18px; text-align:right;'>₱ ".number_format($dblSellingPrice,2)."</td>
+																										
+																										<td align='center'>
+																											<button type='button' class='btn  btn-success btn-md' title='view' data-toggle='modal' data-target='#viewReserveAsh$intUnitID'>
+																												<i class='glyphicon glyphicon-eye-open'></i>
+																											</button>
+																										</td>";
+																										require("../modals/transaction/viewReserveAsh-modal.php");
 
-															</tr>
-														</thead>
-														
-														<tbody>
-																  <td></td>
-																  <td></td>
-																  <td></td>
-																  <td></td>
-																  <td>
-																  <button type="button" class="btn btn-round btn-success btn-sm">Spotcash</button>
-																  <button type="button" class="btn btn-round btn-success btn-sm">Reserve</button>
-																  <button type="button" class="btn btn-round btn-success btn-sm">Atneed</button>
-																  <button type="button" class="btn btn-round btn-warning btn-sm"><span class="glyphicon glyphicon-eye-open" aria-hidden="true" ></span> View</button></td>
+																								echo"</tr>";
+																							}else if($intUnitStatus==2){
+																								
+																								echo 
+																									"<tr>
+																										<td style ='font-size:18px;'>$strUnitName</td>
+																										<td style ='font-size:18px;'>$strLevelName</td>
+																										<td style ='font-size:18px;'>$strAshName</td>
+																										<td style ='font-size:18px; text-align:right;'>₱ ".number_format($dblSellingPrice,2)."</td>
+																										
+																										<td align='center'>
+																											<button type='button' class='btn  btn-success btn-md' title='view' data-toggle='modal' data-target='#viewOwnedAsh$intUnitID'>
+																												<i class='glyphicon glyphicon-eye-open'></i>
+																											</button>
+																										</td>";
+																										require("../modals/transaction/viewOwnedAsh-modal.php");
 
-															  
-														</tbody>
-													</table>
-												</div><!-- /.table-responsive -->
-											</div><!--panel body -->
-										</div><!--col-md-12-->
+																									echo"</tr>";
+																								
+																							}else{
+																								
+																								echo 
+																									"<tr>
+																										<td style ='font-size:18px;'>$strUnitName</td>
+																										<td style ='font-size:18px;'>$strLevelName</td>
+																										<td style ='font-size:18px;'>$strAshName</td>
+																										<td style ='font-size:18px; text-align:right;'>₱ ".number_format($dblSellingPrice,2)."</td>
+																										
+																										<td align='center'>
+																											<button type='button' class='btn  btn-success btn-md' title='view' data-toggle='modal' data-target='#viewAtNeedAsh$intUnitID'>
+																												<i class='glyphicon glyphicon-eye-open'></i>
+																											</button>
+																										</td>";
+																										require("../modals/transaction/viewAtNeedAsh-modal.php");
+
+																								echo"</tr>";
+																								
+																							}//else
+																							
+																						}//while($row = mysql_fetch_array($result))
+																						mysql_close($conn);         
+                                                                                        
+                                                                                            
+                                                                                    }else if(isset($_POST['btnBack1'])){
+																						$view = new ashUnit();
+																						$view->viewAshUnit();
+                                                                                    }//elseif
+                                                                                    else{
+																						$view1 = new ashUnit();
+																						$view1->viewAshUnit();
+                                                                                    }//elseif
+
+																				?>
+																			
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div><!-- /.table-responsive -->
+                                                                </div><!--panel body -->
+                                                            </div><!--panel panel-success-->
+                                                        </div><!--col-md-8-->   
+                                            
+                                                    </div><!--panel body -->
+                                                </div><!--panel panel-success-->
+                                            </div><!--col-md-12-->
+                                        </div><!--row-->
+										
 									</div><!--/tabpanel-->
 								</div><!--myTabContent2-->
 							</div><!--tabpanel-->
