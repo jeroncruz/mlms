@@ -221,4 +221,51 @@ class deactivateReserve{
     }//function
 }
 
+class deactivateReserveAsh{
+    
+     function deactivate($tfAvailUnitAshId,$tfUnitId){
+
+		$sql = "UPDATE `dbholygarden`.`tblavailunitash` SET `intStatus`='1' WHERE `intAvailUnitAshId`= '$tfAvailUnitAshId'";                      
+        
+        $sql1 = "UPDATE `dbholygarden`.`tblacunit` 
+                            SET `intUnitStatus`='0' WHERE `intUnitID`= '$tfUnitId'";
+        
+        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+        mysql_select_db(constant('mydb'));
+        if(mysql_query($sql,$conn)){
+            
+            if(mysql_query($sql1,$conn)){
+                 mysql_close($conn);
+                    
+                    echo "<script>alert('Your reservation has cancelled!')</script>";
+            }//if
+            
+           
+        }//if
+        
+    }//function
+    
+    function deactivateAtNeedAsh($tfAvailUnitAshId,$tfUnitId){
+
+		$sql = "UPDATE `dbholygarden`.`tblavailunitash` SET `intStatus`='1' WHERE `intAvailUnitAshId`= '$tfAvailUnitAshId'";                      
+        
+        $sql1 = "UPDATE `dbholygarden`.`tblacunit` 
+                            SET `intUnitStatus`='0' WHERE `intUnitID`= '$tfUnitId'";
+        
+        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+        mysql_select_db(constant('mydb'));
+        if(mysql_query($sql,$conn)){
+            
+            if(mysql_query($sql1,$conn)){
+                 mysql_close($conn);
+                    
+                    echo "<script>alert('Your reservation has cancelled!')</script>";
+            }//if
+            
+           
+        }//if
+        
+    }//function
+}
+
 ?>
