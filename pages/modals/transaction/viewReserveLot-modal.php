@@ -8,7 +8,7 @@
             </div>
 
             <div class='modal-body'>
-                <form class='form-horizontal' role='form' target='_blank' action='' method='GET'>
+                <form class='form-horizontal' role='form' target='_blank' action='../modals/transaction/reservation-pdf.php' method='GET'>
                     
                     <div class='row'>
                         <div class='col-md-6'>
@@ -158,10 +158,26 @@
                                         </div>
                                     </div>
                                     
+                                    
+                                    
+
+                                </div><!--panel-body-->
+                            </div><!--panel panel-default-->
+                        </div><!--col-md-6-->
+                        
+                        
+                        
+                        
+                    </div><!--row-->
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
                                     <div class='form-group'>
                                         <label class='col-md-7' style = 'font-size: 18px; margin-top:.50em;' align='right'>Due date for downpayment:</label>
                                         <div class='col-md-5'>
-                                           <input type='date' class='form-control input-md' value='<?php echo "$datDueDate"; ?>' name='tfDueDate' readonly>
+                                            <input type='date' class='form-control input-md' value='<?php echo "$datDueDate"; ?>' name='tfDueDate' readonly>
                                         </div>
                                     </div>
                                     
@@ -179,10 +195,10 @@
                                                                 
                                                         $intBusinessDependencyId =$row9['intBusinessDependencyId'];
                                                         $deciBusinessDependencyValue =$row9['deciBusinessDependencyValue'];
-                                                       
+                                                        
                                                     }//while
                                                         $reservationFee=$deciBusinessDependencyValue*$intNoOfLot;
-     
+
                                                 ?>
                                                 <span class = 'input-group-addon'>₱</span>
                                                 <input type='text' class='form-control input-md' name='tfReservationFee' value='<?php  echo"".number_format($reservationFee,2)."";?>' readonly/>
@@ -204,7 +220,7 @@
                                         <label class='col-md-7'style = 'font-size: 18px; margin-top:.50em;' align='right'>Change:</label>
                                         <div class='col-md-5'>
                                             <div class=' input-group'>
-                                                 <?php
+                                                    <?php
                                                     if($deciAmountPaid >= $reservationFee){
                                                         $balance = $deciAmountPaid - $reservationFee;
                                                     }else{
@@ -217,24 +233,23 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div><!--panel-body-->
                             </div><!--panel panel-default-->
                         </div><!--col-md-6-->
-
                         
-                    </div><!--row-->
-                    <div class='form-group modal-footer'> 
-                        <button type='submit' class='btn btn-success' name= 'btnPrintReserveLot'>Print</button>
-                </form>
-                <form class='form-horizontal' role='form' action='availUnit.php' method='POST'>
-                        <input type='hidden' class='form-control input-md' name='tfAvailUnitId' value='<?php echo "$intAvailUnitId"; ?>' >
-                        <input type='hidden'  name='tfLotId' value='<?php echo"$intLotID";?>'  readonly>
-                           
-                        <button class = 'btn btn-danger' type='submit' name = 'btnCancelReservation'>Cancel Reservation</button>
-                </form>
-                    </div>
-                
+                        <div class="col-md-6">
+                            <button type='submit' class='btn btn-success col-md-12' name= 'btnPrintReserveLot'>Print</button>
+                    </form>
+                    <form class='form-horizontal' role='form' action='availUnit.php' method='POST'>
+                            <input type='hidden' class='form-control input-md' name='tfAvailUnitId' value='<?php echo "$intAvailUnitId"; ?>' >
+                            <input type='hidden'  name='tfLotId' value='<?php echo"$intLotID";?>'  readonly>
+                            
+                            <button class = 'btn btn-danger col-md-12' type='submit' name = 'btnCancelReservation'>Cancel Reservation</button>
+                    </form>
+                            
+                        </div><!--col-md-6-->
+                </div><!--row-->
+                     
 			</div><!--modal-body-->
 		</div><!--modal-content-->
 	</div><!--modal-dialog-->
