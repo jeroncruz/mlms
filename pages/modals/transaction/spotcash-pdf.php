@@ -161,7 +161,7 @@ $pdf-> SetFillColor(232,232,232);
 $pdf-> SetFont("Arial", "B", 10);
 $pdf-> SetY($_Fields_Name_Position);
 $pdf-> SetX(15);
-$pdf-> Cell(25,6,"Unit Type",1,0,"C",1);
+$pdf-> Cell(25,6,"Lot Type",1,0,"C",1);
 
 $pdf-> SetX(40);
 $pdf-> Cell(20,6,"Section",1,0,"C",1);
@@ -173,7 +173,7 @@ $pdf-> SetX(80);
 $pdf-> Cell(20,6,"Lot",1,0,"C",1);
 
 $pdf-> SetX(100);
-$pdf-> Cell(30,6,"Unit Price",1,0,"C",1);
+$pdf-> Cell(30,6,"Lot Price",1,0,"C",1);
 
 $pdf-> SetX(130);
 $pdf-> Cell(30,6,"Discount",1,0,"C",1);
