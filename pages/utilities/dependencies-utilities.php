@@ -1,5 +1,6 @@
 <?php
 require ("../controller/connection.php");
+require('../controller/alert.php');
 
 require ("../controller/utilities-update.php");
 
