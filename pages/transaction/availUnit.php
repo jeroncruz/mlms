@@ -55,11 +55,13 @@ if (isset($_POST['btnSubmitReserve'])){
 
     $tfLotId = $_POST['tfLotId'];
     $tfStatus = $_POST['tfStatus'];
+    $tfDownpaymentStatus = $_POST['tfDownpaymentStatus'];
     $selectCustomer = $_POST['selectCustomer'];
     $tfDate = $_POST['tfDate'];
     $tfModeOfPayment= $_POST['tfModeOfPayment'];
     $selectYear= $_POST['selectYear'];
     $tfDownpayment= $_POST['tfDownpayment'];
+    $tfBalance= $_POST['tfBalance'];
     $tfDueDate=$_POST['tfDueDate'];
     $tfReservationFee=$_POST['tfReservationFee'];
     $tfAmountPaid=$_POST['tfAmountPaid'];
@@ -67,13 +69,14 @@ if (isset($_POST['btnSubmitReserve'])){
     $dateCreated = date("Y-m-d", strtotime($tfDate));
     $dateDownpayment = date("Y-m-d", strtotime($tfDueDate));
     $tfDownpaymentFinal = preg_replace('/,/', '', $tfDownpayment);
+    $tfBalanceFinal = preg_replace('/,/', '', $tfBalance);
     $tfReservationFinal = preg_replace('/,/', '', $tfReservationFee);
     $tfAmountFinal = preg_replace('/,/', '', $tfAmountPaid);
     
     if($tfAmountFinal >= $tfReservationFinal){
     
         $createAvailUnit =  new createAvailUnit();
-        $createAvailUnit->createReserve($tfLotId,$tfStatus,$selectCustomer,$dateCreated,$tfModeOfPayment,$selectYear,$tfDownpaymentFinal,$dateDownpayment,$tfAmountFinal);
+        $createAvailUnit->createReserve($tfLotId,$tfStatus,$tfDownpaymentStatus,$selectCustomer,$dateCreated,$tfModeOfPayment,$selectYear,$tfDownpaymentFinal,$tfBalanceFinal,$dateDownpayment,$tfAmountFinal);
     }else{
         //echo "<script>alert('Insufficient Amount Paid!')</script>";
         $alertChange = new alerts();
@@ -95,11 +98,13 @@ if (isset($_POST['btnSubmitAtNeed'])){
 
     $tfLotId = $_POST['tfLotId'];
     $tfStatus = $_POST['tfStatus'];
+    $tfDownpaymentStatus = $_POST['tfDownpaymentStatus'];
     $selectCustomer = $_POST['selectCustomer'];
     $tfDate = $_POST['tfDate'];
     $tfModeOfPayment= $_POST['tfModeOfPayment'];
     $selectYear= $_POST['selectYear'];
     $tfDownpayment= $_POST['tfDownpayment'];
+    $tfBalance= $_POST['tfBalance'];
     $tfDueDate=$_POST['tfDueDate'];
     $tfReservationFee=$_POST['tfReservationFee'];
     $tfAmountPaid=$_POST['tfAmountPaid'];
@@ -107,13 +112,14 @@ if (isset($_POST['btnSubmitAtNeed'])){
     $dateCreated = date("Y-m-d", strtotime($tfDate));
     $dateDownpayment = date("Y-m-d", strtotime($tfDueDate));
     $tfDownpaymentFinal = preg_replace('/,/', '', $tfDownpayment);
+    $tfBalanceFinal = preg_replace('/,/', '', $tfBalance);
     $tfReservationFinal = preg_replace('/,/', '', $tfReservationFee);
     $tfAmountFinal = preg_replace('/,/', '', $tfAmountPaid);
     
     if($tfAmountFinal >= $tfReservationFinal){
     
         $createAvailUnit =  new createAvailUnit();
-        $createAvailUnit->createAtNeed($tfLotId,$tfStatus,$selectCustomer,$dateCreated,$tfModeOfPayment,$selectYear,$tfDownpaymentFinal,$dateDownpayment,$tfAmountFinal);
+        $createAvailUnit->createAtNeed($tfLotId,$tfStatus,$tfDownpaymentStatus,$selectCustomer,$dateCreated,$tfModeOfPayment,$selectYear,$tfDownpaymentFinal,$tfBalanceFinal,$dateDownpayment,$tfAmountFinal);
     }else{
         //echo "<script>alert('Insufficient Amount Paid!')</script>";
         $alertChange = new alerts();
@@ -159,11 +165,13 @@ if (isset($_POST['btnSubmitReserveAsh'])){
 
     $tfUnitId = $_POST['tfUnitId'];
     $tfStatus = $_POST['tfStatus'];
+    $tfDownpaymentStatus = $_POST['tfDownpaymentStatus'];
     $selectCustomer = $_POST['selectCustomer'];
     $tfDate = $_POST['tfDate'];
     $tfModeOfPayment= $_POST['tfModeOfPayment'];
     $selectYear= $_POST['selectYear'];
     $tfDownpayment= $_POST['tfDownpayment'];
+    $tfBalance= $_POST['tfBalance'];
     $tfDueDate=$_POST['tfDueDate'];
     $tfReservationFee=$_POST['tfReservationFee'];
     $tfAmountPaid=$_POST['tfAmountPaid'];
@@ -171,13 +179,14 @@ if (isset($_POST['btnSubmitReserveAsh'])){
     $dateCreated = date("Y-m-d", strtotime($tfDate));
     $dateDownpayment = date("Y-m-d", strtotime($tfDueDate));
     $tfDownpaymentFinal = preg_replace('/,/', '', $tfDownpayment);
+    $tfBalanceFinal = preg_replace('/,/', '', $tfBalance);
     $tfReservationFinal = preg_replace('/,/', '', $tfReservationFee);
     $tfAmountFinal = preg_replace('/,/', '', $tfAmountPaid);
     
     if($tfAmountFinal >= $tfReservationFinal){
     
         $createAvailUnit =  new createAvailUnitAsh();
-        $createAvailUnit->createReserveAsh($tfUnitId,$tfStatus,$selectCustomer,$dateCreated,$tfModeOfPayment,$selectYear,$tfDownpaymentFinal,$dateDownpayment,$tfAmountFinal);
+        $createAvailUnit->createReserveAsh($tfUnitId,$tfStatus,$tfDownpaymentStatus,$selectCustomer,$dateCreated,$tfModeOfPayment,$selectYear,$tfDownpaymentFinal,$tfBalanceFinal,$dateDownpayment,$tfAmountFinal);
     }else{
         //echo "<script>alert('Insufficient Amount Paid!')</script>";
         $alertChange = new alerts();
@@ -200,11 +209,13 @@ if (isset($_POST['btnSubmitAtNeedAsh'])){
 
     $tfUnitId = $_POST['tfUnitId'];
     $tfStatus = $_POST['tfStatus'];
+    $tfDownpaymentStatus = $_POST['tfDownpaymentStatus'];
     $selectCustomer = $_POST['selectCustomer'];
     $tfDate = $_POST['tfDate'];
     $tfModeOfPayment= $_POST['tfModeOfPayment'];
     $selectYear= $_POST['selectYear'];
     $tfDownpayment= $_POST['tfDownpayment'];
+    $tfBalance= $_POST['tfBalance'];
     $tfDueDate=$_POST['tfDueDate'];
     $tfReservationFee=$_POST['tfReservationFee'];
     $tfAmountPaid=$_POST['tfAmountPaid'];
@@ -212,13 +223,14 @@ if (isset($_POST['btnSubmitAtNeedAsh'])){
     $dateCreated = date("Y-m-d", strtotime($tfDate));
     $dateDownpayment = date("Y-m-d", strtotime($tfDueDate));
     $tfDownpaymentFinal = preg_replace('/,/', '', $tfDownpayment);
+    $tfBalanceFinal = preg_replace('/,/', '', $tfBalance);
     $tfReservationFinal = preg_replace('/,/', '', $tfReservationFee);
     $tfAmountFinal = preg_replace('/,/', '', $tfAmountPaid);
     
     if($tfAmountFinal >= $tfReservationFinal){
     
         $createAvailUnit =  new createAvailUnitAsh();
-        $createAvailUnit->createAtNeedAsh($tfUnitId,$tfStatus,$selectCustomer,$dateCreated,$tfModeOfPayment,$selectYear,$tfDownpaymentFinal,$dateDownpayment,$tfAmountFinal);
+        $createAvailUnit->createAtNeedAsh($tfUnitId,$tfStatus,$tfDownpaymentStatus,$selectCustomer,$dateCreated,$tfModeOfPayment,$selectYear,$tfDownpaymentFinal,$tfBalanceFinal,$dateDownpayment,$tfAmountFinal);
     }else{
         //echo "<script>alert('Insufficient Amount Paid!')</script>";
         $alertChange = new alerts();
@@ -322,10 +334,10 @@ if (isset($_POST['btnCancelAtNeedAsh'])){
                             <div class="" role="tabpanel" data-example-id="togglable-tabs">
                                 <ul id="myTab" class="nav nav-tabs bar_tabs left" role="tablist">
                                     <li role="presentation" class="active">
-                                        <a href="#tab_content11" id="home-tabb" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Lot-Unit</a>
+                                        <a href="#tab_content11" id="home-tabb" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">LOT-UNIT</a>
                                     </li>
                                     <li role="presentation" class="">
-                                        <a href="#tab_content22" role="tab" id="profile-tabb" data-toggle="tab" aria-controls="profile" aria-expanded="false">AshCrypt-Unit</a>
+                                        <a href="#tab_content22" role="tab" id="profile-tabb" data-toggle="tab" aria-controls="profile" aria-expanded="false">ASHCRYPT-UNIT</a>
                                     </li>  
                                 </ul>
                 
