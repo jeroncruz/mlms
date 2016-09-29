@@ -17,6 +17,7 @@
 
                                     <input type='hidden'  name='tfUnitId' value='<?php echo"$intUnitID";?>'  readonly>
                                     <input type='hidden'  name='tfStatus' value='0'  readonly>
+                                    <input type='hidden'  name='tfDownpaymentStatus' value='0'  readonly>
                                     
                                     <div class='form-group'>
                                         <label class='col-md-7' style = 'font-size: 18px; margin-top:.50em;' align='right'>Unit Name:</label>
@@ -218,7 +219,11 @@
 
                         
                     </div><!--row-->
-                    <div class='form-group modal-footer'> 
+                    <div class='form-group modal-footer'>
+                        <?php
+                            $balance = $dblSellingPrice - $downpayment;
+                         ?> 
+                        <input type='hidden' name='tfBalance' value='<?php echo"$balance"; ?>'>   
                         <button type='submit' class='btn btn-success' name= 'btnSubmitAtNeedAsh'>Submit</button>
                         <input class = 'btn btn-default' type='reset' name = 'btnClear' value = 'Clear Entries'>
                     </div>
