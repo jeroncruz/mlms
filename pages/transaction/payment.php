@@ -1,7 +1,123 @@
 <?php
-
 require ("../controller/connection.php");
+require('../controller/trans-viewdata.php');
+require('../controller/createdata.php');
+require('../controller/updatedata.php');
+require('../controller/deactivate.php');
+require('../controller/archivedata.php');
+require('../controller/retrieve.php');
 
+
+if (isset($_POST['btnCollectDownpaymentLot'])){
+
+    $tfAvailUnitId = $_POST['tfAvailUnitId'];
+    $tfDate = $_POST['tfDate'];
+    $tfAmountPaid = $_POST['tfAmountPaid'];
+    $tfDownpayment = $_POST['tfDownpayment'];
+    
+    $dateCreated = date("Y-m-d", strtotime($tfDate));
+    $tfDownpaymentFinal = preg_replace('/,/', '', $tfDownpayment);
+    $tfAmountFinal = preg_replace('/,/', '', $tfAmountPaid);
+    
+    $change = $tfAmountFinal - $tfDownpaymentFinal;
+                      
+    if($tfAmountFinal >= $tfDownpaymentFinal){
+    
+        $createPayment =  new createPaymentLot();
+        $createPayment->createDownpaymentLot($tfAvailUnitId,$dateCreated,$tfAmountFinal);
+        echo "<script>alert('Done!  Your change is Php ".number_format($change,2)."')</script>";
+        
+    }else{
+        //echo "<script>alert('Insufficient Amount Paid!')</script>";
+        $alertChange = new alerts();
+        $alertChange -> alertChange();        
+    }//else
+}//if
+
+if (isset($_POST['btnCollectDownpaymentAsh'])){
+
+    $tfAvailUnitAshId = $_POST['tfAvailUnitAshId'];
+    $tfDate = $_POST['tfDate'];
+    $tfAmountPaid = $_POST['tfAmountPaid'];
+    $tfDownpayment = $_POST['tfDownpayment'];
+    
+    $dateCreated = date("Y-m-d", strtotime($tfDate));
+    $tfDownpaymentFinal = preg_replace('/,/', '', $tfDownpayment);
+    $tfAmountFinal = preg_replace('/,/', '', $tfAmountPaid);
+    
+    $change = $tfAmountFinal - $tfDownpaymentFinal;
+                      
+    if($tfAmountFinal >= $tfDownpaymentFinal){
+    
+        $createPayment =  new createPaymentAsh();
+        $createPayment->createDownpaymentAsh($tfAvailUnitAshId,$dateCreated,$tfAmountFinal);
+        echo "<script>alert('Done!  Your change is Php ".number_format($change,2)."')</script>";
+        
+    }else{
+        //echo "<script>alert('Insufficient Amount Paid!')</script>";
+        $alertChange = new alerts();
+        $alertChange -> alertChange();        
+    }//else
+}//if
+
+
+if (isset($_POST['btnCollectLot'])){
+
+    $tfAvailUnitId = $_POST['tfAvailUnitId'];
+    $tfDate = $_POST['tfDate'];
+    $tfAmountPaid = $_POST['tfAmountPaid'];
+    $tfBalance = $_POST['tfBalance'];
+    $tfamortization = $_POST['tfamortization'];
+    
+    $dateCreated = date("Y-m-d", strtotime($tfDate));
+    $tfBalanceFinal = preg_replace('/,/', '', $tfBalance);
+    $tfAmountFinal = preg_replace('/,/', '', $tfAmountPaid);
+    $tfamortizationFinal = preg_replace('/,/', '', $tfamortization);
+    
+    $updatedBalance = $tfBalanceFinal - $tfamortizationFinal;
+    $change = $tfAmountFinal - $tfamortizationFinal;
+                      
+    if($tfAmountFinal >= $tfamortizationFinal){
+    
+        $createPayment =  new createPaymentLot();
+        $createPayment->createCollectionLot($tfAvailUnitId,$dateCreated,$tfAmountFinal,$updatedBalance);
+        echo "<script>alert('Done!  Your change is Php ".number_format($change,2)."')</script>";
+        
+    }else{
+        //echo "<script>alert('Insufficient Amount Paid!')</script>";
+        $alertChange = new alerts();
+        $alertChange -> alertChange();        
+    }//else
+}//if
+
+if (isset($_POST['btnCollectAsh'])){
+
+    $tfAvailUnitAshId = $_POST['tfAvailUnitAshId'];
+    $tfDate = $_POST['tfDate'];
+    $tfAmountPaid = $_POST['tfAmountPaid'];
+    $tfBalance = $_POST['tfBalance'];
+    $tfamortization = $_POST['tfamortization'];
+    
+    $dateCreated = date("Y-m-d", strtotime($tfDate));
+    $tfBalanceFinal = preg_replace('/,/', '', $tfBalance);
+    $tfAmountFinal = preg_replace('/,/', '', $tfAmountPaid);
+    $tfamortizationFinal = preg_replace('/,/', '', $tfamortization);
+    
+    $updatedBalance = $tfBalanceFinal - $tfamortizationFinal;
+    $change = $tfAmountFinal - $tfamortizationFinal;
+                      
+    if($tfAmountFinal >= $tfamortizationFinal){
+    
+        $createPayment =  new createPaymentAsh();
+        $createPayment->createCollectionAsh($tfAvailUnitAshId,$dateCreated,$tfAmountFinal,$updatedBalance);
+        echo "<script>alert('Done!  Your change is Php ".number_format($change,2)."')</script>";
+        
+    }else{
+        //echo "<script>alert('Insufficient Amount Paid!')</script>";
+        $alertChange = new alerts();
+        $alertChange -> alertChange();        
+    }//else
+}//if
 
 ?>
 
@@ -40,16 +156,37 @@ require ("../controller/connection.php");
 	<script type="text/javascript" src="../../build/js/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript" src="../../build/js/autoNumeric-min.js"></script>
 	
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#datatable-downpayment-lot').DataTable();
+			$('#datatable-collection-lot').DataTable();
+			
+			$('#datatable-downpayment-ash').DataTable();
+			$('#datatable-collection-ash').DataTable();
+
+			$('#datatable-history-lot').DataTable();
+			
+		});
+	</script>
+    
+    <script>
+       $( document ).ready(function() {
+			$('.tfAmountPaid').autoNumeric('init');
+			
+	   });
+     
+    </script>
+	
 </head>
 
 <body class="nav-sm">
     <div class="container body">
         <div class="main_container">
             
-				<?php 
-                    require('../menu/transac-sidemenu.php');
-                    require('../menu/topnav.php');  
-                ?>
+			<?php 
+				require('../menu/transac-sidemenu.php');
+				require('../menu/topnav.php');  
+            ?>
            
 			
             <!-- page content -->
@@ -58,7 +195,7 @@ require ("../controller/connection.php");
                     <div class="col-md-12">
                         <div class="panel panel-success">
                             <div class="panel-heading">
-                                <H1><b>PAYMENT</b></H2>
+                                <H1><b>PAYMENT</b></H1>
                             </div><!-- /.panel-heading -->
                      
                             <div class="panel-body">
@@ -66,68 +203,160 @@ require ("../controller/connection.php");
 								<div class="" role="tabpanel" data-example-id="togglable-tabs">
 									<ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
 										<li role="presentation" class="active">
-											<a href="#downpayment" role="tab" id="downpayment-tab" data-toggle="tab" aria-expanded="true">Customer Downpayment</a>
+											<a href="#downpayment" role="tab" id="downpayment-tab" data-toggle="tab" aria-expanded="true">LOT-UNIT</a>
 										</li>
                         
 										<li role="presentation" class="">
-											<a href="#collection" id="collection-tab" role="tab" data-toggle="tab" aria-expanded="false">Customer Collection</a>
+											<a href="#collection" id="collection-tab" role="tab" data-toggle="tab" aria-expanded="false">ASHCRYPT-UNIT</a>
 										</li>
-										
 									</ul>
 									
+									
 									<div id="myTabContent" class="tab-content">
-                        
+									
+										<!--TAB FOR LOT-UNIT-->
 										<div role="tabpanel" class="tab-pane fade active in" id="downpayment" aria-labelledby="downpayment-tab">
-											<div class="panel-body">          
-												<div class="table-responsive col-md-12 col-lg-12 col-xs-12">
-													<table id="datatableDownpayment" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-                                                        <thead>
-															<tr>
-																<th class = "success" style = "text-align: center; font-size: 20px;">Customer Name</th>
-																<th class = "success" style = "text-align: center; font-size: 20px;">Action</th>
-                                                            </tr>
-                                                        </thead>
-                                                
-                                                        <tbody>
-															<td>downpayment</td>
-															<td align='center'>
-																<button type = 'button' class = 'btn btn-success' data-toggle = 'modal' title='Edit' data-target = '#viewDownpayment'>
-																	<i class='glyphicon glyphicon-eye-open'> VIEW</i>
-																</button>
-                                                            </td>
-                                                        </tbody>
-													</table>
-												</div><!-- /.table-responsive -->
-											</div><!--panel body -->
-										</div><!--tabpanel-downpayment-->
-						
+											<div class="panel-body">
+                                                <div class="row">
+                                                  
+													<!-- DOWNPAYMENT-LOT -->
+                                                    <div class="col-md-6">
+                                                        <div class="panel panel-success">
+                                                            <div class="panel-heading">
+																<H3><b>DOWNPAYMENT</b></H3>
+                                                            </div><!--panel-heading-->
+															
+                                                            <div class="panel-body">
+                                                                <div class="table-responsive col-md-12 col-lg-12 col-xs-12">
+																	<table id="datatable-downpayment-lot" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+																		<thead>
+																			<tr>
+																				<th class = "success" style = "text-align: center; font-size: 20px;">Customer Name</th>
+																				<th class = "success" style = "text-align: center; font-size: 20px;">Action</th>
+																			</tr>
+																		</thead>
+																
+																		<tbody>
+                                                                            <?php
+                                                                                $view = new downpayment();
+																				$view->viewDownpaymentLot();
+                                                                            ?>
+																			
+																		</tbody>
+																	</table>
+																</div><!-- /.table-responsive -->
+                                                            </div><!--panel-body-->
+                                                        </div><!--panel panel-succeess-->
+													</div><!--col-md-6-->
+													
+													<!-- COLLECTION-LOT -->
+													<div class="col-md-6">
+														<div class="panel panel-success">
+														
+                                                            <div class="panel-heading">
+                                                                 <H3><b>COLLECTION</b></H3>
+                                                            </div><!--panel-heading-->
+															
+                                                            <div class="panel-body">
+                                                                <div class="table-responsive col-md-12 col-lg-12 col-xs-12">
+																	<table id="datatable-collection-lot" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+																		<thead>
+																			<tr>
+																				<th class = "success" style = "text-align: center; font-size: 20px;">Customer Name</th>
+																				<th class = "success" style = "text-align: center; font-size: 20px;">Action</th>
+																			</tr>
+																		</thead>
+																
+																		<tbody>
+                                                                            <?php
+                                                                                $view = new collection();
+																				$view->viewCollectionLot();
+                                                                            ?>
+																		</tbody>
+																	</table>
+																</div><!-- /.table-responsive -->
+															</div><!--panel-body-->
+                                                        </div><!--panel panel-succeess-->
+                                                    </div><!--col-md-6-->
+													
+                                                    
+                                                </div><!--row-->
+                                            </div><!--panel body -->
+										</div><!--tabpanel--->
+										
+										<!-- TAB FOR ASHCRYPT-->
 										<div role="tabpanel" class="tab-pane fade " id="collection" aria-labelledby="collection-tab">
-											<div class="panel-body">          
-												<div class="table-responsive col-md-12 col-lg-12 col-xs-12">
-													<table id="datatableCollection" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-                                                        <thead>
-															<tr>
-																<th class = "success" style = "text-align: center; font-size: 20px;">Customer Name</th>
-																<th class = "success" style = "text-align: center; font-size: 20px;">Action</th>
-                                                            </tr>
-                                                        </thead>
-                                                
-                                                        <tbody>
-															<td>collection</td>
-															<td align='center'>
-																<button type = 'button' class = 'btn btn-success' data-toggle = 'modal'  data-target = '#viewCollection'>
-																	<i class='glyphicon glyphicon-eye-open'> VIEW</i>
-																</button>
-															</td>
-                                                        </tbody>
-													</table>
-												</div><!-- /.table-responsive -->
-											</div><!--panel body -->
+											<div class="panel-body">
+                                                <div class="row">
+												
+													<!-- DOWNPAYMENT-ASHCRYPT -->
+                                                    <div class="col-md-6">
+                                                        <div class="panel panel-success">
+														
+                                                            <div class="panel-heading">
+																<H3><b>DOWNPAYMENT</b></H3>
+                                                            </div><!--panel-heading-->
+															
+                                                            <div class="panel-body">
+                                                                <div class="table-responsive col-md-12 col-lg-12 col-xs-12">
+																	<table id="datatable-downpayment-ash" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+																		<thead>
+																			<tr>
+																				<th class = "success" style = "text-align: center; font-size: 20px;">Customer Name</th>
+																				<th class = "success" style = "text-align: center; font-size: 20px;">Action</th>
+																			</tr>
+																		</thead>
+																
+																		<tbody>
+                                                                            <?php
+                                                                                $view = new downpayment();
+																				$view->viewDownpaymentAsh();
+                                                                            ?>
+																		</tbody>
+																	</table>
+																</div><!-- /.table-responsive -->
+                                                            </div><!--panel-body-->
+                                                        </div><!--panel panel-succeess-->
+													</div><!--col-md-6-->
+														
+                                                        
+													<!-- COLLECTION-ASHCRYPT-->
+                                                    <div class="col-md-6">
+														<div class="panel panel-success">
+														
+                                                            <div class="panel-heading">
+																<H3><b>COLLECTION</b></H3>
+                                                            </div><!--panel-heading-->
+                                                            
+															<div class="panel-body">
+                                                                <div class="table-responsive col-md-12 col-lg-12 col-xs-12">
+																	<table id="datatable-collection-ash" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+																		<thead>
+																			<tr>
+																				<th class = "success" style = "text-align: center; font-size: 20px;">Customer Name</th>
+																				<th class = "success" style = "text-align: center; font-size: 20px;">Action</th>
+																			</tr>
+																		</thead>
+																
+																		<tbody>
+																			<?php
+                                                                                $view = new collection();
+																				$view->viewCollectionAsh();
+                                                                            ?>
+																		</tbody>
+																	</table>
+																</div><!-- /.table-responsive -->
+                                                            </div><!--panel-body-->
+                                                        </div><!--panel panel-succeess--sive -->
+                                                    </div><!--col-md-6-->
+													
+                                                    
+                                                </div><!--row-->
+                                            </div><!--panel body -->
 										</div><!--tabpanel-collection-->
                         
 									</div><!--tab-content -->
 								</div><!--TAB-->
-                
 							</div><!--panel body -->
 						</div><!--panel panel-success-->
 					</div><!--col-md-12-->
@@ -173,17 +402,7 @@ require ("../controller/connection.php");
 	<!-- Custom Theme Scripts -->
     <script src="../../build/js/custom.min.js"></script>
     
-	<script type="text/javascript">
-            $(document).ready(function(){
-                $('#datatableDownpayment').DataTable();
-                $('#datatableViewDownpayment').DataTable();
-                $('#datatableCollectDownpayment').DataTable();
-				
-                $('#datatableCollection').DataTable();
-                $('#datatableViewCollection').DataTable();
-                
-            });
-	</script>
+	
  
 
     <!-- Custom Theme Scripts -->
@@ -192,8 +411,8 @@ require ("../controller/connection.php");
     <?php
 
 
-require("../modals/viewDownpaymentModal.php");
-require("../modals/viewCollectionModal.php");
+// require("../modals/viewDownpaymentModal.php");
+// require("../modals/viewCollectionModal.php");
 
 
 ?>
