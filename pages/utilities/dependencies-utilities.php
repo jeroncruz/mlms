@@ -19,7 +19,9 @@ if (isset($_POST['btnSave'])){
 		$updateDependencies->update($deciBusinessDependencyValue, $id);
         
         }
-        echo "<script>alert('Succesfully updated!')</script>";
+        //echo "<script>alert('Succesfully updated!')</script>";
+        $alertDepend = new alerts();
+        $alertDepend -> alertUpdate();
 }
 
 ?>
