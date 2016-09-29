@@ -180,13 +180,13 @@ $pdf-> SetX(50);
 $pdf-> Cell(25,6,"Level",1,0,"C",1);
 
 $pdf-> SetX(75);
-$pdf-> Cell(25,6,"Ash-Crypt",1,0,"C",1);
+$pdf-> Cell(35,6,"Ash-Crypt Bldg.",1,0,"C",1);
 
-$pdf-> SetX(100);
-$pdf-> Cell(25,6,"Unit Price",1,0,"C",1);
+$pdf-> SetX(110);
+$pdf-> Cell(30,6,"Unit Price",1,0,"C",1);
 
-$pdf-> SetX(125);
-$pdf-> Cell(30,6,"Reservation Fee",1,0,"C",1);
+$pdf-> SetX(140);
+$pdf-> Cell(35,6,"Reservation Fee",1,0,"C",1);
 
 
 $pdf-> SetFont("Arial","",10);
@@ -200,15 +200,15 @@ $pdf-> MultiCell(25,6,"$pdfLevel",1,"L");
 
 $pdf-> SetY($_Table_Position);
 $pdf-> SetX(75);
-$pdf-> MultiCell(25,6,"$pdfAshCrypt",1,"L");
+$pdf-> MultiCell(35,6,"$pdfAshCrypt",1,"L");
 
 $pdf-> SetY($_Table_Position);
-$pdf-> SetX(100);
-$pdf-> MultiCell(25,6,"$tfSellingPrice",1,"L");
+$pdf-> SetX(110);
+$pdf-> MultiCell(30,6,"$tfSellingPrice",1,"L");
 
 $pdf-> SetY($_Table_Position);
-$pdf-> SetX(125);
-$pdf-> MultiCell(30,6,"P $pdfReservationFee",1,"L");
+$pdf-> SetX(140);
+$pdf-> MultiCell(35,6,"P $pdfReservationFee",1,"L");
 
 
 

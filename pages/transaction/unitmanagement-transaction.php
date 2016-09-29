@@ -1,10 +1,10 @@
 <?php
 
 require ("../controller/connection.php");
-// require('controller/viewdata.php');
-// require('controller/createdata.php');
-// require('controller/updatedata.php');
-// require('controller/deactivate.php');
+require('../controller/viewdata.php');
+require('../controller/createdata.php');
+ require('../controller/updatedata.php');
+ require('../controller/deactivate.php');
 
 
 ?>
@@ -27,9 +27,20 @@ require ("../controller/connection.php");
     <link href="../../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- NProgress -->
     <link href="../../vendors/nprogress/nprogress.css" rel="stylesheet">
-    <!-- jQuery custom content scroller -->
-    <link href="../../vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet"/>
+    <!-- iCheck -->
+    <link href="../../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    <!-- bootstrap-wysiwyg -->
+    <link href="../../vendors/google-code-prettify/bin/prettify.min.css" rel="stylesheet">
 
+
+    <!-- Select2 -->
+    <link href="../../vendors/select2/dist/css/select2.min.css" rel="stylesheet">
+    <!-- Switchery -->
+    <link href="../../vendors/switchery/dist/switchery.min.css" rel="stylesheet">
+    <!-- starrr -->
+    <link href="../../vendors/starrr/dist/starrr.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="../../vendors/jquery/dist/jquery.min.js"></script>
     <!-- Custom Theme Style -->
     <link href="../../build/css/custom.min.css" rel="stylesheet">
 
@@ -39,54 +50,29 @@ require ("../controller/connection.php");
     <link href="../../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
     <link href="../../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="../../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
-
-	<script type="text/javascript" src="../../build/js/jquery-3.1.0.js"></script>
-	<script type="text/javascript" src="../../build/js/jquery-1.9.1.min.js"></script>
-	<script type="text/javascript" src="../../build/js/autoNumeric-min.js"></script>
+    
+    <script type="text/javascript" src="../../build/js/jquery-3.1.0.js"></script>
+  <script type="text/javascript" src="../../build/js/jquery-1.9.1.min.js"></script>
+  <script type="text/javascript" src="../../build/js/autoNumeric-min.js"></script>
+  
+  <!-- Datatables -->
+  <script>
+      $(document).ready(function(){
+        $('#datatable-ash').DataTable();
+        $('#datatable-lot').DataTable();
+      });
+    </script>
+    <!-- /Datatables -->
+  
+    <script>
+       $( document ).ready(function() {
+      $('.tfAmountPaid').autoNumeric('init');
+      
+     });
+     
+    </script>
 	
-      <style type="text/css">
-          #lotMap {
-            position: relative;
-          }
-
-          .lot {
-            float: left;
-            //background: #2db34a;
-            //border: 2px solid black;
-            border-radius: 4px;
-            height: 90px;
-            line-height: 120px;
-            position: relative;
-            text-align: center;
-            width: 80px;
-            color: #fff;
-            margin: 10px;
-          }
-          .circle {
-            float: left;
-            border: 0px solid black;
-            border-radius: 50%;
-            height: 50px;
-            line-height: 120px;
-            position: relative;
-            text-align: center;
-            width: 50px;
-            color: #fff;
-            margin: 8%;//10px;
-          }
-
-          .available {
-            background: #66BB6A;
-
-          }
-          .reserved {
-            background: #64B5F6;
-          }
-          .owned {
-            background: #C62828;
-          }
-      </style>
-        
+    
         <script>
             function validateNumber(evt) {
                     evt = (evt) ? evt : window.event;
@@ -97,81 +83,6 @@ require ("../controller/connection.php");
                     return false;
                     }
                 }
-            
-            $(function(){
-              $('body').on('change', '#selectSection', function(){
-                $('#selectBlock').html('');
-                $('#lotMap').html('');
-                thisSectionID = $(this).val();
-                $.get("getData.php?fnName=getBlock&intSectionID="+thisSectionID, function(data){
-                  if(data != 0) {
-                    arrayData = data.split(",");
-                    $('#selectBlock').append("<option selected disabled>Choose Block</option>");
-                    for(var i=0; i<arrayData.length-1; i+=3){
-                      $('#selectBlock').append("<option value="+arrayData[i]+" lot="+arrayData[i+2]+">"+arrayData[i+1]+"</option>");
-                    }
-                  }
-                });
-              });
-
-              $('body').on('change', '#selectBlock', function(){
-                thisBlockID = $(this).val();                
-                $.get("getData.php?fnName=getLot&intBlockID="+thisBlockID, function(data){
-                  if(data != 0) {
-                    arrayData = data.split(",");
-                    for(var i=0; i<arrayData.length-1; i+=3){
-                      intLotStatus = arrayData[i+2];
-                      switch (intLotStatus) {
-                        case '0': lotStatus = "available"; break;
-                        case '1': lotStatus = "reserved"; break;
-                        case '2': lotStatus = "owned"; break;
-                        default: break;
-                      }
-                      $('#lotMap').append("<div class='lot "+lotStatus+"' id="+arrayData[i]+" lotStatus="+intLotStatus+">"+arrayData[i+1]+"</div>");
-                    }
-                  }
-                });
-              });
-
-              $('body').on('change', '#selectAshBlock', function(){
-                $('#selectLevel').html('');
-                //$('#containerLevel').html('');
-                $('#levelMap').html('');
-                thisAshID = $(this).val();
-                $.get("getData.php?fnName=getLevel&intAshID="+thisAshID, function(data){
-                  if(data != 0) {
-                    arrayData = data.split(",");
-                    $('#selectLevel').append("<option selected disabled>Choose Level</option>");
-                    for(var i=0; i<arrayData.length-1; i+=4){
-                      $('#selectLevel').append("<option value="+arrayData[i]+" unit="+arrayData[i+2]+" price="+arrayData[i+3]+">"+arrayData[i+1]+"</option>");
-                      //$('#containerLevel').append("<div class='panel panel-success' style='margin-bottom:0px;'><div class='panel-body' id=''></div></div>");
-                    }
-                  }
-                });
-              });
-
-              $('body').on('change', '#selectLevel', function(){
-                thisLevelAshID = $(this).val();       
-                $.get("getData.php?fnName=getAsh&intLevelAshID="+thisLevelAshID, function(data){alert(data);
-                  if(data != 0) {
-                    for(var i=0; i<arrayData.length-1; i+=4){
-                      intUnitStatus = arrayData[i+2];
-                      switch (intUnitStatus) {
-                        case '0': unitStatus = "available"; break;
-                        case '1': unitStatus = "reserved"; break;
-                        case '2': unitStatus = "owned"; break;
-                        default: break;
-                      }
-                      $('#levelMap').append("<div class='lot "+unitStatus+"' id="+arrayData[i]+" unitStatus="+intUnitStatus+" intCapacity="+arrayData[i+3]+">"+arrayData[i+1]+"</div>");
-                    }
-                  }
-                });
-              });
-
-              $('body').on('click', '.lot', function(){
-                $('#popUpWindow').modal('show');
-              });
-            });
         </script>   
   </head>
 
@@ -184,185 +95,197 @@ require ("../controller/connection.php");
                 ?>
            <!-- page content -->
         <div class="right_col" role="main">
-
-              <div class="col-md-12">
-                        <div class="panel panel-success ">
-                                    
-                            <div class="panel-body">
-                                  <div class="" role="tabpanel" data-example-id="togglable-tabs">
-                      <ul id="myTab1" class="nav nav-tabs bar_tabs left" role="tablist">
-                        <li role="presentation" class="active"><a href="#tab_content11" id="home-tabb" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Lot-Unit</a>
-                        </li>
-                        <li role="presentation" class=""><a href="#tab_content22" role="tab" id="profile-tabb" data-toggle="tab" aria-controls="profile" aria-expanded="false">AshCrypt-Unit</a>
-                        </li>
-                      
-                      </ul>
-                      <div id="myTabContent2" class="tab-content">
-                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content11" aria-labelledby="home-tab">
-
-                                <div class="col-md-4">
-                                    <div class="panel panel-success ">
-                                        <div class="panel-heading">
-                                            <H3><b>Select Lot</b></H3>
-                                        </div><!-- /.panel-heading -->
-                     
-                                        <div class="panel-body">
-                                             <div class="form-group">
-                                              <label class="control-label col-md-3 col-sm-3 col-xs-12">Section</label>
-                                              <div class="col-md-9 col-sm-9 col-xs-12">
-                                                <select class="form-control" id="selectSection">
-                                                  <option selected disabled>Choose Section</option>
-                                                  <?php
-                                                    $sql = "Select * from tblsection WHERE intStatus = 0 ORDER BY strSectionName ASC";
-                                                    $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
-                                                    mysql_select_db(constant('mydb'));
-                                                    $result = mysql_query($sql,$conn);
-                                                    
-                                                    while($row = mysql_fetch_array($result))
-                                                      { 
-                                                        $intSectionID = $row['intSectionID']; 
-                                                        $strSectionName = $row['strSectionName'];
-                                                        $intNoOfBlock = $row['intNoOfBlock'];
-                                                        $intStatus = $row['intStatus']; 
-                                                        echo "<option value=$intSectionID>$strSectionName</option>";
-                                                      }
-                                                  ?>
-                                                </select>
-                                              </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                              <label class="control-label col-md-3 col-sm-3 col-xs-12">Block</label>
-                                              <div class="col-md-9 col-sm-9 col-xs-12">
-                                                <select class="form-control" id="selectBlock">
-                                                  <option selected disabled>Choose Block</option>
-                                                </select>
-                                              </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                   <div class="panel panel-success ">
-                                        <div class="panel-heading">
-                                            <H3><b>Legends :</b></H3>
-                                        </div><!-- /.panel-heading -->
-                                        <center>
-                                        <div class="panel-body">
-                                            <div class="circle available col-md-1">
-                                            </div>
-                                            <div class="circle reserved col-md-4">
-                                            </div>
-                                            <div class="circle owned col-md-8">
-                                            </div>
-                                        </div>
-                                </div>
-                                </div>
-
-                                  <div class="col-md-8">
-                                    <div class="panel panel-success">
-                                        <div class="panel-body" id="lotMap">
-                                        </div>
-                                    </div>
-                                </div>
-                         
-                        </div>
-                        <div role="tabpanel" class="tab-pane fade" id="tab_content22" aria-labelledby="profile-tab">
-                          <div class="col-md-4">
-                                    <div class="panel panel-success ">
-                                        <div class="panel-heading">
-                                            <H3><b>Select Ashcrypt</b></H3>
-                                        </div><!-- /.panel-heading -->
-                     
-                                        <div class="panel-body">
-                                             <div class="form-group">
-                                              <label class="control-label col-md-3 col-sm-3 col-xs-12">Block</label>
-                                              <div class="col-md-9 col-sm-9 col-xs-12">
-                                                <select class="form-control" id="selectAshBlock">
-                                                  <option selected disabled>Choose Block</option>
-                                                  <?php
-                                                    $sql = "Select * from tblashcrypt WHERE intStatus = 0 ORDER BY strAshName ASC";
-                                                    $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
-                                                    mysql_select_db(constant('mydb'));
-                                                    $result = mysql_query($sql,$conn);
-                                                    
-                                                    while($row = mysql_fetch_array($result))
-                                                      { 
-                                                        $intAshID = $row['intAshID']; 
-                                                        $strAshName = $row['strAshName'];
-                                                        $intNoOfLevel = $row['intNoOfLevel'];
-                                                        $intStatus = $row['intStatus']; 
-                                                        echo "<option value=$intAshID intNoOfLevel=$intNoOfLevel>$strAshName</option>";
-                                                      }
-                                                  ?>
-                                                </select>
-                                              </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                              <label class="control-label col-md-3 col-sm-3 col-xs-12">Level</label>
-                                              <div class="col-md-9 col-sm-9 col-xs-12">
-                                                <select class="form-control" id="selectLevel">
-                                                  <option selected disabled>Choose Level</option>
-                                                </select>
-                                              </div>
-                                            </div>
-                                        </div>
-                                    </div>
-  <div class="panel panel-success">
-                        <div class="panel-heading">
-                          <H3><b>Legends :</b></H3>
-                        </div><!-- /.panel-heading -->
-                        
+    
+                <div class="col-md-12">
+                    <div class="panel panel-success ">
                         <div class="panel-body">
-                          <center>
-                            <div>
-                              <div class="col-md-3">
-                                <div class="circle available" id="legendLotAvailable"></div>
-                                Available
-                              </div>
-                            </div>
-
-                            <div>
-                              <div class="col-md-3">
-                                <div class="circle reserved" id="legendLotReserved"></div>
-                                Reserved
-                              </div>
-                            </div>
-
-                            <div>
-                              <div class="col-md-3">
-                                <div class="circle owned" id="legendLotOwned"></div>
-                                Owned
-                              </div>
-                            </div>
                             
-                            <div>
-                              <div class="col-md-3">
-                                <div class="circle atNeed" id="legendLotAtNeed"></div>
-                                At Need
-                              </div>
-                            </div>
-                          </center>
-                        </div>
-                        <div class="clearfix"></div>
-                      </div>
-                                </div>
-                                <div class="col-md-8" id="containerLevel">
-                                    <div class="panel panel-success">
-                                        <div class="panel-body" id="levelMap">
+                            <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                                <ul id="myTab" class="nav nav-tabs bar_tabs left" role="tablist">
+                                    <li role="presentation" class="active">
+                                        <a href="#tab_content11" id="home-tabb" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Lot-Unit</a>
+                                    </li>
+                                    <li role="presentation" class="">
+                                        <a href="#tab_content22" role="tab" id="profile-tabb" data-toggle="tab" aria-controls="profile" aria-expanded="false">AshCrypt-Unit</a>
+                                    </li>  
+                                </ul>
+                
+                <div id="myTabContent2" class="tab-content">
+                  <div role="tabpanel" class="tab-pane fade active in" id="tab_content11" aria-labelledby="home-tab">
+
+                                        <!-- LOT -->
+                                        <div class = "row">
+                                            <div class="col-md-12">
+                                                <div class="panel panel-success ">
+                                                    <div class="panel-heading">
+                                                        
+                                                        <H3><b>Manage-UNIT</b></H3>
+                                                        
+                                                    </div><!-- /.panel-heading -->
+                                                            
+                                                    <div class="panel-body">
+                                                        
+                                                        <div class="col-md-12">
+                                                            <div class="panel panel-default">
+                                                                <div class="panel-heading">
+                                                                    <form class="form-vertical" role="form" action = "unitmanagement-transaction.php" method= "post">
+                                    <div class="row">
+                                      <div class="form-group">
+                                        <label class="col-md-2" style = "font-size: 18px;" align="right" style="margin-top:.30em">Filter by:</label>
+                                        
+                                        <div class="col-md-3">
+                                          <select class="form-control" name = "filter1">
+                                            <option value="" selected disabled> --Choose Block (Section)--</option>
+                                            
+                                          </select>
                                         </div>
-                                    </div>
-                                </div>
-                        </div>
-                      </div>
-                    </div>
+                                        
+                                        <div class="col-md-3">
+                                          <select class="form-control" name = "filter2">
+                                            <option value="" selected disabled> --Choose Lot Status--</option>
+                                            <option value="0"> Available</option>
+                                            <option value="1"> Reserve</option>
+                                            <option value="2"> Owned</option>
+                                            <option value="3"> At-Need</option>
+                                            
+                                          </select>
+                                        </div>
+                                        
+                                        <div class="col-md-4">
+                                          <button type="submit" class="btn btn-success pull-left" name= "btnGo">Go</button>
+                                          <button type="submit" class="btn btn-default pull-left" name= "btnBack">ALL</button>
+                                          
+                                        </div>
+                                      </div><!-- FORM GROUP -->
+                                    
+                                    </div><!-- ROW -->
+                                  </form>
+                                                                </div><!-- /.panel-heading -->
+                                                                
+                                                                <div class="panel-body"> 
+                                                                    <div class="table-responsive col-md-12 col-lg-12 col-xs-12">
+                                                                        <table id="datatable-lot" class="table table-striped table-bordered ">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th class = "success" style = "text-align: center; font-size: 18px;">Lot Name</th>
+                                                                                    <th class = "success" style = "text-align: center; font-size: 18px;">Block</th>
+                                                                                    <th class = "success" style = "text-align: center; font-size: 18px;">Lot Type</th>
+                                                                                    <th class = "success" style = "text-align: center; font-size: 18px;">Section Name</th>
+                                                                                    <th class = "success" style = "text-align: center; font-size: 18px;">Action</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            
+                                                                            <tbody>
+                                                                            <tr>
+                                                                              <td>A0001</td>
+                                                                              <td>B</td>
+                                                                              <td>Lawn</td>
+                                                                              <td>West</td>
+                                                                              <td><button data-toggle = "modal" data-target="#popUpWindow">A</button></td>
+                                                                            </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div><!-- /.table-responsive -->
+                                                                </div><!--panel body -->
+                                                            </div><!--panel panel-success-->
+                                                        </div><!--col-md-8-->   
+                                            
+                                                    </div><!--panel body -->
+                                                </div><!--panel panel-success-->
+                                            </div><!--col-md-12-->
+                                        </div><!--row-->
 
+                  </div><!--tab-panel-->
+            
+                  <div role="tabpanel" class="tab-pane fade" id="tab_content22" aria-labelledby="profile-tab">
+                                        
+                                        <!-- ASH - CRYPT -->
+                    <div class = "row">
+                                            <div class="col-md-12">
+                                                <div class="panel panel-success ">
+                                                    <div class="panel-heading">
+                                                       
+                    
+                                                        <H3><b>Manage-UNIT</b></H3>
+                                                        
+                                                    </div><!-- /.panel-heading -->
+                                                            
+                                                    <div class="panel-body">
+                                                        
+                                                        <div class="col-md-12">
+                                                            <div class="panel panel-default">
+                                                                <div class="panel-heading">
+                                                                    <form class="form-vertical" role="form" action = "unitmanagement-transaction.php" method= "post">
+                                    <div class="row">
+                                      <div class="form-group">
+                                        <label class="col-md-2" style = "font-size: 18px;" align="right" style="margin-top:.30em">Filter by:</label>
+                                        
+                                        <div class="col-md-3">
+                                          <select class="form-control" name = "filterAsh1">
+                                            <option value="" selected disabled> --Choose Level (Ash-Crypt)--</option>
+                                         
+                                          </select>
+                                        </div>
+                                        
+                                        <div class="col-md-3">
+                                          <select class="form-control" name = "filterAsh2">
+                                            <option value="" selected disabled> --Choose Unit Status--</option>
+                                            <option value="0"> Available</option>
+                                            <option value="1"> Reserve</option>
+                                            <option value="2"> Owned</option>
+                                            <option value="3"> At-Need</option>
+                                            
+                                          </select>
+                                        </div>
+                                        
+                                        <div class="col-md-4">
+                                          <button type="submit" class="btn btn-success pull-left" name= "btnGo1">Go</button>
+                                          <button type="submit" class="btn btn-default pull-left" name= "btnBack1">ALL</button>
+                                          
+                                        </div>
+                                      </div><!-- FORM GROUP -->
+                                    
+                                    </div><!-- ROW -->
+                                  </form>
+                                                                </div><!-- /.panel-heading -->
+                                                                
+                                                                <div class="panel-body"> 
+                                                                    <div class="table-responsive col-md-12 col-lg-12 col-xs-12">
+                                                                        <table id="datatable-ash" class="table table-striped table-bordered ">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th class = "success" style = "text-align: center; font-size: 18px;">Unit Name</th>
+                                                                                    <th class = "success" style = "text-align: center; font-size: 18px;">Level</th>
+                                                                                    <th class = "success" style = "text-align: center; font-size: 18px;">Ash-crypt</th>
+                                                                                    <th class = "success" style = "text-align: center; font-size: 18px;">Price</th>
+                                                                                    <th class = "success" style = "text-align: center; font-size: 18px;">Action</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            
+                                                                            <tbody>
+                                                                 
+                                                                                
+                                      
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div><!-- /.table-responsive -->
+                                                                </div><!--panel body -->
+                                                            </div><!--panel panel-success-->
+                                                        </div><!--col-md-8-->   
+                                            
+                                                    </div><!--panel body -->
+                                                </div><!--panel panel-success-->
+                                            </div><!--col-md-12-->
+                                        </div><!--row-->
+                    
+                  </div><!--/tabpanel-->
+                </div><!--myTabContent2-->
+              </div><!--tabpanel-->
+            </div><!--panel-body-->
+          </div><!--panel-success-->
+        </div><!--col-md-12-->
+      </div><!-- /page content -->
 
-                            </div>
-                        </div>
-              </div>
-        
-            </div><!--/page content-->
         <!-- footer content -->
         <footer>
           <div class="pull-right">
@@ -385,6 +308,10 @@ require ("../controller/connection.php");
     <script src="../../vendors/nprogress/nprogress.js"></script>
     <!-- jQuery custom content scroller -->
     <script src="../../vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+      <!-- iCheck -->
+    <script src="../../vendors/iCheck/icheck.min.js"></script>
+
+
 
     <!-- Datatables -->
     <script src="../../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -404,6 +331,11 @@ require ("../controller/connection.php");
     <script src="../../vendors/pdfmake/build/vfs_fonts.js"></script>
 	<!-- Custom Theme Scripts -->
     <script src="../../build/js/custom.min.js"></script>
+
+
+     <?php    
+        require("../modals/transaction/customer-modal.php");
+    ?>
     
   <script>
       $(document).ready(function() {
@@ -474,7 +406,9 @@ require ("../controller/connection.php");
 
                                         <div class="" role="tabpanel" data-example-id="togglable-tabs">
                                             <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                                                <li role="presentation" class="active"><a href="#addDead" id="addDead-tab" role="tab" data-toggle="tab" aria-expanded="true">ADD DECEASED</a>
+                                                <li role="presentation" class="active"><a href="#ListDead" id="addDead-tab" role="tab" data-toggle="tab" aria-expanded="true">LIST OF DECEASED</a>
+                                                </li>
+                                                <li role="presentation" class=""><a href="#addDead" id="addDead-tab" role="tab" data-toggle="tab" aria-expanded="false">ADD DECEASED</a>
                                                 </li>
                                                 <li role="presentation" class=""><a href="#transferDead" role="tab" id=transferDead-tab" data-toggle="tab" aria-expanded="false">TRANSFER DECEASED</a>
                                                 </li>
@@ -483,7 +417,30 @@ require ("../controller/connection.php");
                                             </ul>
 
                     <div id="myTabContent" class="tab-content">
-                        <div role="tabpanel" class="tab-pane fade active in" id="addDead" aria-labelledby="home-tab">
+                        <div role="tabpanel" class="tab-pane fade active in" id="ListDead" aria-labelledby="home-tab">
+
+                            <table id="datatable-lot" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                                          <thead>
+                                              <tr>
+                                                  <th class = "success" style = "text-align: center; font-size: 18px;">Deceased Name</th>
+                                                  <th class = "success" style = "text-align: center; font-size: 18px;">Birthdate</th>
+                                                  <th class = "success" style = "text-align: center; font-size: 18px;">Date Died</th>
+                                                  
+                                              </tr>
+                                          </thead>
+                                          
+                                          <tbody>
+                                          <tr>
+                                            <td>Boom Panis</td>
+                                            <td>03/2/1932</td>
+                                            <td>03/2/2016</td>
+                                          </tr>
+                                          </tbody>
+                                      </table>
+
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane fade" id="addDead" aria-labelledby="home-tab">
                              <div class="row">
                               <div class="col-md-6 col-xs-12">
                                 <div class="x_panel">
@@ -528,8 +485,8 @@ require ("../controller/connection.php");
 
                                             <div class="col-md-4" style="margin-top: 30px;">
                                               Gender:
-                                              <input type="radio"  align="right" class="flat form-control input-md" name="gender"> M
-                                              <input type="radio" align="right" class="flat form-control input-md" name="gender">F
+                                              <input type="radio"  align="right" class="flat form-control input-md" name="iCheck"> M
+                                              <input type="radio" align="right" class="flat form-control input-md" name="iCheck">F
                                             </div>
                                             
                                             <div class="col-md-4" style="margin-top:.30em">
@@ -595,25 +552,135 @@ require ("../controller/connection.php");
                                     </div>
                                   </div>
                                 </div>
-                              </div><!--end tab 1-->
+                              </div><!--end tab 2-->
 
                                             
-                                            <div role="tabpanel" class="tab-pane fade" id="transferDead" aria-labelledby="profile-tab">
-                                                <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo
-                                                booth letterpress, commodo enim craft beer mlkshk aliquip</p>
-                                            </div>
-                                            <div role="tabpanel" class="tab-pane fade" id="transferOwn" aria-labelledby="profile-tab">
-                                                
+                   <div role="tabpanel" class="tab-pane fade" id="transferDead" aria-labelledby="profile-tab">
+                        
+                                   <div class="form-group">
+                                        <label class="col-md-2" style = "font-size: 18px;" align="right" style="margin-top:.30em">Filter by:</label>
+                                        
+                                        <div class="col-md-3">
+                                          <select class="form-control" name = "filter1">
+                                            <option value="" selected disabled> --Choose Block (Section)--</option>
+                                            
+                                          </select>
+                                        </div>
+                                        
+                                        <div class="col-md-3">
+                                          <select class="form-control" name = "filter2">
+                                            <option value="" selected disabled> --Choose Lot Status--</option>
+                                            <option value="0"> Available</option>
+                                            <option value="1"> Reserve</option>
+                                            <option value="2"> Owned</option>
+                                            <option value="3"> At-Need</option>
+                                            
+                                          </select>
+                                        </div>
+                                        
+                                        <div class="col-md-4">
+                                          <button type="submit" class="btn btn-success pull-left" name= "btnGo">Go</button>
+                                          <button type="submit" class="btn btn-default pull-left" name= "btnBack">ALL</button>
+                                          
+                                        </div>
+                                      </div><!-- FORM GROUP -->
 
+                         <div class="table-responsive col-md-12 col-lg-12 col-xs-12">
+                          <table id="datatable-lot" class="table table-striped table-bordered ">
+                              <thead>
+                                  <tr>
+                                      <th class = "success" style = "text-align: center; font-size: 18px;">Lot Name</th>
+                                      <th class = "success" style = "text-align: center; font-size: 18px;">Block</th>
+                                      <th class = "success" style = "text-align: center; font-size: 18px;">Lot Type</th>
+                                      <th class = "success" style = "text-align: center; font-size: 18px;">Section Name</th>
+                                      <th class = "success" style = "text-align: center; font-size: 18px;">Action</th>
+                                  </tr>
+                              </thead>
+                              
+                              <tbody>
+                              <tr>
+                                <td>A0001</td>
+                                <td>B</td>
+                                <td>Lawn</td>
+                                <td>West</td>
+                                <td><button>TRANSFER</button></td>
+                              </tr>
+                              </tbody>
+                          </table>
+                      </div><!-- /.table-responsive -->
+                    </div><!--end tab 3-->
+                                           
+                    <div role="tabpanel" class="tab-pane fade" id="transferOwn" aria-labelledby="profile-tab">
+                         <div class=col-md-12>
+                                     <button type="button" data-target="#modalCust" data-toggle="modal" class="btn btn-success pull-left" name= "btnAdd">New Customer</button>
 
+                                     <select class='form-control' name = 'selectCustomer' required>
+                              <option value=''selected disabled> --Choose Customer--</option>
+                              <?php
+                                  $sql1 =  " select * from dbholygarden.tblcustomer ORDER BY strLastName ASC";
+                                  $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+                                  mysql_select_db(constant('mydb'));
+                                  $result1 = mysql_query($sql1,$conn);
+                                  
+                                  while($row1 = mysql_fetch_array($result1)){
+                                      
+                                      $intCustomerId =$row1['intCustomerId'];
+                                      $strFirstName=$row1['strFirstName'];
+                                      $strMiddleName=$row1['strMiddleName'];
+                                      $strLastName=$row1['strLastName'];
+                                      
+                                      
+                                  echo"<option value='$intCustomerId'>$strLastName, $strFirstName $strMiddleName</option>";
+              
+                                  }//while
+                                  
+            
+                              ?>
+                          </select>
 
-                                            </div>
-                                    </div> <!--PANEL BODY-->
+                      <div class="panel-body">
+                        <form class="form-vertical" role="form" action="" method="POST">
+                            
+                            <div class="form-group">
+                              <label class="col-md-7" style = "font-size: 18px;"  style="margin-top:.30em">Total Amount to Pay:</label>
+                              <div class="col-md-5">
+                                <div class=" input-group">
+                                  <span class = "input-group-addon">₱</span>
+                                  <input type="text" class="form-control input-md" align="left" name= "tfSellingPrice" id="tfPriceCreate" onkeypress="return validateNumber(event)" readonly/>
                                 </div>
+                              </div>
                             </div>
+                            
+                            <div class="form-group">
+                              <label class="col-md-7" style = "font-size: 18px;"  style="margin-top:.30em">Amount Paid:</label>
+                              <div class="col-md-5">
+                                <div class=" input-group">
+                                  <span class = "input-group-addon">₱</span>
+                                  <input type="text" class="form-control input-md" align="left" name= "tfSellingPrice" id="tfPriceCreate" onkeypress="return validateNumber(event)" required/>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="form-group">
+                              <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                                <button type="close" class="btn btn-primary">Cancel</button>
+                                <button type="submit" class="btn btn-success">Submit</button>
+                              </div>
+                            </div>
+
+                            </form>
+                          </div>
+                  </div>
+
+                    </div><!--end tab 4-->
+                                    </div> <!--/tab content-->
+                                </div>
+                            </div><!--PANEL BODY-->
                         </div>
                     </div><!--/modal-body -->
             </div><!--/modal-content -->
+          </div>
+      </div>
     </div><!--/modal-dialog -->
 </div><!--/modal -->
 

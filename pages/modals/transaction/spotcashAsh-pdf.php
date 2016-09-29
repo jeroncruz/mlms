@@ -164,16 +164,16 @@ $pdf-> SetX(40);
 $pdf-> Cell(20,6,"Level",1,0,"C",1);
 
 $pdf-> SetX(60);
-$pdf-> Cell(20,6,"Ash-Crypt",1,0,"C",1);
+$pdf-> Cell(30,6,"Ash-Crypt Bldg.",1,0,"C",1);
 
-$pdf-> SetX(80);
-$pdf-> Cell(20,6,"Unit Price",1,0,"C",1);
+$pdf-> SetX(90);
+$pdf-> Cell(30,6,"Unit Price",1,0,"C",1);
 
-$pdf-> SetX(100);
+$pdf-> SetX(120);
 $pdf-> Cell(30,6,"Discount",1,0,"C",1);
 
-$pdf-> SetX(130);
-$pdf-> Cell(30,6,"Discounted Price",1,0,"C",1);
+$pdf-> SetX(150);
+$pdf-> Cell(35,6,"Discounted Price",1,0,"C",1);
 
 
 $pdf-> SetFont("Arial","",10);
@@ -187,19 +187,19 @@ $pdf-> MultiCell(20,6,"$pdfLevel",1,"L");
 
 $pdf-> SetY($_Table_Position);
 $pdf-> SetX(60);
-$pdf-> MultiCell(20,6,"$pdfAshCrypt",1,"L");
+$pdf-> MultiCell(30,6,"$pdfAshCrypt",1,"L");
 
 $pdf-> SetY($_Table_Position);
-$pdf-> SetX(80);
-$pdf-> MultiCell(20,6,"P $pdfSellingPrice",1,"L");
+$pdf-> SetX(90);
+$pdf-> MultiCell(30,6,"P $pdfSellingPrice",1,"L");
 
 $pdf-> SetY($_Table_Position);
-$pdf-> SetX(100);
+$pdf-> SetX(120);
 $pdf-> MultiCell(30,6,"P $pdfDiscount",1,"L");
 
 $pdf-> SetY($_Table_Position);
-$pdf-> SetX(130);
-$pdf-> MultiCell(30,6,"P $pdfDiscountedPrice",1,"L");
+$pdf-> SetX(150);
+$pdf-> MultiCell(35,6,"P $pdfDiscountedPrice",1,"L");
 
 
 //TOTAL AMOUNT TO PAY
