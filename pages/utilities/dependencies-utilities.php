@@ -240,9 +240,15 @@ if (isset($_POST['btnSave'])){
                                                             $result = mysql_query($sql,$conn);
                                                             $row = mysql_fetch_array($result);
                                                             $gracePeriod = $row['deciBusinessDependencyValue'];
+
+                                                         
+                                                            $fResult = round($gracePeriod,0); // double(123)
+
+                                                            
                                                         
+
                                                         ?>
-                                                        <input type="text" id="gracePeriod" class="form-control input-md" name=<?php echo"7";?> value="<?php echo"$gracePeriod";?>" required>
+                                                        <input type="number" id="gracePeriod" class="form-control input-md" name=<?php echo"7";?> value="<?php echo"$fResult";?>" required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -259,9 +265,10 @@ if (isset($_POST['btnSave'])){
                                                             $result = mysql_query($sql,$conn);
                                                             $row = mysql_fetch_array($result);
                                                             $reservationNoDown = $row['deciBusinessDependencyValue'];
+                                                            $qResult = round ($reservationNoDown, 0);
                                                         
                                                         ?>
-                                                        <input type="text" id="reservationNoDown" class="form-control input-md" name=<?php echo"8";?> value="<?php echo"$reservationNoDown";?>"  required>
+                                                        <input type="number" id="reservationNoDown" class="form-control input-md" name=<?php echo"8";?> value="<?php echo"$qResult";?>"  required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -280,9 +287,12 @@ if (isset($_POST['btnSave'])){
                                                             $result = mysql_query($sql,$conn);
                                                             $row = mysql_fetch_array($result);
                                                             $reservationNotFull = $row['deciBusinessDependencyValue'];
+                                                            $bem = floatval($reservationNotFull);
+                                                            $wResult = ltrim($bem,'0');
+
                                                         
                                                         ?>
-                                                        <input type="text" id="reservationNotFull" class="form-control input-md" name=<?php echo"9";?>  value="<?php echo"$reservationNotFull";?>"  required>
+                                                        <input type="number" id="reservationNotFull" class="form-control input-md" name=<?php echo"9";?>  value="<?php echo $wResult;?>"  required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -299,9 +309,13 @@ if (isset($_POST['btnSave'])){
                                                             $result = mysql_query($sql,$conn);
                                                             $row = mysql_fetch_array($result);
                                                             $overdue = $row['deciBusinessDependencyValue'];
+                                                            
+/*
+                                                            $number = 549.00;
+                                                            echo round($number, 2);*/
                                                         
                                                         ?>
-                                                        <input type="text" id="overdue" class="form-control input-md" name=<?php echo"10";?> value="<?php echo"$overdue";?>"  required>
+                                                        <input type="number" id="overdue" class="form-control input-md" name=<?php echo"10";?> value="<?php echo round($overdue,2);?>"  required>
                                                         </div>
                                                     </div>
                                                 </div>
