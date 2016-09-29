@@ -451,10 +451,10 @@ class createAvailUnit{
         
     }//function
     
-    function createReserve($tfLotId,$tfStatus,$selectCustomer,$dateCreated,$tfModeOfPayment,$selectYear,$tfDownpaymentFinal,$dateDownpayment,$tfAmountFinal){
+    function createReserve($tfLotId,$tfStatus,$tfDownpaymentStatus,$selectCustomer,$dateCreated,$tfModeOfPayment,$selectYear,$tfDownpaymentFinal,$tfBalanceFinal,$dateDownpayment,$tfAmountFinal){
 
-		$sql = "INSERT INTO `dbholygarden`.`tblavailunit` (`intLotId`, `intCustomerId`, `dateAvailUnit`, `strModeOfPayment`, `deciAmountPaid`, `intStatus`, `intInterestId`, `deciDownpayment`, `datDueDate`) 
-                                                    VALUES ('$tfLotId', '$selectCustomer', '$dateCreated', '$tfModeOfPayment', '$tfAmountFinal', '$tfStatus', '$selectYear', '$tfDownpaymentFinal', '$dateDownpayment')";
+		$sql = "INSERT INTO `dbholygarden`.`tblavailunit` (`intLotId`, `intCustomerId`, `dateAvailUnit`, `strModeOfPayment`, `deciAmountPaid`, `intStatus`, `boolDownpaymentStatus`, `intInterestId`, `deciDownpayment`, `deciBalance`, `datDueDate`) 
+                                                    VALUES ('$tfLotId', '$selectCustomer', '$dateCreated', '$tfModeOfPayment', '$tfAmountFinal', '$tfStatus', '$tfDownpaymentStatus', '$selectYear', '$tfDownpaymentFinal', '$tfBalanceFinal', '$dateDownpayment')";
                                             
         $sql1 = "UPDATE `dbholygarden`.`tbllot` 
                             SET `intLotStatus`='1' WHERE `intLotID`= '$tfLotId'";
@@ -475,10 +475,10 @@ class createAvailUnit{
         
     }//function
     
-     function createAtNeed($tfLotId,$tfStatus,$selectCustomer,$dateCreated,$tfModeOfPayment,$selectYear,$tfDownpaymentFinal,$dateDownpayment,$tfAmountFinal){
+     function createAtNeed($tfLotId,$tfStatus,$tfDownpaymentStatus,$selectCustomer,$dateCreated,$tfModeOfPayment,$selectYear,$tfDownpaymentFinal,$tfBalanceFinal,$dateDownpayment,$tfAmountFinal){
 
-		$sql = "INSERT INTO `dbholygarden`.`tblavailunit` (`intLotId`, `intCustomerId`, `dateAvailUnit`, `strModeOfPayment`, `deciAmountPaid`, `intStatus`, `intInterestId`, `deciDownpayment`, `datDueDate`) 
-                                                    VALUES ('$tfLotId', '$selectCustomer', '$dateCreated', '$tfModeOfPayment', '$tfAmountFinal', '$tfStatus', '$selectYear', '$tfDownpaymentFinal', '$dateDownpayment')";
+		$sql = "INSERT INTO `dbholygarden`.`tblavailunit` (`intLotId`, `intCustomerId`, `dateAvailUnit`, `strModeOfPayment`, `deciAmountPaid`, `intStatus`, `boolDownpaymentStatus`, `intInterestId`, `deciDownpayment`, `deciBalance`, `datDueDate`) 
+                                                    VALUES ('$tfLotId', '$selectCustomer', '$dateCreated', '$tfModeOfPayment', '$tfAmountFinal', '$tfStatus', '$tfDownpaymentStatus', '$selectYear', '$tfDownpaymentFinal', '$tfBalanceFinal', '$dateDownpayment')";
                                             
         $sql1 = "UPDATE `dbholygarden`.`tbllot` 
                             SET `intLotStatus`='3' WHERE `intLotID`= '$tfLotId'";
@@ -527,10 +527,10 @@ class createAvailUnitAsh{
         
     }//function
     
-    function createReserveAsh($tfUnitId,$tfStatus,$selectCustomer,$dateCreated,$tfModeOfPayment,$selectYear,$tfDownpaymentFinal,$dateDownpayment,$tfAmountFinal){
+    function createReserveAsh($tfUnitId,$tfStatus,$tfDownpaymentStatus,$selectCustomer,$dateCreated,$tfModeOfPayment,$selectYear,$tfDownpaymentFinal,$tfBalanceFinal,$dateDownpayment,$tfAmountFinal){
 
-		$sql = "INSERT INTO `dbholygarden`.`tblavailunitash` (`intUnitId`, `intCustomerId`, `dateAvailUnit`, `strModeOfPayment`, `deciAmountPaid`, `intStatus`, `intInterestId`, `deciDownpayment`, `datDueDate`) 
-                                                    VALUES ('$tfUnitId', '$selectCustomer', '$dateCreated', '$tfModeOfPayment', '$tfAmountFinal', '$tfStatus', '$selectYear', '$tfDownpaymentFinal', '$dateDownpayment')";
+		$sql = "INSERT INTO `dbholygarden`.`tblavailunitash` (`intUnitId`, `intCustomerId`, `dateAvailUnit`, `strModeOfPayment`, `deciAmountPaid`, `intStatus`, `boolDownpaymentStatus`, `intInterestId`, `deciDownpayment`, `deciBalance`, `datDueDate`) 
+                                                    VALUES ('$tfUnitId', '$selectCustomer', '$dateCreated', '$tfModeOfPayment', '$tfAmountFinal', '$tfStatus', '$tfDownpaymentStatus', '$selectYear', '$tfDownpaymentFinal', '$tfBalanceFinal', '$dateDownpayment')";
                                             
         $sql1 = "UPDATE `dbholygarden`.`tblacunit` 
                             SET `intUnitStatus`='1' WHERE `intUnitID`= '$tfUnitId'";
@@ -551,10 +551,10 @@ class createAvailUnitAsh{
         
     }//function
     
-    function createAtNeedAsh($tfUnitId,$tfStatus,$selectCustomer,$dateCreated,$tfModeOfPayment,$selectYear,$tfDownpaymentFinal,$dateDownpayment,$tfAmountFinal){
+    function createAtNeedAsh($tfUnitId,$tfStatus,$tfDownpaymentStatus,$selectCustomer,$dateCreated,$tfModeOfPayment,$selectYear,$tfDownpaymentFinal,$tfBalanceFinal,$dateDownpayment,$tfAmountFinal){
 
-		$sql = "INSERT INTO `dbholygarden`.`tblavailunitash` (`intUnitId`, `intCustomerId`, `dateAvailUnit`, `strModeOfPayment`, `deciAmountPaid`, `intStatus`, `intInterestId`, `deciDownpayment`, `datDueDate`) 
-                                                    VALUES ('$tfUnitId', '$selectCustomer', '$dateCreated', '$tfModeOfPayment', '$tfAmountFinal', '$tfStatus', '$selectYear', '$tfDownpaymentFinal', '$dateDownpayment')";
+		$sql = "INSERT INTO `dbholygarden`.`tblavailunitash` (`intUnitId`, `intCustomerId`, `dateAvailUnit`, `strModeOfPayment`, `deciAmountPaid`, `intStatus`, `boolDownpaymentStatus`, `intInterestId`, `deciDownpayment`, `deciBalance`, `datDueDate`) 
+                                                    VALUES ('$tfUnitId', '$selectCustomer', '$dateCreated', '$tfModeOfPayment', '$tfAmountFinal', '$tfStatus', '$tfDownpaymentStatus', '$selectYear', '$tfDownpaymentFinal', '$tfBalanceFinal', '$dateDownpayment')";
                                             
         $sql1 = "UPDATE `dbholygarden`.`tblacunit` 
                             SET `intUnitStatus`='3' WHERE `intUnitID`= '$tfUnitId'";
@@ -576,6 +576,114 @@ class createAvailUnitAsh{
     }//function
 
 }//class
+
+class createPaymentLot{
+    
+    function createDownpaymentLot($tfAvailUnitId,$dateCreated,$tfAmountFinal){
+             
+
+        
+        $sql = "INSERT INTO `dbholygarden`.`tbldownpaymentlot` (`dateDate`, `deciAmountPaid`, `intAvaiUnitId`) 
+                                                    VALUES ('$dateCreated', '$tfAmountFinal', '$tfAvailUnitId')";
+                                            
+        $sql1 = "UPDATE `dbholygarden`.`tblavailunit` 
+                            SET `boolDownpaymentStatus`='1' WHERE `intAvailUnitId`= '$tfAvailUnitId'";
+        
+        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+        mysql_select_db(constant('mydb'));
+        if(mysql_query($sql,$conn)){
+             
+            
+            if(mysql_query($sql1,$conn)){
+                 mysql_close($conn);
+                   
+            }//if
+            
+           
+        }//if
+        
+    }//function createDownpaymentLot
+    
+    function createCollectionLot($tfAvailUnitId,$dateCreated,$tfAmountFinal,$updatedBalance){
+             
+
+        
+        $sql = "INSERT INTO `dbholygarden`.`tblcollectionlot` (`dateDate`, `deciAmountPaid`, `intAvailUnitId`, `deciBalance`) 
+                                                    VALUES ('$dateCreated', '$tfAmountFinal', '$tfAvailUnitId', '$updatedBalance')";
+                                            
+        $sql1 = "UPDATE `dbholygarden`.`tblavailunit` 
+                            SET `deciBalance`='$updatedBalance' WHERE `intAvailUnitId`= '$tfAvailUnitId'";
+        
+        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+        mysql_select_db(constant('mydb'));
+        if(mysql_query($sql,$conn)){
+             
+            
+            if(mysql_query($sql1,$conn)){
+                 mysql_close($conn);
+                   
+            }//if
+            
+           
+        }//if
+        
+    }//function createCollectionLot
+    
+}//class createPaymentLot
+
+
+class createPaymentAsh{
+    
+    function createDownpaymentAsh($tfAvailUnitAshId,$dateCreated,$tfAmountFinal){
+        
+        $sql = "INSERT INTO `dbholygarden`.`tbldownpaymentash` (`dateDate`, `deciAmountPaid`, `intAvailUnitAshId`) 
+                                                    VALUES ('$dateCreated', '$tfAmountFinal', '$tfAvailUnitAshId')";
+                                            
+        $sql1 = "UPDATE `dbholygarden`.`tblavailunitash` 
+                            SET `boolDownpaymentStatus`='1' WHERE `intAvailUnitAshId`= '$tfAvailUnitAshId'";
+        
+        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+        mysql_select_db(constant('mydb'));
+        if(mysql_query($sql,$conn)){
+             
+          
+            if(mysql_query($sql1,$conn)){
+                 mysql_close($conn);
+                   
+            }//if
+            
+           
+        }//if
+        
+    }//function createDownpaymentAsh
+    
+    function createCollectionAsh($tfAvailUnitAshId,$dateCreated,$tfAmountFinal,$updatedBalance){
+             
+
+        
+        $sql = "INSERT INTO `dbholygarden`.`tblcollectionash` (`dateDate`, `deciAmountPaid`, `intAvailUnitAshId`, `deciBalance`) 
+                                                    VALUES ('$dateCreated', '$tfAmountFinal', '$tfAvailUnitAshId', '$updatedBalance')";
+                                            
+        $sql1 = "UPDATE `dbholygarden`.`tblavailunitash` 
+                            SET `deciBalance`='$updatedBalance' WHERE `intAvailUnitAshId`= '$tfAvailUnitAshId'";
+        
+        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+        mysql_select_db(constant('mydb'));
+        if(mysql_query($sql,$conn)){
+             
+            
+            if(mysql_query($sql1,$conn)){
+                 mysql_close($conn);
+                   
+            }//if
+            
+           
+        }//if
+        
+    }//function createCollectionAsh
+    
+}//class createPaymentAsh
+
 
 //UTILITIES
 class createColor{
