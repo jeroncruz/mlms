@@ -141,8 +141,265 @@ class ashUnit{
         mysql_close($conn);
     }//function selectLevel()
 	
-}//class AC-Unit
+}//class ashUnit
 //________________________________________________
+
+
+
+class downpayment{
+    
+    function viewDownpaymentLot(){
+        
+        $sql = "SELECT c.intCustomerId, c.strFirstName, c.strMiddleName, c.strLastName, l.strLotName, a.intAvailUnitId, a.strModeOfPayment, a.intStatus, a.boolDownpaymentStatus, a.intInterestId, a.deciDownpayment, a.datDueDate, i.intNoOfYear, i.deciRegularInterest, i.deciAtNeedInterest FROM                     tblcustomer c
+                    INNER JOIN tblavailunit a ON a.intCustomerId = c.intCustomerId
+                    INNER JOIN tblinterest i ON a.intInterestId = i.intInterestId
+                    INNER JOIN tbllot l ON a.intLotID = l.intLotID WHERE a.intStatus = 0 AND a.boolDownpaymentStatus = 0 ORDER BY c.strLastName ASC";
+
+        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+        mysql_select_db(constant('mydb'));
+        $result = mysql_query($sql,$conn);
+        
+
+
+        while($row = mysql_fetch_array($result)){ 
+			  
+          $intCustomerId =$row['intCustomerId'];
+          $strFirstName =$row['strFirstName'];
+          $strMiddleName =$row['strMiddleName'];
+          $strLastName=$row['strLastName'];
+          
+          $strLotName=$row['strLotName'];
+          
+          $intAvailUnitId=$row['intAvailUnitId'];
+          $strModeOfPayment =$row['strModeOfPayment'];
+          $intStatus =$row['intStatus'];
+          $boolDownpaymentStatus =$row['boolDownpaymentStatus'];
+          $intInterestId =$row['intInterestId'];
+          $deciDownpayment =$row['deciDownpayment'];
+          $datDueDate =$row['datDueDate'];
+          
+          $intNoOfYear =$row['intNoOfYear'];
+          $deciRegularInterest =$row['deciRegularInterest'];
+          $deciAtNeedInterest =$row['deciAtNeedInterest'];
+          
+                      
+          echo 
+			  "<tr>
+                    <td style ='font-size:18px;'>$strLastName, $strFirstName $strMiddleName</td>
+                  
+                    <td align='center'>
+                        <button type = 'button' class = 'btn btn-success' data-toggle = 'modal' title='View' data-target = '#viewDownpaymentLot$intAvailUnitId'>
+                            <i class='glyphicon glyphicon-eye-open'></i>
+                        </button>
+                    </td>";
+                     require("../modals/transaction/downpaymentLot-modal.php");
+                    // require('../modals/transaction/reserve-modal.php');
+                    // require('../modals/transaction/atneed-modal.php');
+
+              echo"</tr>";
+                
+            }//while($row = mysql_fetch_array($result))
+            mysql_close($conn);
+        
+    }//function viewDownpaymentLot
+    
+    function viewDownpaymentAsh(){
+        
+        $sql = "SELECT c.intCustomerId, c.strFirstName, c.strMiddleName, c.strLastName, l.strUnitName, a.intAvailUnitAshId, a.strModeOfPayment, a.intStatus, a.boolDownpaymentStatus, a.intInterestId, a.deciDownpayment, a.datDueDate, i.intNoOfYear, i.deciRegularInterest, i.deciAtNeedInterest FROM                     tblcustomer c
+                    INNER JOIN tblavailunitash a ON a.intCustomerId = c.intCustomerId
+                    INNER JOIN tblinterest i ON a.intInterestId = i.intInterestId
+                    INNER JOIN tblacunit l ON a.intUnitID = l.intUnitID WHERE a.intStatus = 0 AND a.boolDownpaymentStatus = 0 ORDER BY c.strLastName ASC";
+
+        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+        mysql_select_db(constant('mydb'));
+        $result = mysql_query($sql,$conn);
+        
+
+
+        while($row = mysql_fetch_array($result)){ 
+			  
+          $intCustomerId =$row['intCustomerId'];
+          $strFirstName =$row['strFirstName'];
+          $strMiddleName =$row['strMiddleName'];
+          $strLastName=$row['strLastName'];
+          
+          $strUnitName=$row['strUnitName'];
+          
+          $intAvailUnitAshId=$row['intAvailUnitAshId'];
+          $strModeOfPayment =$row['strModeOfPayment'];
+          $intStatus =$row['intStatus'];
+          $boolDownpaymentStatus =$row['boolDownpaymentStatus'];
+          $intInterestId =$row['intInterestId'];
+          $deciDownpayment =$row['deciDownpayment'];
+          $datDueDate =$row['datDueDate'];
+          
+          $intNoOfYear =$row['intNoOfYear'];
+          $deciRegularInterest =$row['deciRegularInterest'];
+          $deciAtNeedInterest =$row['deciAtNeedInterest'];
+          
+                      
+          echo 
+			  "<tr>
+                    <td style ='font-size:18px;'>$strLastName, $strFirstName $strMiddleName</td>
+                  
+                    <td align='center'>
+                        <button type = 'button' class = 'btn btn-success' data-toggle = 'modal' title='View' data-target = '#viewDownpaymentLot$intAvailUnitAshId'>
+                            <i class='glyphicon glyphicon-eye-open'></i>
+                        </button>
+                    </td>";
+                     require("../modals/transaction/downpaymentAsh-modal.php");
+                   
+              echo"</tr>";
+                
+            }//while($row = mysql_fetch_array($result))
+            mysql_close($conn);
+        
+    }//function viewDownpaymentAsh
+    
+}//class downpayment
+
+class collection{
+    
+    function viewCollectionLot(){
+        
+        $sql = "SELECT c.intCustomerId, c.strFirstName, c.strMiddleName, c.strLastName, l.strLotName, tl.deciSellingPrice, a.intAvailUnitId, a.strModeOfPayment, a.intStatus, a.boolDownpaymentStatus, a.intInterestId, a.deciDownpayment, a.deciBalance, a.datDueDate, i.intNoOfYear, i.deciRegularInterest,      i.deciAtNeedInterest FROM tblcustomer c
+                    INNER JOIN tblavailunit a ON a.intCustomerId = c.intCustomerId
+                    INNER JOIN tblinterest i ON a.intInterestId = i.intInterestId
+                    INNER JOIN tbllot l ON a.intLotID = l.intLotID
+                    INNER JOIN tblblock b ON b.intBlockID =l.intBlockID
+                    INNER JOIN tbltypeoflot tl ON tl.intTypeID = b.intTypeID WHERE a.intStatus = 0 AND a.boolDownpaymentStatus = 1 ORDER BY c.strLastName ASC";
+
+        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+        mysql_select_db(constant('mydb'));
+        $result = mysql_query($sql,$conn);
+        
+
+
+        while($row = mysql_fetch_array($result)){ 
+			  
+          $intCustomerId =$row['intCustomerId'];
+          $strFirstName =$row['strFirstName'];
+          $strMiddleName =$row['strMiddleName'];
+          $strLastName=$row['strLastName'];
+          
+          $strLotName=$row['strLotName'];
+          $deciSellingPrice=$row['deciSellingPrice'];
+          
+          $intAvailUnitId=$row['intAvailUnitId'];
+          $strModeOfPayment =$row['strModeOfPayment'];
+          $intStatus =$row['intStatus'];
+          $boolDownpaymentStatus =$row['boolDownpaymentStatus'];
+          $intInterestId =$row['intInterestId'];
+          $deciDownpayment =$row['deciDownpayment'];
+          $deciBalance =$row['deciBalance'];
+          $datDueDate =$row['datDueDate'];
+          
+          $intNoOfYear =$row['intNoOfYear'];
+          $deciRegularInterest =$row['deciRegularInterest'];
+          $deciAtNeedInterest =$row['deciAtNeedInterest'];
+          
+                      
+          echo 
+			  "<tr>
+                    <td style ='font-size:18px;'>$strLastName, $strFirstName $strMiddleName</td>
+                  
+                    <td align='center'>
+                        <button type = 'button' class = 'btn btn-success' data-toggle = 'modal' title='View' data-target = '#viewCollectionLot$intAvailUnitId'>
+                            <i class='glyphicon glyphicon-eye-open'></i>
+                        </button>
+                        <button type = 'button' class = 'btn btn-success' data-toggle = 'modal' data-target = '#viewCollectionHistoryLot$intAvailUnitId'>History</button>
+                    </td>
+                    ";
+                    
+                    require("../modals/transaction/collectionLot-modal.php");
+                   
+  
+                        
+        echo "</tr>";
+                
+            }//while($row = mysql_fetch_array($result))
+            mysql_close($conn);
+        
+    }//function viewCollectionLot
+    
+    function viewCollectionAsh(){
+        
+        $sql = "SELECT c.intCustomerId, c.strFirstName, c.strMiddleName, c.strLastName, l.strUnitName, tl.dblSellingPrice, a.intAvailUnitAshId, a.strModeOfPayment, a.intStatus, a.boolDownpaymentStatus, a.intInterestId, a.deciDownpayment, a.deciBalance, a.datDueDate, i.intNoOfYear, i.deciRegularInterest, i.deciAtNeedInterest FROM tblcustomer c
+                    INNER JOIN tblavailunitash a ON a.intCustomerId = c.intCustomerId
+                    INNER JOIN tblinterest i ON a.intInterestId = i.intInterestId
+                    INNER JOIN tblacunit l ON a.intUnitID = l.intUnitID
+                    INNER JOIN tbllevelash tl ON tl.intLevelAshID = l.intLevelAshID WHERE a.intStatus = 0 AND a.boolDownpaymentStatus = 1 ORDER BY c.strLastName ASC";
+
+        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+        mysql_select_db(constant('mydb'));
+        $result = mysql_query($sql,$conn);
+        
+
+
+        while($row = mysql_fetch_array($result)){ 
+			  
+          $intCustomerId =$row['intCustomerId'];
+          $strFirstName =$row['strFirstName'];
+          $strMiddleName =$row['strMiddleName'];
+          $strLastName=$row['strLastName'];
+          
+          $strUnitName=$row['strUnitName'];
+          $dblSellingPrice=$row['dblSellingPrice'];
+          
+          $intAvailUnitAshId=$row['intAvailUnitAshId'];
+          $strModeOfPayment =$row['strModeOfPayment'];
+          $intStatus =$row['intStatus'];
+          $boolDownpaymentStatus =$row['boolDownpaymentStatus'];
+          $intInterestId =$row['intInterestId'];
+          $deciDownpayment =$row['deciDownpayment'];
+          $deciBalance =$row['deciBalance'];
+          $datDueDate =$row['datDueDate'];
+          
+          $intNoOfYear =$row['intNoOfYear'];
+          $deciRegularInterest =$row['deciRegularInterest'];
+          $deciAtNeedInterest =$row['deciAtNeedInterest'];
+          
+                      
+          echo 
+			  "<tr>
+                    <td style ='font-size:18px;'>$strLastName, $strFirstName $strMiddleName</td>
+                  
+                    <td align='center'>
+                        <button type = 'button' class = 'btn btn-success' data-toggle = 'modal' title='View' data-target = '#viewCollectionAsh$intAvailUnitAshId'>
+                            <i class='glyphicon glyphicon-eye-open'></i>
+                        </button>
+                    </td>";
+                     require("../modals/transaction/collectionAsh-modal.php");
+                    // require('../modals/transaction/reserve-modal.php');
+                    // require('../modals/transaction/atneed-modal.php');
+
+              echo"</tr>";
+                
+            }//while($row = mysql_fetch_array($result))
+            mysql_close($conn);
+        
+    }//function viewCollectionLot
+    
+}//class collection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
