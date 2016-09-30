@@ -1693,7 +1693,40 @@ class service{
         }
 		mysql_close($conn);
     }//function selectServiceType()
+ function viewServiceRequest(){
+		
+        $sql = "SELECT d.intServiceID,  d.strServiceName,  d.dblServicePrice, d.intStatus, d.intServiceTypeId, s.strServiceTypeName FROM tblservice d
+	               INNER JOIN tblservicetype s ON d.intServiceTypeId = s.intServiceTypeId WHERE d.intServiceTypeId='6' ORDER BY d.strServiceName ASC";
+       
+        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+        mysql_select_db(constant('mydb'));
+        $result = mysql_query($sql,$conn);
+        
 
+		while($row = mysql_fetch_array($result)){
+          
+			$intServiceID = $row['intServiceID'];
+			$strServiceName = $row['strServiceName'];
+			$strServiceTypeName = $row['strServiceTypeName'];
+			$dblServicePrice = $row['dblServicePrice'];
+
+			echo
+				"<tr>
+				   <td style ='font-size:18px;'>$strServiceName</td>
+				    <td style = 'text-align: right; font-size:18px;'>Php ".number_format($dblServicePrice,2)."</td>
+                    <td align = 'center'>
+                    	 <button type='button' class='btn btn-success' data-toggle='modal' data-target='#modalBillService'> <i class='glyphicon glyphicon-plus'></i></button>
+                      
+                    </td>
+				</tr>
+                
+                                   
+				";
+                
+            }//while($row = mysql_fetch_array($result))
+			mysql_close($conn);         
+    }//function viewService()
+    
 
 }//class service
 //____________________________________________________
@@ -1843,6 +1876,8 @@ class discount{
     }//function selectService()
 	
 }//class discount
-    
+/**
+* 
+*/
 
 ?>   

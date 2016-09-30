@@ -2,7 +2,7 @@
 
 require('../controller/connection.php');
 require('../modals/BillOutFormSevice.php');
-
+require('../controller/viewdata.php');
     
 ?>
 
@@ -40,6 +40,16 @@ require('../modals/BillOutFormSevice.php');
 	<script type="text/javascript" src="../../build/js/jquery-3.1.0.js"></script>
 	<script type="text/javascript" src="../../build/js/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript" src="../../build/js/autoNumeric-min.js"></script>
+
+    <!-- Datatables -->
+   <!--  <script>
+      $(document).ready(function(){
+        $('#datatable-cust').DataTable();
+        $('#datatable-service').DataTable();
+      });
+    </script>
+    <!-- /Datatables -->
+
 	
 </head>
 
@@ -57,54 +67,80 @@ require('../modals/BillOutFormSevice.php');
                     <div class="col-md-12">
                         <div class="panel panel-success ">
                             <div class="panel-heading">
-                                <H1><b>SERVICES PURCHASE</b></H1>
+                                <H1><b>SERVICES REQUEST</b></H1>
                             </div><!-- /.panel-heading -->
                                     
                             <div class="panel-body">
-                                <div class="col-md-4">
+                                <div class="col-md-5">
                                     <div class="panel panel-success ">
                                         <div class="panel-heading">
-                                            <H3><b>Services</b></H3>
+                                            <H3><b>Customer</b></H3>
                                         </div><!-- /.panel-heading -->
                                     
-                                        <div class="panel-body">
-                                              <div class="table-responsive col-md-12 col-lg-12 col-xs-12">
-                                                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-                                                    <thead>
-                                                            <tr>
-                                                                <th class="success" style = "text-align:center; font-size: 20px;">Name</th>
-                                                                <th class="success" style = "text-align:center; font-size: 20px;">Price</th>
-                                                                <th class="success" style = "text-align:center; font-size: 20px;">Action</th>
-                                                            </tr>
-                                                    </thead>                  
-                                                    
-                                                    <tbody>
-                                                      <td>Perpetual Care</td>
-                                                      <td>2,500.00</td>
-                                                      <td align="center"> <button type = 'button' class = 'btn btn-success' data-toggle = 'modal' title='Edit' data-target = '#addService'>
-                                                            <i class='glyphicon glyphicon-shopping-cart'></i></button></td>                                                           
-                                                    </tbody>
-                                            </table>
-                                        </div><!-- /.table-responsive -->
+                            <div class="panel-body">
+                           <select class='form-control' name = 'selectCustomer' required>
+                              <option value=''selected disabled> --Choose Customer--</option>
+                              <?php
+                                  $sql1 =  " select * from dbholygarden.tblcustomer ORDER BY strLastName ASC";
+                                  $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+                                  mysql_select_db(constant('mydb'));
+                                  $result1 = mysql_query($sql1,$conn);
+                                  
+                                  while($row1 = mysql_fetch_array($result1)){
+                                      
+                                      $intCustomerId =$row1['intCustomerId'];
+                                      $strFirstName=$row1['strFirstName'];
+                                      $strMiddleName=$row1['strMiddleName'];
+                                      $strLastName=$row1['strLastName'];
+                                      
+                                      
+                                  echo"<option value='$intCustomerId'>$strLastName, $strFirstName $strMiddleName</option>";
+              
+                                  }//while
+                                  
+            
+                              ?> 
+                          </select>
+                          <br> 
+                                <div class="table-responsive col-md-12 col-lg-12 col-xs-12">
+                                                                        <table id="datatable-cust" class="table table-striped table-bordered ">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th class = "success" style = "text-align: center; font-size: 16px;">Lot Type</th>
+                                                                                    <th class = "success" style = "text-align: center; font-size: 16px;">Section</th>
+                                                                                    <th class = "success" style = "text-align: center; font-size: 16px;">Block</th>
+                                                                                    <th class = "success" style = "text-align: center; font-size: 16px;">Lot</th>
+                                                                                   <th class = "success" style = "text-align: center; font-size: 16px;">Action</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            
+                                                                            <tbody>
+                                                                               
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div><!-- /.table-responsive -->
+
+
+
                                         </div><!-- panel body -->
                                         </div><!--panel panel-success-->
                                     </div><!--col-md-4 column-->
 
-                                <div class="col-md-8">
+                                <div class="col-md-7">
                                     <div class="panel panel-default">
                                           <div class="panel-heading">
                                              <div class='btn-toolbar pull-right'>
-                                                <div class='btn-group'>
+                                                <!-- <div class='btn-group'>
                                                   <button type='button' class='btn btn-success' data-toggle='modal' data-target='#modalBillService'>CHECKOUT</button>
-                                                </div>
+                                                </div> -->
                                               </div>
-                                              <h3><b>My Cart<b></h3>
+                                              <h3><b>Services<b></h3>
                                         </div><!-- /.panel-heading -->
 
                                            
                                         <div class="panel-body">    		
                                             <div class="table-responsive col-md-12 col-lg-12 col-xs-12">
-                                                    <table id="datatable-responsivemycart" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                                             <table id="datatable-service" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                                     <thead>
                                                             <tr>
                                                                 <th class="success" style = "text-align:center; font-size: 20px;">Name</th>
@@ -114,15 +150,14 @@ require('../modals/BillOutFormSevice.php');
                                                     </thead>                  
                                                     
                                                     <tbody>
-                                                      <td>Perpetual Care</td>
-                                                      <td>2,500.00</td>
-                                                      <td align="center"> <button type = 'button' class = 'btn btn-success' data-toggle = 'modal' title='Edit' data-target = '#removeService'>
-                                                            <i class='glyphicon glyphicon-trash'></i></button></td>
-                                                           
+                                                     <?php
+                                                                $view = new service();
+                                                                    $view->viewServiceRequest();
+                                                            ?>
                                                     </tbody>
                                             </table>
                                         </div><!-- /.table-responsive -->
-                                        <h3>Grand total:</h3>
+                                      
                                         </div><!-- panel body -->
                                     </div><!--panel body -->
                                 </div><!--panel panel-success-->
@@ -137,7 +172,7 @@ require('../modals/BillOutFormSevice.php');
         <!--ADD TO CART SERVICES MODAL-->
                             <div class = 'modal fade' id = 'addService'>
                             <div class = 'modal-dialog' style = 'width: 60%;'>
-                                <div class = 'modal-content' style = 'height: 520px;'>
+                                <div class = 'modal-constent' style = 'height: 520px;'>
                                                 
                                                     <!--header-->
                                         <div class = 'modal-header'>
@@ -353,174 +388,17 @@ require('../modals/BillOutFormSevice.php');
     <script src="../../vendors/jszip/dist/jszip.min.js"></script>
     <script src="../../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../../vendors/pdfmake/build/vfs_fonts.js"></script>
-	<!-- Custom Theme Scripts -->
+    <!-- Custom Theme Scripts -->
     <script src="../../build/js/custom.min.js"></script>
-    
-     <!-- Datatables -->
+ 
+    <!-- Datatables -->
     <script>
-      $(document).ready(function() {
-        var handleDataTableButtons = function() {
-          if ($("#datatable-buttons").length) {
-            $("#datatable-buttons").DataTable({
-              dom: "Bfrtip",
-              buttons: [
-                {
-                  extend: "copy",
-                  className: "btn-sm"
-                },
-                {
-                  extend: "csv",
-                  className: "btn-sm"
-                },
-                {
-                  extend: "excel",
-                  className: "btn-sm"
-                },
-                {
-                  extend: "pdfHtml5",
-                  className: "btn-sm"
-                },
-                {
-                  extend: "print",
-                  className: "btn-sm"
-                },
-              ],
-              responsive: true
-            });
-          }
-        };
-
-        TableManageButtons = function() {
-          "use strict";
-          return {
-            init: function() {
-              handleDataTableButtons();
-            }
-          };
-        }();
-
-        $('#datatable').dataTable();
-
-        $('#datatable-keytable').DataTable({
-          keys: true
-        });
-
-        $('#datatable-responsive').DataTable(bPagination:false, bInfo: false,bFilter:false);
-
-        $('#datatable-scroller').DataTable({
-          ajax: "controller/viewdata/php",
-          deferRender: true,
-          scrollY: 380,
-          scrollCollapse: true,
-          scroller: true
-        });
-
-        $('#datatable-fixed-header').DataTable({
-          fixedHeader: true
-        });
-
-        var $datatable = $('#datatable-checkbox');
-
-        $datatable.dataTable({
-          'order': [[ 1, 'asc' ]],
-          'columnDefs': [
-            { orderable: false, targets: [0] }
-          ]
-        });
-        $datatable.on('draw.dt', function() {
-          $('input').iCheck({
-            checkboxClass: 'icheckbox_flat-green'
-          });
-        });
-
-        TableManageButtons.init();
+      $(document).ready(function(){
+        $('#datatable-cust').DataTable();
+        $('#datatable-service').DataTable();
       });
     </script>
     <!-- /Datatables -->
-
-
-     <!-- Datatables -->
-    <script>
-      $(document).ready(function() {
-        var handleDataTableButtons = function() {
-          if ($("#datatable-buttons").length) {
-            $("#datatable-buttons").DataTable({
-              dom: "Bfrtip",
-              buttons: [
-                {
-                  extend: "copy",
-                  className: "btn-sm"
-                },
-                {
-                  extend: "csv",
-                  className: "btn-sm"
-                },
-                {
-                  extend: "excel",
-                  className: "btn-sm"
-                },
-                {
-                  extend: "pdfHtml5",
-                  className: "btn-sm"
-                },
-                {
-                  extend: "print",
-                  className: "btn-sm"
-                },
-              ],
-              responsive: true
-            });
-          }
-        };
-
-        TableManageButtons = function() {
-          "use strict";
-          return {
-            init: function() {
-              handleDataTableButtons();
-            }
-          };
-        }();
-
-        $('#datatable').dataTable();
-
-        $('#datatable-keytable').DataTable({
-          keys: true
-        });
-
-        $('#datatable-responsivemycart').DataTable(bPagination:false, bInfo: false,bFilter:false);
-
-        $('#datatable-scroller').DataTable({
-          ajax: "controller/viewdata/php",
-          deferRender: true,
-          scrollY: 380,
-          scrollCollapse: true,
-          scroller: true
-        });
-
-        $('#datatable-fixed-header').DataTable({
-          fixedHeader: true
-        });
-
-        var $datatable = $('#datatable-checkbox');
-
-        $datatable.dataTable({
-          'order': [[ 1, 'asc' ]],
-          'columnDefs': [
-            { orderable: false, targets: [0] }
-          ]
-        });
-        $datatable.on('draw.dt', function() {
-          $('input').iCheck({
-            checkboxClass: 'icheckbox_flat-green'
-          });
-        });
-
-        TableManageButtons.init();
-      });
-    </script>
-    <!-- /Datatables -->
-
  <script type="text/javascript">
       $(document).on("ready", function(){
                 $("#modalBillService").wizard({
@@ -533,7 +411,6 @@ require('../modals/BillOutFormSevice.php');
 
     </script>
 
-    <!-- Custom Theme Scripts -->
-    <script src="../build/js/custom.min.js"></script>
+    
   </body>
 </html>
