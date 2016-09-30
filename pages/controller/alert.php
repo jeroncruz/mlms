@@ -85,6 +85,15 @@ class alerts{
       echo '}, 1000);</script>';
   }
 
+  function alertInvalid(){
+
+      echo '<script type="text/javascript">';
+      echo 'setTimeout(function () { swal("Opps! Sorry!","Invalid Input!","error");';
+      echo '}, 1000);</script>';
+  }
+
+  
+
 }
 
 
