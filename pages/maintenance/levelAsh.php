@@ -42,8 +42,12 @@ if (isset($_POST['btnSubmit'])){
 				
                 while ($i < $num_of_ids){
                     
-					$createLevelAC =  new createLevelAC();
-					$createLevelAC->Create($l,$acName,$tfNoOfUnit,$tfStatus,$tfSellingPriceFinal);
+					if($tfSellingPriceFinal > 0 && $tfNoOfLot > 0){
+                        $createLevelAC =  new createLevelAC();
+                        $createLevelAC->Create($l,$acName,$tfNoOfUnit,$tfStatus,$tfSellingPriceFinal);
+                    }else{
+                        echo "<script>alert('Invalid Input!')</script>";
+                    }//else
 					
 					$l++;
 					

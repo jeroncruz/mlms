@@ -17,8 +17,14 @@ if (isset($_POST['btnSubmit'])){
 	 
 	$tfPercentValue = $tfPercent/100;
 	
-	$createDiscount =  new createDiscount();
-	$createDiscount->Create($serviceName,$tfDescription,$tfPercentValue,$tfStatus);
+    if($tfPercent > 0 ){
+        $createDiscount =  new createDiscount();
+        $createDiscount->Create($serviceName,$tfDescription,$tfPercentValue,$tfStatus);
+    }else{
+        echo "<script>alert('Invalid Input!')</script>";
+
+    }//else
+
 }//if
 	  
 if (isset($_POST['btnSave'])){

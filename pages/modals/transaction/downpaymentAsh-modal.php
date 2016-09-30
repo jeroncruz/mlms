@@ -40,7 +40,7 @@
                                         <div class='col-md-5'>
                                             <div class=' input-group'>
                                                 <span class = 'input-group-addon'>₱</span>
-                                                <input type='text' class='form-control input-md' name='tfDownpayment' value='<?php  echo"".number_format($deciDownpayment,2)."";?>' readonly/>
+                                                <input type='text' class='form-control input-md' id="monthly<?php echo $intAvailUnitAshId ?>" name='tfDownpayment' value='<?php  echo"".number_format($deciDownpayment,2)."";?>' readonly/>
                                             </div>
                                         </div>
                                     </div>
@@ -64,11 +64,43 @@
                                         <div class='col-md-5'>
                                             <div class=' input-group'>
                                                 <span class = 'input-group-addon'>₱</span>
-                                                <input type='text' class='form-control input-md tfAmountPaid' name='tfAmountPaid' required/>
+                                                <input type='text' class='form-control input-md tfAmountPaid' id="amount<?php echo $intAvailUnitAshId; ?>" onkeyup="showChange('<?php echo $intAvailUnitAshId; ?>')" name='tfAmountPaid' required/>
                                             </div>
                                         </div>
                                     </div>
                                     
+                                    <div class='form-group' id="change<?php echo $intAvailUnitAshId;?>" style="display:none">
+                                        <label class='col-md-7' style = 'font-size: 18px; margin-top:.50em;' align='right'>Change:</label>
+                                        <div class='col-md-5'>
+                                            <div class=' input-group'>
+                                                <span class = 'input-group-addon'>₱</span>
+                                                <input type='text' class='form-control input-md tfAmountPaid' id="changeValue<?php echo $intAvailUnitAshId; ?>" name='' readonly/>
+                                            </div>
+                                        </div>
+                                      </div>
+
+
+                                      <script>
+                                            function showChange(num){
+                                                var amountPaid = $('#amount'+num).val();
+                                                amountPaid = parseFloat(amountPaid.replace(/,/g, ''));
+
+                                                var balance = $('#monthly'+num).val();
+                                                balance = parseFloat(balance.replace(/,/g, ''));
+
+                                                if(amountPaid>balance){
+                                                    document.getElementById('change'+num).style.display='block';
+                                                    var change = parseFloat(amountPaid-balance);
+                                                    change = Math.round(change * 100) / 100;
+                                                    $('#changeValue'+num).val(change);
+
+                                                }else{
+                                                    document.getElementById('change'+num).style.display='none';
+                                                    $('#changeValue'+num).val(0);
+                                                }   
+
+                                            }
+                                      </script>
                                     
                                 </div><!--panel-body-->
                             </div><!--panel panel-default-->

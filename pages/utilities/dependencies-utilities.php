@@ -324,6 +324,31 @@ if (isset($_POST['btnSave'])){
                                                 </div>
                                             </div><!--ROW-->
                                             
+                                            <div class="form-group">
+                                                    <label class="col-md-4"  align="right" style="margin-top:.30em">Transfer Charge:</label>
+                                                    <div class="col-md-2">
+                                                        <div class="input-group">
+
+                                                        <?php
+                                                            $sql = "SELECT * FROM tblbusinessdependency WHERE intBusinessDependencyId='11'";
+                                                            $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+                                                            mysql_select_db(constant('mydb'));
+                                                            $result = mysql_query($sql,$conn);
+                                                            $row = mysql_fetch_array($result);
+                                                            $transferCharge = $row['deciBusinessDependencyValue'];
+                                                            
+/*
+                                                            $number = 549.00;
+                                                            echo round($number, 2);*/
+                                                        
+                                                        ?>
+                                                        <input type="number" id="overdue" class="form-control input-md" name=<?php echo"10";?> value="<?php echo round($transferCharge,2);?>"  required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!--ROW-->
+                                            
+                                            
                                             <div class="row">
 
                                                 <h4 class="col-md-10" style = "color: red;" style="margin-top:.70em">ALL FIELDS ARE REQUIRED</h4>

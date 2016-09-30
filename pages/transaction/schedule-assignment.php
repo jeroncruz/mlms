@@ -7,7 +7,7 @@ require ("../controller/connection.php");
 // require('controller/deactivate.php');
 // require('controller/archivedata.php');
 // require('controller/retrieve.php');
-
+/*
 if (isset($_POST['btnSubmit'])){
 
         $serviceName = $_POST['serviceName'];
@@ -48,7 +48,7 @@ if (isset($_POST['btnArchive'])){
         
         $archiveDiscount =  new archiveDiscount();
         $archiveDiscount->archive($tfDiscountID);
-}
+}*/
 
 ?>
 
@@ -238,7 +238,7 @@ if (isset($_POST['btnArchive'])){
 
  <!--VIEW SCHEDULED COLLECTION MODAL-->
                             <div class = 'modal fade' id = 'viewScheduled'>
-                            <div class = 'modal-dialog' style = 'width: 50%;'>
+                            <div class = 'modal-dialog' style = 'width: 70%;'>
                                 <div class = 'modal-content' style = 'height: 320px;'>
                                                 
                                                     <!--header-->
@@ -254,6 +254,7 @@ if (isset($_POST['btnArchive'])){
                                                         <thead>
                                                                 <tr>
                                                                     <th class = "success" style = "text-align: center; font-size: 20px;">Service/s</th>
+                                                                    <th class = "success" style = "text-align: center; font-size: 20px;">Deceased Name</th>
                                                                     <th class = "success" style = "text-align: center; font-size: 20px;">Schedule</th>
                                                                    <th class = "success" style = "text-align: center; font-size: 20px;">Action</th>                                                                 
                                                                 </tr>
@@ -261,10 +262,13 @@ if (isset($_POST['btnArchive'])){
                                                 
                                                         <tbody>
                                                           <td>Interment</td>
+                                                          <td>Sino, Basila W.</td>
                                                           <td>Jan. 20, 2015 8:00am-10:00am</td>
                                                           <td align='center'>
-                                                            <button type = 'button' class = 'btn btn-success' data-toggle = 'modal' title='Edit' data-target = '#rescheduleModal'>
+                                                            <button type = 'button' class = 'btn btn-warning' data-toggle = 'modal' title='Edit' data-target = '#rescheduleModal'>
                                                             <i class='glyphicon glyphicon-calendar'> RESCHEDULE</i></button>
+                                                            <button type = 'submit' class = 'btn btn-success'>
+                                                            <i class='glyphicon glyphicon-ok'> FINISHED </i></button>
                                                             </td>
                                                          
                                                         </tbody>
@@ -403,13 +407,14 @@ if (isset($_POST['btnArchive'])){
                                                         <thead>
                                                                 <tr>
                                                                     <th class = "success" style = "text-align: center; font-size: 20px;">Service/s</th>
+                                                                    <th class = "success" style = "text-align: center; font-size: 20px;">Deceased Name</th>
                                                                     <th class = "success" style = "text-align: center; font-size: 20px;">Action</th>                                                                 
                                                                 </tr>
                                                         </thead>
                                                 
                                                         <tbody>
                                                           <td>Inurnment</td>
-                                                          
+                                                          <td>Boom,Panid D.</td>
                                                           <td align='center'>
                                                             <button type = 'button' class = 'btn btn-success' data-toggle = 'modal' title='Edit' data-target = '#scheduleService'>
                                                             <i class='glyphicon glyphicon-folder-calendar'> SCHEDULE</i></button>

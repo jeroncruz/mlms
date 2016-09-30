@@ -19,8 +19,14 @@ if (isset($_POST['btnSubmit'])){
 	$tfRegularInterest = $_POST['tfRegularInterest'];
 	$tfStatus = $_POST['tfStatus'];
 	
-	$createInterest =  new createInterest();
-	$createInterest->Create($tfNoOfYear,$tfAtNeedInterest,$tfRegularInterest,$tfStatus);
+    if($tfAtNeedInterest > 0 && $tfRegularInterest > 0 && $tfNoOfYear > 0){
+        $createInterest =  new createInterest();
+        $createInterest->Create($tfNoOfYear,$tfAtNeedInterest,$tfRegularInterest,$tfStatus);
+    }else{
+        echo "<script>alert('Invalid Input!')</script>";
+
+    }//else
+
 }
 
 if (isset($_POST['btnSave'])){

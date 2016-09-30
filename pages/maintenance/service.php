@@ -20,8 +20,14 @@ if (isset($_POST['btnSubmit'])){
     
     $tfServicePriceFinal = preg_replace('/,/', '', $tfServicePrice);
     
-    $createService =  new createService();
-    $createService->Create($tfServiceName,$serviceType,$tfServicePriceFinal,$tfStatus,$checkRequirement);
+    if($tfServicePriceFinal > 0 ){
+        $createService =  new createService();
+        $createService->Create($tfServiceName,$serviceType,$tfServicePriceFinal,$tfStatus,$checkRequirement);
+    }else{
+        echo "<script>alert('Invalid Input!')</script>";
+
+    }//else
+
 }//if
     
 if (isset($_POST['btnSave'])){

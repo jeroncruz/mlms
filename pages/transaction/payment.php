@@ -25,7 +25,6 @@ if (isset($_POST['btnCollectDownpaymentLot'])){
     
         $createPayment =  new createPaymentLot();
         $createPayment->createDownpaymentLot($tfAvailUnitId,$dateCreated,$tfAmountFinal);
-        echo "<script>alert('Done!  Your change is Php ".number_format($change,2)."')</script>";
         
     }else{
         //echo "<script>alert('Insufficient Amount Paid!')</script>";
@@ -51,7 +50,6 @@ if (isset($_POST['btnCollectDownpaymentAsh'])){
     
         $createPayment =  new createPaymentAsh();
         $createPayment->createDownpaymentAsh($tfAvailUnitAshId,$dateCreated,$tfAmountFinal);
-        echo "<script>alert('Done!  Your change is Php ".number_format($change,2)."')</script>";
         
     }else{
         //echo "<script>alert('Insufficient Amount Paid!')</script>";
@@ -81,7 +79,6 @@ if (isset($_POST['btnCollectLot'])){
     
         $createPayment =  new createPaymentLot();
         $createPayment->createCollectionLot($tfAvailUnitId,$dateCreated,$tfAmountFinal,$updatedBalance);
-        echo "<script>alert('Done!  Your change is Php ".number_format($change,2)."')</script>";
         
     }else{
         //echo "<script>alert('Insufficient Amount Paid!')</script>";
@@ -110,7 +107,6 @@ if (isset($_POST['btnCollectAsh'])){
     
         $createPayment =  new createPaymentAsh();
         $createPayment->createCollectionAsh($tfAvailUnitAshId,$dateCreated,$tfAmountFinal,$updatedBalance);
-        echo "<script>alert('Done!  Your change is Php ".number_format($change,2)."')</script>";
         
     }else{
         //echo "<script>alert('Insufficient Amount Paid!')</script>";

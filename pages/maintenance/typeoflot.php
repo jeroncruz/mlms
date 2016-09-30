@@ -19,8 +19,13 @@ if(isset($_POST['btnSubmit'])){
     
     $tfSellingPriceFinal = preg_replace('/,/', '', $tfSellingPrice);
 	
-    $createtypes =  new createTypes();
-    $createtypes->Create($tfTypeName,$tfNoOfLot,$tfSellingPriceFinal,$tfStatus);
+    if($tfSellingPriceFinal > 0 && $tfNoOfLot > 0){
+        $createtypes =  new createTypes();
+        $createtypes->Create($tfTypeName,$tfNoOfLot,$tfSellingPriceFinal,$tfStatus);
+    }else{
+        echo "<script>alert('Invalid Input!')</script>";
+
+    }//else
 }//if
     
 if(isset($_POST['btnSave'])){
@@ -179,7 +184,7 @@ if(isset($_SESSION['use'])){
                                                         <div class="col-md-7">  
                                                             <div class="input-group">
                                                                 <span class = "input-group-addon">₱</span>
-                                                                <input type="text" class="form-control input-md" name= "tfSellingPrice" id="tfSellingPrice"  required/>
+                                                                <input type="text" class="form-control input-md" name= "tfSellingPrice" id="tfSellingPrice"   required/>
                                                             </div>
                                                         </div>
                                                         
