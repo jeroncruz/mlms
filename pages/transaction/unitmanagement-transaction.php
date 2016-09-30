@@ -60,6 +60,8 @@ require('../controller/createdata.php');
       $(document).ready(function(){
         $('#datatable-ash').DataTable();
         $('#datatable-lot').DataTable();
+        $('#datatable-deaceased').DataTable();
+        $('#datatable-transfer').DataTable();
       });
     </script>
     <!-- /Datatables -->
@@ -389,7 +391,7 @@ require('../controller/createdata.php');
             <!--header-->
             <div class = "modal-header" style="background:#b3ffb3;">
                 <button type = "button" class = "close" data-dismiss = "modal">&times;</button>
-                <center><h3 class = "modal-title">UNIT: {{UnitId}}</h3></center>
+                <center><h3 class = "modal-title">UNIT: West-B-Lawn-A0001</h3></center>
             </div>
             
             <!--body (form)-->
@@ -419,7 +421,7 @@ require('../controller/createdata.php');
                     <div id="myTabContent" class="tab-content">
                         <div role="tabpanel" class="tab-pane fade active in" id="ListDead" aria-labelledby="home-tab">
 
-                            <table id="datatable-lot" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                            <table id="datatable-deaceased" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                           <thead>
                                               <tr>
                                                   <th class = "success" style = "text-align: center; font-size: 18px;">Deceased Name</th>
@@ -455,11 +457,7 @@ require('../controller/createdata.php');
                                           <div class="form-group">
 
                                           <div class="row">
-                                            <div class="col-md-4">
-                                              Date of Interment:
-                                              <input type="date" class="form-control input-md" name= "tfDate" >
-                                            </div>
-
+                                          
                                              <div class="col-md-6">
                                               Relationship to Owner
                                               <input type="text" class="form-control input-md" name= "tfFirstName" required>
@@ -586,7 +584,7 @@ require('../controller/createdata.php');
                                       </div><!-- FORM GROUP -->
 
                          <div class="table-responsive col-md-12 col-lg-12 col-xs-12">
-                          <table id="datatable-lot" class="table table-striped table-bordered ">
+                          <table id="datatable-transfer" class="table table-striped table-bordered ">
                               <thead>
                                   <tr>
                                       <th class = "success" style = "text-align: center; font-size: 18px;">Lot Name</th>
@@ -599,11 +597,11 @@ require('../controller/createdata.php');
                               
                               <tbody>
                               <tr>
-                                <td>A0001</td>
+                                <td>A0002</td>
                                 <td>B</td>
                                 <td>Lawn</td>
                                 <td>West</td>
-                                <td><button>TRANSFER</button></td>
+                                <td><button data-toggle ="modal" data-target="#TranDeadModal">TRANSFER</button></td>
                               </tr>
                               </tbody>
                           </table>
@@ -685,5 +683,53 @@ require('../controller/createdata.php');
 </div><!--/modal -->
 
 
+<div class = "modal fade" id = "TranDeadModal">
+    <div class = "modal-dialog" style = "width:50%; height: 50%; ">
+        <div class = "modal-content">
+
+            <!--header-->
+            <div class = "modal-header" style="background:#b3ffb3;">
+                <button type = "button" class = "close" data-dismiss = "modal">&times;</button>
+                <center><h3 class = "modal-title">List Of Deceased</h3></center>
+            </div>
+            
+            <!--body (form)-->
+            <div class = "modal-body">
+
+              <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action">
+                      <thead>
+                        <tr>
+                          <th><input type="checkbox" id="check-all" class="flat"></th>
+                           <th class = "success" style = "text-align: center; font-size: 18px;">Deceased Name</th>
+                           <th class = "success" style = "text-align: center; font-size: 18px;">Birthdate</th>
+                           <th class = "success" style = "text-align: center; font-size: 18px;">Date Died</th>
+                                                  
+                        </tr>
+                      </thead>
+
+
+                      <tbody>
+                        <tr>
+                          <td><input type="checkbox" class="flat" name="table_records"></td>
+                          <td>Boom Panis</td>
+                          <td>03/12/1952</td>
+                          <td>09/28/2016</td>
+                      </tr>
+                     </tbody>
+              </table>
+
+                <div class="modal-footer">
+                    <div class="pull-right">
+                      <button type="close" class="btn btn-primary">Cancel</button>
+                      <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                 </div>
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </body>
-</html>
+</html> 
