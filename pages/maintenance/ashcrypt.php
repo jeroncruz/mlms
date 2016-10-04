@@ -210,6 +210,7 @@ if(isset($_SESSION['use'])){
                                                     </thead>
                                                     
                                                     <tbody>
+                                                     
                                                         <?php
 														
 															if (isset($_POST['btnGo'])){

@@ -108,7 +108,7 @@
                             
                             <div class='form-group'>
                                         <div class="col-md-offset-8 col-md-8"> 
-                                            <button type='submit' class='btn btn-success' name= 'btnCollectDownpaymentLot'>Collect</button>
+                                            <button type='submit' class='btn btn-success' name= 'btnCollectDownpaymentLot' onclick = "window.open('../modals/transaction/reserveLot-pdf.php?intAvailUnitId=<?php echo $intAvailUnitId?>')">Collect</button>
                                             <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
                                         </div>
                                     </div>

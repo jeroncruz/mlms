@@ -1,6 +1,7 @@
 <?php
 require_once('../../../fpdf/fpdf.php');
-//require('../../controller/connection.php');
+require('../../controller/connection.php');
+
 
 class PDF_MC_Table extends FPDF
 {
@@ -140,16 +141,19 @@ function NbLines($w,$txt)
     // Arial bold 15
     $this->SetFont('Arial','B',20);
     // Move to the right
-    $this->SetLeftMargin(20);
+    $this->SetLeftMargin(45);
     // Title
-    $this->Cell(0,0,$companyName.'',0,0,'L');
-        $this->SetFont('Arial','',11);
-        $this->Ln(7);
-        $this->Cell(0,0,$companyAddress,0,0,'L');    
-   
-    $this->Cell(120,34,'branch',0,0,'C');
-    // Line break
-    $this->Ln(22);
+    $this->Cell(0,0,$companyName,0,0,'L');
+    $this->SetFont('Arial','',10);
+    $this->Ln(7);
+    $this->Cell(0,0,$companyAddress,0,0,'L');    
+    $this->Ln(5);
+    $this->Cell(0,0,$companyEmail,0,0,'L');
+    $this->Ln(5);
+    $this->Cell(0,0,$companyContact,0,0,'L');
+    $this->Ln(7);
+    $this->SetX(15);
+    $this->Cell(0,0,"__________________________________________________________________________________________",0,0,'L');
 }
 
 // Page footer

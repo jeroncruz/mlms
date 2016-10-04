@@ -42,7 +42,7 @@ if (isset($_POST['btnSubmit'])){
 				
                 while ($i < $num_of_ids){
                     
-					if($tfSellingPriceFinal > 0 && $tfNoOfLot > 0){
+					if($tfSellingPriceFinal > 0 && $tfNoOfUnit > 0){
                         $createLevelAC =  new createLevelAC();
                         $createLevelAC->Create($l,$acName,$tfNoOfUnit,$tfStatus,$tfSellingPriceFinal);
                     }else{
@@ -265,9 +265,9 @@ if(isset($_SESSION['use'])){
                      	                  </div><!-- /.panel-heading -->
                                            
                                         <div class="panel-body">
-                                            <div class="alert alert-default">
-                                                <h4><strong>NOTE:</strong> You can update the <b>selling price</b> according to the level.</h4>
-                                            </div>
+                                           <!--  <div class="alert alert-default">
+                                                h4><strong>NOTE:</strong> You can update the <b>selling price</b> according to the level.</h4>
+                                            </div> -->
                                             
                                             <div class="table-responsive col-md-12 col-lg-12 col-xs-12">
                                                 <table id="datatable-level" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">

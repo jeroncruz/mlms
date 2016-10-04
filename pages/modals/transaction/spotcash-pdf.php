@@ -80,13 +80,13 @@ $pdfBalance= $pdfBalance.$tfBalance;
 			// echo $companyLogo;
 		}
 mysql_close($conn);
-$pdf = new PDF_MC_Table();
+$pdf = new FPDF();
 
 
 $pdf->AddPage();
 //../../pages/images/employeeLogo.png"
 $pdf-> SetX(35);
-//$pdf-> Image("$companyLogo",10,2,30);
+$pdf-> Image("$companyLogo",10,2,30);
 
 $pdf-> SetFont("Arial","B",20);
 $pdf-> SetY(8);

@@ -1,9 +1,50 @@
 <?php
 
 require('../controller/connection.php');
-require('../modals/BillOutFormSevice.php');
+//require('../modals/BillOutFormSevice.php');
 require('../controller/viewdata.php');
+require('../controller/alert.php');
+
+if(isset($_POST['btnSubmit'])){
+
+                    $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+                    mysql_select_db(constant('mydb'));
+    $unit=$_POST['unit'];
+    foreach($unit as $each) {
+    $date=$_POST['date'];
+    $amount=$_POST['amount'];
+    $customer=$_POST['customer'];
+    $sqlSelect="SELECT * FROM tblservicerequested";
+    $resultSelect = mysql_query($sqlSelect,$conn);
+    $numSelect=mysql_num_rows($resultSelect);
+    $idctr=1;
+    if($numSelect>0){
+        while ($rowSelect=mysql_fetch_array($resultSelect)) {
+            $idctr=$rowSelect['intServiceRequested'];
+            $idctr++;
+        }
+
+    }else{
+        $idctr=1;
+    }
+    $sqlUpdate="select * from tblservice where strServiceStatus='added'";
+    $resultUpdate=mysql_query($sqlUpdate,$conn);
+    while($rowUpdate=mysql_fetch_array($resultUpdate)){
+        $intServiceID=$rowUpdate['intServiceID'];
     
+    $date=date('Y-m-d');
+    $sqlInsert="INSERT INTO tblservicerequested(intServiceRequested,dateRequested,deciAmountPaid,intCustomerId,intUnitId,intServiceId) 
+         VALUES ('$idctr','$date','$amount','$customer','$each','$intServiceID')";
+    $resultInsert=mysql_query($sqlInsert,$conn);
+    $sqlUpdateService ="UPDATE tblservice SET strServiceStatus=null where strServiceStatus='added'";
+    $resultUpdateService =mysql_query($sqlUpdateService,$conn);
+    $alert=new alerts();
+    $alert -> alertSold();
+    
+    }     
+
+    }    
+    }
 ?>
 
 
@@ -20,6 +61,7 @@ require('../controller/viewdata.php');
 
 <!-- Bootstrap -->
     <link href="../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../vendors/select2/dist/css/select2.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="../../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- NProgress -->
@@ -67,66 +109,11 @@ require('../controller/viewdata.php');
                     <div class="col-md-12">
                         <div class="panel panel-success ">
                             <div class="panel-heading">
-                                <H1><b>SERVICES REQUEST</b></H1>
+                                <H3><b>SERVICE REQUEST</b></H3>
                             </div><!-- /.panel-heading -->
                                     
                             <div class="panel-body">
-                                <div class="col-md-5">
-                                    <div class="panel panel-success ">
-                                        <div class="panel-heading">
-                                            <H3><b>Customer</b></H3>
-                                        </div><!-- /.panel-heading -->
-                                    
-                            <div class="panel-body">
-                           <select class='form-control' name = 'selectCustomer' required>
-                              <option value=''selected disabled> --Choose Customer--</option>
-                              <?php
-                                  $sql1 =  " select * from dbholygarden.tblcustomer ORDER BY strLastName ASC";
-                                  $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
-                                  mysql_select_db(constant('mydb'));
-                                  $result1 = mysql_query($sql1,$conn);
-                                  
-                                  while($row1 = mysql_fetch_array($result1)){
-                                      
-                                      $intCustomerId =$row1['intCustomerId'];
-                                      $strFirstName=$row1['strFirstName'];
-                                      $strMiddleName=$row1['strMiddleName'];
-                                      $strLastName=$row1['strLastName'];
-                                      
-                                      
-                                  echo"<option value='$intCustomerId'>$strLastName, $strFirstName $strMiddleName</option>";
-              
-                                  }//while
-                                  
-            
-                              ?> 
-                          </select>
-                          <br> 
-                                <div class="table-responsive col-md-12 col-lg-12 col-xs-12">
-                                                                        <table id="datatable-cust" class="table table-striped table-bordered ">
-                                                                            <thead>
-                                                                                <tr>
-                                                                                    <th class = "success" style = "text-align: center; font-size: 16px;">Lot Type</th>
-                                                                                    <th class = "success" style = "text-align: center; font-size: 16px;">Section</th>
-                                                                                    <th class = "success" style = "text-align: center; font-size: 16px;">Block</th>
-                                                                                    <th class = "success" style = "text-align: center; font-size: 16px;">Lot</th>
-                                                                                   <th class = "success" style = "text-align: center; font-size: 16px;">Action</th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            
-                                                                            <tbody>
-                                                                               
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div><!-- /.table-responsive -->
-
-
-
-                                        </div><!-- panel body -->
-                                        </div><!--panel panel-success-->
-                                    </div><!--col-md-4 column-->
-
-                                <div class="col-md-7">
+                                 <div class="col-md-6">
                                     <div class="panel panel-default">
                                           <div class="panel-heading">
                                              <div class='btn-toolbar pull-right'>
@@ -134,13 +121,13 @@ require('../controller/viewdata.php');
                                                   <button type='button' class='btn btn-success' data-toggle='modal' data-target='#modalBillService'>CHECKOUT</button>
                                                 </div> -->
                                               </div>
-                                              <h3><b>Services<b></h3>
+                                              <h3><b>Services Available<b></h3>
                                         </div><!-- /.panel-heading -->
 
                                            
-                                        <div class="panel-body">    		
+                                        <div class="panel-body">            
                                             <div class="table-responsive col-md-12 col-lg-12 col-xs-12">
-                                             <table id="datatable-service" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                                             <table id="datatable-available" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                                     <thead>
                                                             <tr>
                                                                 <th class="success" style = "text-align:center; font-size: 20px;">Name</th>
@@ -151,7 +138,7 @@ require('../controller/viewdata.php');
                                                     
                                                     <tbody>
                                                      <?php
-                                                                $view = new service();
+                                                                    $view = new service();
                                                                     $view->viewServiceRequest();
                                                             ?>
                                                     </tbody>
@@ -161,195 +148,210 @@ require('../controller/viewdata.php');
                                         </div><!-- panel body -->
                                     </div><!--panel body -->
                                 </div><!--panel panel-success-->
-                            </div><!--col-md-8-->   
 
-                        </div><!--panel body -->
+
+                                <div class="col-md-6">
+                                    <div class="panel panel-success ">
+                                        <div class="panel-heading">
+                                            <H3><b>Services Requested</b></H3>
+                                        </div><!-- /.panel-heading -->
+                                    
+                            <div class="panel-body">
+
+                            <div class="table-responsive col-md-12 col-lg-12 col-xs-12">
+                                             <table id="datatable-requested" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                                                    <thead>
+                                                            <tr>
+                                                                <th class="success" style = "text-align:center; font-size: 20px;">Name</th>
+                                                                <th class="success" style = "text-align:center; font-size: 20px;">Price</th>
+                                                                <th class="success" style = "text-align:center; font-size: 20px;">Action</th>
+                                                            </tr>
+                                                    </thead>                  
+                                                    
+                                                    <tbody>
+                                                    <?php
+                                                            $view = new service();
+                                                            $view -> viewServiceRequested();
+                                                    ?>
+                                                    </tbody>
+                                            </table>
+                                        </div><!-- /.table-responsive -->
+                          
+                                        
+                                        <button type="submit" data-toggle="modal" data-target="#modalRequested" class="btn btn-success pull-right" name= "btnBillOut">BillOut</button>
+                                         
+
+                                        </div><!-- panel body -->
+                                     
+                                        </div><!--panel panel-success-->
+                                    </div><!--col-md-4 column-->
+                            </div><!--panel body -->
+
+                        </div>
                     </div><!--panel panel-success-->
                 </div><!--col-md-12-->
             </div><!--row-->
         </div><!-- /page content -->
 
-        <!--ADD TO CART SERVICES MODAL-->
-                            <div class = 'modal fade' id = 'addService'>
-                            <div class = 'modal-dialog' style = 'width: 60%;'>
-                                <div class = 'modal-constent' style = 'height: 520px;'>
-                                                
-                                                    <!--header-->
-                                        <div class = 'modal-header'>
-                                            <button type = 'button' class = 'close' data-dismiss = 'modal'>&times;</button>
-                                            
-                                        </div>
-                                                    
-                                                    <!--body (form)-->
-                                        <div class = 'modal-body'>
-                                             
-                                            <label>SERVICE DETAIL, ASSIGN SCHED IF EVER SERVICE SCHEDULING TYPE </label>
-                                            
-                                                                                   
-                                    </div><!-- content-->
-                                     <div class="form-group modal-footer">
-                                                   
-                                                    
-                                                    <div class="col-md-8 col-md-6">
-                                                        <button type = 'button' class="btn btn-success col-md-3" data-toggle = 'modal' title='Edit' data-target = '#'>ADD</button>
-                                                        <button type="close" data-dismiss="modal"  class="btn btn-success col-md-3" name= "btnCancel">CANCEL</button>
-                                                        
-                                                    </div>
-                                                   
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+      
 <!--REMOVE SERVICES MODAL-->
-                            <div class = 'modal fade' id = 'removeService'>
-                            <div class = 'modal-dialog' style = 'width: 60%;'>
-                                <div class = 'modal-content' style = 'height: 520px;'>
+<div class = "modal fade" id = "modalRequested" >
+    <div class = "modal-dialog" style = "width: 70%;">
+        <div class = "modal-content" >
+            
+            <!--header-->
+            <div class = "modal-header">
+                <button type = "button" class = "close" data-dismiss = "modal">&times;</button>
+                <h3 class = "modal-title">BILL OUT</h3>
+            </div>
+            
+            <!--body (form)-->
+            <div class='modal-body'>
+                <form class='form-horizontal' role='form' method='POST'>
+                    
+                    <div class='row'>
+                        <div class='col-md-6'>
+                            <div class ='panel panel-default'>
+                                <div class='panel-body'>
+                                    
+                             <div class='row'>
+                                <div class='col-md-6'>
+                                    <div class='form-group'>
+                                        <label class="control-label col-xs-12">Select Customer</label>
+                                        <div class="col-xs-12">
+                                        <select class='form-control' id="custId" name = 'customer' onchange="changeUnit()" required>
+                                            <option value=''selected disabled> -Choose Customer-</option>
+                                            <?php
+                                                $sql1 =  " select * from dbholygarden.tblcustomer ORDER BY strLastName ASC";
+                                                $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+                                                mysql_select_db(constant('mydb'));
+                                                $result1 = mysql_query($sql1,$conn);
                                                 
-                                                    <!--header-->
-                                        <div class = 'modal-header'>
-                                            <button type = 'button' class = 'close' data-dismiss = 'modal'>&times;</button>
-                                            
-                                        </div>
+                                                while($row1 = mysql_fetch_array($result1)){
                                                     
-                                                    <!--body (form)-->
-                                        <div class = 'modal-body'>
-                                             
-                                            <label>SERVICE DETAIL ARE YOU SURE YOU WANT TO REMOVE? BLAH BLAH</label>
-                                            
-                                                                                   
-                                    </div><!-- content-->
-                                     <div class="form-group modal-footer">
-                                                   
+                                                    $intCustomerId =$row1['intCustomerId'];
+                                                    $strFirstName=$row1['strFirstName'];
+                                                    $strMiddleName=$row1['strMiddleName'];
+                                                    $strLastName=$row1['strLastName'];
                                                     
-                                                    <div class="col-md-8 col-md-6">
-                                                        <button type = 'button' class="btn btn-success col-md-3" data-toggle = 'modal' title='Edit' data-target = '#'>CONFIRM</button>
-                                                        <button type="close" data-dismiss="modal"  class="btn btn-success col-md-3" name= "btnCancel">CANCEL</button>
+                                                    
+                                                echo"<option value='$intCustomerId'>$strLastName, $strFirstName $strMiddleName</option>";
                                                         
-                                                    </div>
-                                                   
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-        <!--CHECKOUT SERVICES MODAL-->
-                            <div class = 'modal fade' id = 'checkout'>
-                            <div class = 'modal-dialog' style = 'width: 60%;'>
-                                <div class = 'modal-content' style = 'height: 70%;'>
+                                                }//while
                                                 
-                                                    <!--header-->
-                                        <div class = 'modal-header'>
-                                            <button type = 'button' class = 'close' data-dismiss = 'modal'>&times;</button>
-                                            
-                                        </div>
                                                     
-                                                    <!--body (form)-->
-                                        <div class = 'modal-body'>
-                                             
-                                            <label>FILL UP FORM</label>
-
-                     <div class="row">
-                        <div class="col-md-12">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <form class="form-vertical" role="form" action="reserver.php" method="POST">
-                                        <div class="form-group">
-                                            <div class="col-md-7">
-                                                <select class="form-control" id = "selectCustomer" onchange="changeCustomer(this.value)">
-                                                    <option value="">--Choose Customer--</option>
-                                                </select>
-                                            </div>
-                                            <button type="submit" class="btn btn-success col-md-3" id="btnAdd">ADD CUSTOMER</button>
+                                            ?>
+                                        </select>
                                         </div>
-                                    </form>
-                                </div>
-                                
-                                <div class="panel-body">
-                                    <form class="form-vertical" role="form" action="reserver.php" method="POST">
-                                        <div class="row">
-                                            <div class="form-group">
-                                                <div class="col-md-4" style="margin-top:.30em">
-                                                    First Name:
-                                                    <input type="text" class="form-control input-md" id= "tfFirstName" placeholder="First Name" required>
-                                                </div>
-                                                
-                                                <div class="col-md-4" style="margin-top:.30em">
-                                                    Middle Name:
-                                                    <input type="text" class="form-control input-md" id= "tfMiddleName" placeholder="Middle Name" >
-                                                </div>
-                                                
-                                                <div class="col-md-4" style="margin-top:.30em">
-                                                    Last Name:
-                                                    <input type="text" class="form-control input-md" id= "tfLastName" placeholder="Last Name" required>
-                                                </div>
-                                            </div>
-                                            
-                                        </div><!--ROW-->
-                                        
-                                        <div class="row">
-                                            <div class="form-group">
-                                                <div class="col-md-4" style="margin-top:.30em">
-                                                    Address:
-                                                    <input type="text" class="form-control input-md" id= "tfAddress" placeholder="Address" required>
-                                                </div>
-
-                                                <div class="col-md-4" style="margin-top:.30em">
-                                                    Contact No:
-                                                    <input type="text" class="form-control" required id= "tfContactNo" data-inputmask="'mask' : '(9999) 999-9999'">
-                                                </div>
-                                                
-                                                <div class="col-md-4" style="margin-top:.30em">
-                                                    Date of Birth:
-                                                    <input type="date" class="form-control input-md" id= "tfDate" >
-                                                </div>
-                                            </div>
-                                            
-                                        </div><!--ROW-->
-                                        
-                                        <div class="row">
-                                            <div class="form-group">
-                                                <div class="col-md-4" style="margin-top:.30em">
-                                                    Email Address:
-                                                    <input type="email" class="form-control input-md" id= "tfEmail" placeholder="Email Address" required>
-                                                </div>
-                                                
-                                                <div class="col-md-4" style="margin-top: 30px;">
-                                                    Gender:
-                                                    <input type="radio"  align="right" class="flat form-control input-md" id="radioMale" name="gender" value=0> MALE
-                                                    <input type="radio" align="right" class="flat form-control input-md" name="gender" id="radioFemale" value=1>FEMALE
-                                                </div>
-                                                
-                                                <div class="col-md-4" style="margin-top:30px;">
-                                                    Civil Status:
-                                                    <input type="radio"  align="right" class="flat form-control input-md" for="single" id="SingleID" name="civilStatus"> SINGLE
-                                                    <input type="radio" align="right" class="flat form-control input-md" for="married" id="MarriedID" name="civilStatus"> MARRIED
-                                                    <input type="radio" align="right" class="flat form-control input-md" for="widow" id="WidowID"  name="civilStatus"> WIDOW
-                                                </div>
-                                            </div>
-                                        </div><!--ROW-->
-                                        
-                                    </form>
-                                </div><!--PANEL BODY-->
-                            </div>
-                        </div>
-                    </div><!--ROW-->
-                </div>  
-                
-                                            
-                                                                                   
-                                    </div><!-- content-->
-                                     <div class="form-group modal-footer">
-                                                   
-                                                    
-                                                    <div class="col-md-8 col-md-6">
-                                                        <button type = 'submit' class="btn btn-success col-md-3" data-toggle = 'modal' title='Edit' data-target = '#'>SUBMIT</button>
-                                                        <button type="close" data-dismiss="modal"  class="btn btn-success col-md-3" name= "btnCancel">CANCEL</button>
-                                                        
-                                                    </div>
-                                                   
                                     </div>
+                                    <script type="text/javascript">
+                                        function changeUnit(){
+                                                var id =$('#custId').val();
+                                                $.ajax({
+                                                    url:'changeCustomer.php',
+                                                    dataType:'JSON',
+                                                    data:{
+                                                        'id':id
+                                                    },
+                                                    success:function(data){
+                                                        $('#unit2').html(data);
+                                                    }
+
+                                                });
+
+                                        }
+
+                                    </script>
+                                     <div class="form-group">
+                                        <label class="control-label col-xs-12">Select Unit</label>
+                                        <div class="col-xs-12" align="center">
+                                          <select class="select2_multiple" name="unit[]" id="unit2" multiple="multiple" required>
+                                          </select>
+                                        </div>
+                                      </div>
                                 </div>
-                            </div>
-                        </div>
+                            </div><!--row-->
+                                    
+    <!-- Select2 -->
+    <script>
+      $(document).ready(function() {
+        $(".select2_single").select2({
+          placeholder: "Select a unit",
+          allowClear: true
+        });
+        $(".select2_group").select2({});
+        $(".select2_multiple").select2({
+          placeholder: "Select Unit",
+          allowClear: true,
+          width:'100%'
+        });
+      });
+    </script>
+    <!-- /Select2 -->
+                                </div><!--panel-body-->
+                            </div><!--panel-default-->
+                        </div><!--col-md-6-->
+                        
+                        <div class='col-md-6'>
+                           
+                    
+                            <div class ='panel panel-default'>
+                                <div class='panel-body'>
+                                    
+                                    <div class='form-group'>
+                                        <label class='col-md-7' style = 'font-size: 18px; margin-top:.50em;' align='right'>Date:</label>
+                                        <div class='col-md-5'>
+                                            <?php $date = date('Y-m-d');?>
+                                            <input type='date' class='form-control input-md' name='date' value='<?php echo "$date"; ?>' readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class='form-group'>
+                                        <label class='col-md-7' style = 'font-size: 18px; margin-top:.50em;' align='right'>Total Amount Paid:</label>
+                                        <div class='col-md-5'>
+                                            <div class=' input-group'>
+                                                <span class = 'input-group-addon'>₱</span>
+                                                <?php
+                                                $sql="SELECT SUM(dblServicePrice)  as 'total' FROM tblservice where strServiceStatus='added' GROUP BY intServiceID";
+                                                $result= mysql_query($sql,$conn);
+                                                $row=mysql_fetch_array($result);
+                                                $amount=$row['total'];
+                                                ?>
+                                                <input type='text' class='form-control input-md tfAmountPaid' value='<?php echo $amount ?>' name='amount' readonly="" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    <div class='form-group'>
+                                        <label class='col-md-7' style = 'font-size: 18px; margin-top:.50em;' align='right'>Amount Paid:</label>
+                                        <div class='col-md-5'>
+                                            <div class=' input-group'>
+                                                <span class = 'input-group-addon'>₱</span>
+                                                <input type='text' class='form-control input-md tfAmountPaid' name='amount' required/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    
+                                </div><!--panel-body-->
+                            </div><!--panel-default-->
+                        </div><!--col-md-6-->
+                        
+                    </div><!--row-->
+                        
+            </div><!--modal-body-->
+                    <div class='modal-footer'> 
+                        <button type='submit' class='btn btn-success' name= 'btnSubmit'>Submit</button>
+                        <input class = 'btn btn-default' type='reset' name = 'btnClear' value = 'Clear Entries'>
+                    </div>
+                </form>
+                        
+        </div><!-- modal content-->
+    </div><!-- moda dialog-->
+</div><!-- modal fade-->
+
 
 
         <!-- footer content -->
@@ -388,14 +390,15 @@ require('../controller/viewdata.php');
     <script src="../../vendors/jszip/dist/jszip.min.js"></script>
     <script src="../../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../../vendors/pdfmake/build/vfs_fonts.js"></script>
+    <script src="../../vendors/select2/dist/js/select2.full.min.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="../../build/js/custom.min.js"></script>
  
     <!-- Datatables -->
     <script>
       $(document).ready(function(){
-        $('#datatable-cust').DataTable();
-        $('#datatable-service').DataTable();
+        $('#datatable-available').DataTable();
+        $('#datatable-requested').DataTable();
       });
     </script>
     <!-- /Datatables -->

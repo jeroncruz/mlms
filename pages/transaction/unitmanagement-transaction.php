@@ -2,10 +2,37 @@
 
 require ("../controller/connection.php");
 require('../controller/trans-viewdata.php');
-require('../controller/createdata.php');
-require('../controller/updatedata.php');
+require('../controller/kenDeceasedController.php');
+// require('../controller/kenUnscheduledController.php');
 require('../controller/deactivate.php');
 
+if (isset($_POST['btnAddDeceasedLot'])){
+    $tfFirstName = $_POST['tfFirstName'];
+    $tfMiddleName = $_POST['tfMiddleName'];
+    $tfLastName= $_POST['tfLastName'];
+    $intCustomerId= $_POST['intCustomerId'];
+    $tfLotId= $_POST['tfLotId'];
+    $tfRelationOwner=$_POST['tfRelationOwner'];
+    $gender=$_POST['gender'];
+    $dateOfBirth=$_POST['dateOfBirth'];
+    $dateDied=$_POST['dateDied'];
+    $tfDate=$_POST['tfDate'];
+    $tfTotalAmount=$_POST['tfTotalAmount'];
+    $tfAmountPaid=$_POST['tfAmountPaid'];
+    $tfTransactionType=$_POST['tfTransactionType'];
+    
+    $dateOfBirthNew = date("Y-m-d", strtotime($dateOfBirth));
+    $dateDiedNew = date("Y-m-d", strtotime($dateDied));
+    
+    $tfFirstNameNew = str_replace("'", "\'", $tfFirstName);
+    $tfMiddleNameNew = str_replace("'", "\'", $tfMiddleName);
+    $tfLastNameNew = str_replace("'", "\'", $tfLastName);
+
+    $createDeceased =  new DeceasedController();
+    $createDeceased->createDeceasedLot($tfDate,$tfTransactionType,$tfFirstNameNew,$tfMiddleNameNew,$tfLastNameNew,$tfRelationOwner,$gender,$dateOfBirthNew,$dateDiedNew,$intCustomerId,$tfLotId,$tfAmountPaid);
+    
+    
+}
 
 ?>
 
@@ -105,10 +132,10 @@ require('../menu/topnav.php');
 <div class="" role="tabpanel" data-example-id="togglable-tabs">
 <ul id="myTab" class="nav nav-tabs bar_tabs left" role="tablist">
 <li role="presentation" id="tab_content11" class="active">
-<a href="#tab_content11" id="home-tabb" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Lot-Unit</a>
+<a href="#tab_content11" id="home-tabb" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">LOT-UNIT</a>
 </li>
 <li role="presentation" id="tab_content22" class="">
-<a href="#tab_content22" role="tab" id="profile-tabb" data-toggle="tab" aria-controls="profile" aria-expanded="false">AshCrypt-Unit</a>
+<a href="#tab_content22" role="tab" id="profile-tabb" data-toggle="tab" aria-controls="profile" aria-expanded="false">ASHCRYPT-UNIT</a>
 </li>  
 </ul>
 
@@ -306,8 +333,9 @@ $view->selectBlock();
                     }//else
                     ?>
 
-            </tbody>
-        </table>
+                </tbody>
+                </table>
+
     </div><!-- /.table-responsive -->
 </div><!--panel body -->
 </div><!--panel panel-success-->
@@ -567,7 +595,7 @@ MLMS-Design
 
 
 <?php   
-    require("../modals/transaction/unitmanagementLot-modal.php");
+    // require("../modals/transaction/unitmanagementLot-modal.php");
  
 ?>
 

@@ -78,7 +78,7 @@ if (isset($_POST['btnSave'])){
         });
      </script>
     
-    
+
 </head>
 
 <body class="nav-sm">
@@ -324,13 +324,13 @@ if (isset($_POST['btnSave'])){
                                                 </div>
                                             </div><!--ROW-->
                                             
-                                            <div class="form-group">
+                                            <!-- <div class="form-group">
                                                     <label class="col-md-4"  align="right" style="margin-top:.30em">Transfer Charge:</label>
                                                     <div class="col-md-2">
                                                         <div class="input-group">
 
                                                         <?php
-                                                            $sql = "SELECT * FROM tblbusinessdependency WHERE intBusinessDependencyId='11'";
+                                                           /* $sql = "SELECT * FROM tblbusinessdependency WHERE intBusinessDependencyId='11'";
                                                             $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
                                                             mysql_select_db(constant('mydb'));
                                                             $result = mysql_query($sql,$conn);
@@ -342,10 +342,10 @@ if (isset($_POST['btnSave'])){
                                                             echo round($number, 2);*/
                                                         
                                                         ?>
-                                                        <input type="number" id="overdue" class="form-control input-md" name=<?php echo"10";?> value="<?php echo round($transferCharge,2);?>"  required>
+                                                        <input type="number" id="overdue" class="form-control input-md" name=<?php ;?> value="<?php ($transferCharge);?>"  required>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                             </div><!--ROW-->
                                             
                                             

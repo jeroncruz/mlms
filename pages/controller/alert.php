@@ -29,7 +29,7 @@ class alerts{
    function alertSold(){
 
       echo '<script type="text/javascript">';
-      echo 'setTimeout(function () { swal("Nice!","Unit has been Sold!","success");';
+      echo 'setTimeout(function () { swal("Nice!","Press ok","success");';
       echo '}, 1000);</script>';
   }
 

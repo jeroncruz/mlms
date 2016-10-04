@@ -97,17 +97,131 @@
                             </div><!--panel panel-default-->
                         </div><!--col-md-6-->
                         
-                        <div class='col-md-6'>
+                        <div class='col-xs-6'>
                             <div class='panel panel-default'>
                                 <div class='panel-body'>
                                     <div class='form-group'>
                                         <label class='col-md-7'style = 'font-size: 18px; margin-top:.50em;' align='right'>Date:</label>
                                         <div class='col-md-5'>
-                                            <?php $date = date('Y-m-d');?>
+                                            <?php 
+                                                $sqlCollection="SELECT * FROM tblcollectionash where intAvailUnitAshId='$intAvailUnitAshId'";
+                                                $resultCollection=mysql_query($sqlCollection);
+                                                $num=mysql_num_rows($resultCollection);
+                                                if($num>0){
+                                                    $rowCollection=mysql_fetch_array($resultCollection);
+                                                    $dateDate = $rowCollection['dateDate'];
+                                                }else{
+
+                                                    $sqlDate="SELECT * FROM tbldownpaymentash where intAvailUnitAshId='$intAvailUnitAshId'";
+                                                    $resultDate=mysql_query($sqlDate);
+                                                    $rowDate=mysql_fetch_array($resultDate);
+                                                    $dateDate = $rowDate['dateDate'];
+                                                }
+                                                
+                                                $date = date('Y-m-d', strtotime($dateDate. " + 1 months"));
+                                            ?>  
                                             <input type='date' class='form-control input-md' name='tfDate' value='<?php echo "$date"; ?>' readonly>
                                         </div>
                                     </div>
                                     
+                                     <?php 
+                                                $sqlCollection="SELECT * FROM tblcollectionash where intAvailUnitAshId='$intAvailUnitAshId'";
+                                                $resultCollection=mysql_query($sqlCollection);
+                                                $num=mysql_num_rows($resultCollection);
+                                                if($num>0){
+                                                    $rowCollection=mysql_fetch_array($resultCollection);
+                                                    $dateDate = $rowCollection['dateDate'];
+                                                }else{
+
+                                                    $sqlDate="SELECT * FROM tbldownpaymentash where intAvailUnitAshId='$intAvailUnitAshId'";
+                                                    $resultDate=mysql_query($sqlDate);
+                                                    $rowDate=mysql_fetch_array($resultDate);
+                                                    $dateDate = $rowDate['dateDate'];
+                                                }
+                                                $currentDate=date('Y-m-d');
+
+                                                //compute balance
+                                                $ts1 = strtotime($dateDate);
+                                                $ts2 = strtotime($currentDate);
+
+                                                $year1 = date('Y', $ts1);
+                                                $year2 = date('Y', $ts2);
+
+                                                $month1 = date('m', $ts1);
+                                                $month2 = date('m', $ts2);
+                                                $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
+
+                                                if($diff>=2){
+                                                    ?>
+                                     <div class='form-group'>
+                                        <label class='col-md-7' style = 'font-size: 18px; margin-top:.50em;' align='right'>Penalty: </label>
+                                        <div class='col-md-5'>
+                                            <div class=' input-group'>
+                                                <?php 
+                                                if($strModeOfPayment == 'Reserve') {
+                                                        $interest = $deciRegularInterest/100;
+                                                    
+                                                        $amortization = (((($dblSellingPrice - $deciDownpayment)*$interest)*$intNoOfYear) + $dblSellingPrice - $deciDownpayment) / ($intNoOfYear * 12);
+                                                        
+                                                    }else{
+                                                        $interest = $deciAtNeedInterest/100;
+                                                    
+                                                        $amortization = (((($dblSellingPrice - $deciDownpayment)*$interest)*$intNoOfYear) + $dblSellingPrice - $deciDownpayment) / ($intNoOfYear * 12);
+                                                        
+                                                    }//else     
+                                                    $sqlPenalty = "SELECT * FROM tblbusinessdependency where intBusinessDependencyId='5'";
+                                                    $resultPenalty = mysql_query($sqlPenalty);
+                                                    $rowPenalty = mysql_fetch_array($resultPenalty);
+                                                    $penalty = $rowPenalty['deciBusinessDependencyValue'];
+                                                    $penalty = $penalty / 100;
+
+                                                    $computedPenalty = ($amortization*$penalty)*$diff;   
+                                                    $totalAmount = $computedPenalty+$amortization;
+                                                ?>
+                                                <span class = 'input-group-addon'>₱</span>
+                                                <input type='text' class='form-control input-md' value='<?php  echo"".number_format($computedPenalty,2)."";?>' readonly/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class='form-group'>
+                                        <label class='col-md-7' style = 'font-size: 18px; margin-top:.50em;' align='right'>Total Amount To Be Paid:</label>
+                                        <div class='col-md-5'>
+                                            <div class=' input-group'>
+                                                <span class = 'input-group-addon'>₱</span>
+                                                <input type='text' class='form-control input-md tfAmountPaid' id="monthly<?php echo $intAvailUnitAshId ?>" name="tfAmountPaid"  value="<?php echo number_format($totalAmount,2); ?>" readonly/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                                    <?php
+                                                }else{
+
+                                                    if($strModeOfPayment == 'Reserve') {
+                                                        $interest = $deciRegularInterest/100;
+                                                    
+                                                        $amortization = (((($dblSellingPrice - $deciDownpayment)*$interest)*$intNoOfYear) + $dblSellingPrice - $deciDownpayment) / ($intNoOfYear * 12);
+                                                        
+                                                    }else{
+                                                        $interest = $deciAtNeedInterest/100;
+                                                    
+                                                        $amortization = (((($dblSellingPrice - $deciDownpayment)*$interest)*$intNoOfYear) + $dblSellingPrice - $deciDownpayment) / ($intNoOfYear * 12);
+                                                        
+                                                    }//else
+                                                     
+                                                ?>
+                                                <div class='form-group'>
+                                                    <label class='col-md-7' style = 'font-size: 18px; margin-top:.50em;' align='right'>Total Amount To Be Paid:</label>
+                                                    <div class='col-md-5'>
+                                                        <div class=' input-group'>
+                                                            <span class = 'input-group-addon'>₱</span>
+                                                            <input type='text' class='form-control input-md tfAmountPaid' id="monthly<?php echo $intAvailUnitAshId ?>" name="tfAmountPaid" value="<?php echo number_format($amortization,2); ?>" readonly/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                    <?php
+                                                }
+                                            ?>
+
                                     <div class='form-group'>
                                         <label class='col-md-7' style = 'font-size: 18px; margin-top:.50em;' align='right'>Amount Paid:</label>
                                         <div class='col-md-5'>

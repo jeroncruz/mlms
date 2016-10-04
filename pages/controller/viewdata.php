@@ -1696,7 +1696,7 @@ class service{
  function viewServiceRequest(){
 		
         $sql = "SELECT d.intServiceID,  d.strServiceName,  d.dblServicePrice, d.intStatus, d.intServiceTypeId, s.strServiceTypeName FROM tblservice d
-	               INNER JOIN tblservicetype s ON d.intServiceTypeId = s.intServiceTypeId WHERE d.intServiceTypeId='6' ORDER BY d.strServiceName ASC";
+	               INNER JOIN tblservicetype s ON d.intServiceTypeId = s.intServiceTypeId WHERE s.strServiceTypeName!='Service Scheduling' AND d.strServiceStatus IS NULL  ORDER BY d.strServiceName ASC";
        
         $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
         mysql_select_db(constant('mydb'));
@@ -1712,21 +1712,101 @@ class service{
 
 			echo
 				"<tr>
+				<form method ='POST' >
+				   <input type='hidden' name='inputCode' value='$intServiceID'>
 				   <td style ='font-size:18px;'>$strServiceName</td>
 				    <td style = 'text-align: right; font-size:18px;'>Php ".number_format($dblServicePrice,2)."</td>
                     <td align = 'center'>
-                    	 <button type='button' class='btn btn-success' data-toggle='modal' data-target='#modalBillService'> <i class='glyphicon glyphicon-plus'></i></button>
-                      
+                    	 <button type='submit' class='btn btn-success' data-toggle='modal' name= 'btnAdd[$intServiceID]'  data-target='#modalSerRequest'> <i class='glyphicon glyphicon-plus'></i></button>
                     </td>
+                  </form>
 				</tr>
                 
                                    
 				";
                 
-            }//while($row = mysql_fetch_array($result))
-			mysql_close($conn);         
+                if(isset($_POST['btnAdd'][$intServiceID])){
+                	
+                	$inputCode =$_POST['inputCode'];
+					$sqlAdd= "Update tblservice SET strServiceStatus = 'added' where intServiceID='".$inputCode."'";
+
+					       if(mysql_query($sqlAdd,$conn))
+					     {
+					            ?>
+					            <script>
+					             location.assign('service-request-transaction.php');
+					            </script>
+
+					            <?php
+					     }else{
+					        ?>
+					          <script>
+					             alert("Failed.");
+					          </script>
+					        <?php
+					     }
+
+
+                }
+            }//while($row = mysql_fetch_array($result))      
     }//function viewService()
     
+ function viewServiceRequested(){
+		
+        $sql = "SELECT d.intServiceID,  d.strServiceName,  d.dblServicePrice, d.intStatus, d.intServiceTypeId, s.strServiceTypeName FROM tblservice d
+	               INNER JOIN tblservicetype s ON d.intServiceTypeId = s.intServiceTypeId WHERE s.strServiceTypeName!='Service Scheduling' AND d.strServiceStatus='added' ORDER BY d.strServiceName ASC";
+       
+        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+        mysql_select_db(constant('mydb'));
+        $result = mysql_query($sql,$conn);
+        
+
+		while($row = mysql_fetch_array($result)){
+          
+			$intServiceID = $row['intServiceID'];
+			$strServiceName = $row['strServiceName'];
+			$strServiceTypeName = $row['strServiceTypeName'];
+			$dblServicePrice = $row['dblServicePrice'];
+
+			echo
+				"<tr>
+				<form method ='POST' >
+				   <input type='hidden' name='inputCode' value='$intServiceID'>
+				   <td style ='font-size:18px;'>$strServiceName</td>
+				    <td style = 'text-align: right; font-size:18px;'>Php ".number_format($dblServicePrice,2)."</td>
+                    <td align = 'center'>
+                    	 <button type='submit' class='btn btn-success' data-toggle='modal' name= 'btnRemove[$intServiceID]'  data-target='#modalSerRequest'> <i class='glyphicon glyphicon-minus'></i></button>
+                    </td>
+                  </form>
+				</tr>
+                
+                                   
+				";
+                
+                if(isset($_POST['btnRemove'][$intServiceID])){
+                	$inputCode =$_POST['inputCode'];
+
+					$sqlRemove= "Update tblservice SET strServiceStatus = null where intServiceID='".$inputCode."'";
+					       if(mysql_query($sqlRemove,$conn))
+					     {
+
+					            ?>
+					            <script>
+					             location.assign('service-request-transaction.php');
+					            </script>
+
+					            <?php
+					     }else{
+					        ?>
+					          <script>
+					             alert("Failed.");
+					          </script>
+					        <?php
+					     }
+
+                }
+            }//while($row = mysql_fetch_array($result))
+    }//function viewService()
 
 }//class service
 //____________________________________________________

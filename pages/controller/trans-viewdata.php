@@ -44,7 +44,7 @@ class lot{
                     require('../modals/transaction/reserve-modal.php');
                     require('../modals/transaction/atneed-modal.php');
 
-                    
+                  
                     
               echo"</tr>";
                 
@@ -420,17 +420,34 @@ class unitManagement{
                     <td style ='font-size:18px;'>$strSectionName</td>
                     
                     <td align='center'>
-                        <button type='button' class='btn  btn-success btn-sm' data-toggle='modal' data-target='#transferCharge$intLotID'></button>
+                        <button type='button' class='btn  btn-success btn-md' title='LIST OF DECEASED' data-toggle='modal' data-target='#listDeceasedLot$intLotID'>
+                            <i class='glyphicon glyphicon-eye-open'></i>
+                        </button>
+                        <button type='button' class='btn  btn-success btn-md' title='ADD DECEASED' data-toggle='modal' data-target='#addDeceasedLot$intLotID'>
+                            <i class='glyphicon glyphicon-plus'></i>
+                        </button>
+                        <button type='button' class='btn  btn-success btn-md' title='TRANSFER DECEASED' data-toggle='modal' data-target='#transferDeceasedLot$intLotID'>
+                            <i class='glyphicon glyphicon-transfer'></i>
+                        </button>
+                        <button type='button' class='btn  btn-success btn-md' title='TRANSFER OWNERSHIP' data-toggle='modal' data-target='#transferOwnershipLot$intLotID'>
+                            <i class='glyphicon glyphicon-transfer'></i>
+                        </button>
                     </td>";
-                    // require('../modals/transaction/reserve-modal.php');
+                    // require('../modals/transaction/listDeceasedLot-modal.php');
+                    require('../modals/transaction/addDeceasedLot-modal.php');
+                    // require('../modals/transaction/transferDeceasedLot-modal.php');
+                    // require('../modals/transaction/transferOwnershipLot-modal.php');
                     // require('../modals/transaction/atneed-modal.php');
 
                     
-                    
               echo"</tr>";
+                
+                    
                 
             }//while($row = mysql_fetch_array($result))
             mysql_close($conn);         
+            
+              
     }//function viewLot()    
     
 	
