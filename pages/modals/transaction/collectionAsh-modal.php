@@ -7,7 +7,7 @@
             </div>
 
             <div class='modal-body'>
-                <form class='form-horizontal' role='form' action='payment.php' method='POST'>
+                <form class='form-horizontal' id='collectionAshModal<?php echo $intAvailUnitAshId ?>' role='form' action='payment.php' method='POST'>
                     <div class='row'>
                         <div class='col-md-6'>
                             <div class='panel panel-default'>
@@ -15,7 +15,7 @@
                                     
                                     <input type='hidden'  name='tfAvailUnitAshId' value='<?php echo"$intAvailUnitAshId";?>'  readonly>
                                     
-                                    
+                               
                                     <div class='form-group'>
                                         <label class='col-md-7' style = 'font-size: 18px; margin-top:.50em;' align='right'>Unit Name:</label>
                                         <div class='col-md-5'>
@@ -269,7 +269,7 @@
                             
                             <div class='form-group'>
                                 <div class="col-md-offset-8 col-md-8"> 
-                                    <button type='submit' class='btn btn-success' name= 'btnCollectAsh'>Collect</button>
+                                    <button type='submit' class='btn btn-success' name= 'btnCollectAsh'">Collect</button>
                                     <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
                                 </div>
                             </div>
@@ -280,9 +280,9 @@
 		</div><!--modal-content-->
 	</div><!--modal-dialog-->
 </div><!--modal-fade--> 
-            
+     
 
-            
+          
 
 <div class='modal fade' id='<?php echo"viewCollectionHistoryAsh$intAvailUnitAshId";?>' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' style='z-index: 1500;display:none;'>
     <div class='modal-dialog' role='document' style="width:40%;">

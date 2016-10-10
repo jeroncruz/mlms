@@ -30,6 +30,7 @@ if (isset($_POST['btnSubmitCustomer'])){
 if (isset($_POST['btnSubmitSpotcash'])){
 
     $tfLotId = $_POST['tfLotId'];
+    $tfStatus = $_POST['tfStatus'];
     $selectCustomer = $_POST['selectCustomer'];
     $tfDate = $_POST['tfDate'];
     $tfModeOfPayment= $_POST['tfModeOfPayment'];
@@ -43,7 +44,8 @@ if (isset($_POST['btnSubmitSpotcash'])){
     if($tfAmountFinal >= $tfDiscountedFinal){
     
         $createAvailUnit =  new createAvailUnit();
-        $createAvailUnit->Create($tfLotId,$selectCustomer,$dateCreated,$tfModeOfPayment,$tfAmountFinal);
+        $createAvailUnit->Create($tfLotId,$tfStatus,$selectCustomer,$dateCreated,$tfModeOfPayment,$tfAmountFinal);
+
     }else{
         //echo "<script>alert('Insufficient Amount Paid!')</script>";
         $alertChange = new alerts();
@@ -140,6 +142,7 @@ if (isset($_POST['btnCancelAtNeed'])){
 if (isset($_POST['btnSubmitSpotcashAsh'])){
 
     $tfUnitId = $_POST['tfUnitId'];
+    $tfStatus = $_POST['tfStatus'];
     $selectCustomer = $_POST['selectCustomer'];
     $tfDate = $_POST['tfDate'];
     $tfModeOfPayment= $_POST['tfModeOfPayment'];
@@ -153,7 +156,7 @@ if (isset($_POST['btnSubmitSpotcashAsh'])){
     if($tfAmountFinal >= $tfDiscountedFinal){
     
         $createAvailUnit =  new createAvailUnitAsh();
-        $createAvailUnit->createSpotAsh($tfUnitId,$selectCustomer,$dateCreated,$tfModeOfPayment,$tfAmountFinal);
+        $createAvailUnit->createSpotAsh($tfUnitId,$tfStatus,$selectCustomer,$dateCreated,$tfModeOfPayment,$tfAmountFinal);
     }else{
         //echo "<script>alert('Insufficient Amount Paid!')</script>";
         $alertChange = new alerts();

@@ -194,8 +194,8 @@ if(isset($_POST['btnSubmit'])){
         </div><!-- /page content -->
 
       
-<!--REMOVE SERVICES MODAL-->
-<div class = "modal fade" id = "modalRequested" >
+<!-- SERVICES MODAL-->
+<div class = "modal fade" id="modalRequested" >
     <div class = "modal-dialog" style = "width: 70%;">
         <div class = "modal-content" >
             
@@ -207,7 +207,7 @@ if(isset($_POST['btnSubmit'])){
             
             <!--body (form)-->
             <div class='modal-body'>
-                <form class='form-horizontal' role='form' method='POST'>
+                <form class='form-horizontal' role='form' action="service-request-transaction.php" method='POST'>
                     
                     <div class='row'>
                         <div class='col-md-6'>
@@ -215,14 +215,14 @@ if(isset($_POST['btnSubmit'])){
                                 <div class='panel-body'>
                                     
                              <div class='row'>
-                                <div class='col-md-6'>
+                    
                                     <div class='form-group'>
-                                        <label class="control-label col-xs-12">Select Customer</label>
-                                        <div class="col-xs-12">
+                                        <label class="control-label" style="font-size:20px;">Select Customer</label>
+                                        <div class="col-xs-12" align="center">
                                         <select class='form-control' id="custId" name = 'customer' onchange="changeUnit()" required>
                                             <option value=''selected disabled> -Choose Customer-</option>
                                             <?php
-                                                $sql1 =  " select * from dbholygarden.tblcustomer ORDER BY strLastName ASC";
+                                                $sql1 =  " select * from tblavailunit a inner join tblcustomer c on a.intCustomerId=c.intCustomerId GROUP BY a.intCustomerId Order by strLastName ASC";                    
                                                 $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
                                                 mysql_select_db(constant('mydb'));
                                                 $result1 = mysql_query($sql1,$conn);
@@ -242,10 +242,14 @@ if(isset($_POST['btnSubmit'])){
                                                     
                                             ?>
                                         </select>
-                                        </div>
+                                    </div>
+                                        
                                     </div>
                                     <script type="text/javascript">
                                         function changeUnit(){
+                                            
+                                                var total=$('#totalAmountStatic').val();
+                                                $('#totalAmount').val(total);
                                                 var id =$('#custId').val();
                                                 $.ajax({
                                                     url:'changeCustomer.php',
@@ -260,23 +264,37 @@ if(isset($_POST['btnSubmit'])){
                                                 });
 
                                         }
-
+                                        function changeTotal(){
+                                                    
+                                            var total=$('#totalAmountStatic').val();
+                                            var unitQuantity=$("#unit2 :selected").length;
+                                            if(unitQuantity<=0){
+                                                $('#totalAmount').val(total);
+                                            }else{
+                                                var newTotal=parseFloat(total*unitQuantity);
+                                                $('#totalAmount').val(newTotal);
+                                            }
+                                            
+                                            
+                                            
+                                            
+                                        }
                                     </script>
                                      <div class="form-group">
-                                        <label class="control-label col-xs-12">Select Unit</label>
+                                        <label class="control-label" style="font-size:20px;">Select Units</label>
                                         <div class="col-xs-12" align="center">
-                                          <select class="select2_multiple" name="unit[]" id="unit2" multiple="multiple" required>
+                                          <select class="select2_multiple" name="unit[]" onchange="changeTotal()" id="unit2" multiple="multiple" required>
                                           </select>
                                         </div>
                                       </div>
-                                </div>
+                                
                             </div><!--row-->
                                     
     <!-- Select2 -->
     <script>
       $(document).ready(function() {
         $(".select2_single").select2({
-          placeholder: "Select a unit",
+          placeholder: "Select a units",
           allowClear: true
         });
         $(".select2_group").select2({});
@@ -317,7 +335,8 @@ if(isset($_POST['btnSubmit'])){
                                                 $row=mysql_fetch_array($result);
                                                 $amount=$row['total'];
                                                 ?>
-                                                <input type='text' class='form-control input-md tfAmountPaid' value='<?php echo $amount ?>' name='amount' readonly="" />
+                                                <input type='hidden' id="totalAmountStatic" class='form-control input-md tfAmountPaid' value='<?php echo $amount ?>' name='amount' readonly="" />
+                                                <input type='text' id="totalAmount" class='form-control input-md tfAmountPaid' value='<?php echo $amount ?>' name='' readonly="" />
                                             </div>
                                         </div>
                                     </div>
@@ -343,7 +362,7 @@ if(isset($_POST['btnSubmit'])){
                         
             </div><!--modal-body-->
                     <div class='modal-footer'> 
-                        <button type='submit' class='btn btn-success' name= 'btnSubmit'>Submit</button>
+                        <button type='submit' class='btn btn-success' name= 'btnSubmit' onclick="window.open('../modals/transaction/serviceReq-pdf.php');">Submit</button>
                         <input class = 'btn btn-default' type='reset' name = 'btnClear' value = 'Clear Entries'>
                     </div>
                 </form>
@@ -402,17 +421,7 @@ if(isset($_POST['btnSubmit'])){
       });
     </script>
     <!-- /Datatables -->
- <script type="text/javascript">
-      $(document).on("ready", function(){
-                $("#modalBillService").wizard({
-            exitText: 'exit',
-                    onfinish:function(){
-            window.open('reservation-pdf.php', '_blank');
-                    }
-                });
-            });
 
-    </script>
 
     
   </body>

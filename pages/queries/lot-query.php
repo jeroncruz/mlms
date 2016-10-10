@@ -98,10 +98,12 @@ require('../controller/retrieve.php');
                                                             
                                                             <div class="col-md-4">
                                                                 <select class="form-control" name = "filter2">
-                                                                    <option value=""> --Choose Status--</option>
+                                                                    <option value=""> --Choose Lot Status--</option>
                                                                     <option value="0"> Available</option>
                                                                     <option value="1"> Reserve</option>
-                                                                    <option value="2"> Occupied</option>
+                                                                    <option value="2"> Owned</option>
+                                                                    <option value="3"> At-Need</option>
+																						
                                                                 </select>
                                                             </div>
                                                             
@@ -163,10 +165,12 @@ require('../controller/retrieve.php');
                                                                 $LotStatus ="Available";
                                                             }else if($intLotStatus==1){
                                                                 $LotStatus="Reserved";
+                                                            }else if($intLotStatus==2){
+                                                                $LotStatus="Owned";
                                                             }else{
-                                                                $LotStatus="Occupied";
+                                                                $LotStatus="At-Need";
                                                             }
-                                                                        
+                      
                                                             echo 
                                                                 "<tr><td style ='font-size:18px;'>$strLotName</td>
                                                                     <td style ='font-size:18px;'>$strBlockName</td>

@@ -24,7 +24,7 @@
                                     <div class='form-group'>
                                         <label class='col-md-7' style = 'font-size: 18px; margin-top:.50em;' align='right'>Unit Name:</label>
                                         <div class='col-md-5'>
-                                            <input type='text' class='form-control input-md' name='tfUnitName' value='<?php echo"$strUnitName";?>'  readonly>
+                                            <input type='text' class='form-control input-md' name='tfUnitName' value='<?php echo $strUnitName;?>'  readonly>
                                         </div>
                                     </div>
                                     
@@ -74,7 +74,7 @@
                                         <div class='col-md-5'>
                                             <div class=' input-group'>
                                                 <span class = 'input-group-addon'>₱</span>
-                                                <input type='text' class='form-control input-md tfAmountPaid' id="changeValuei<?php echo $intAvailUnitAshId; ?>" name='' readonly/>
+                                                <input type='text' class='form-control input-md tfAmountPaid' id="changeValuei<?php echo $intAvailUnitAshId; ?>" name='tfChange' readonly/>
                                             </div>
                                         </div>
                                       </div>
@@ -107,7 +107,7 @@
                             
                             <div class='form-group'>
                                         <div class="col-md-offset-8 col-md-8"> 
-                                            <button type='submit' class='btn btn-success' name= 'btnCollectDownpaymentAsh'>Collect</button>
+                                            <button type='submit' class='btn btn-success' name= 'btnCollectDownpaymentAsh'">Collect</button>
                                             <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
                                         </div>
                                     </div>

@@ -4,28 +4,37 @@
 
 		public function createDeceasedLot($tfDate,$tfFirstNameNew, $tfMiddleNameNew, $tfLastNameNew, $intCustomerId, $tfLotId, $tfRelationOwner, $dateOfBirthNew, $dateDiedNew, $gender, $tfAmountPaid,$tfTransactionType){
 
-			$conn 		= mysql_connect(constant('server'),constant('user'),constant('pass'));
-        				  mysql_select_db(constant('mydb'));
 			$sql 		=	"INSERT INTO `dbholygarden`.`tbldeceased` (`strFirstName`, `strMiddleName`, `strLastName`, `intGender`, `dateBirthday`, `dateDeath`, `strRelationship`, `intCustomerId`) 
                                                             VALUES ('$tfFirstNameNew', '$tfMiddleNameNew', '$tfLastNameNew', '$gender', '$dateOfBirthNew', '$dateDiedNew', '$tfRelationOwner', '$intCustomerId')";
-			$result		= mysql_query($conn,$sql);
-
+			$conn 		= mysql_connect(constant('server'),constant('user'),constant('pass'));
+        				  mysql_select_db(constant('mydb'));
+            $result		= mysql_query($conn,$sql);
+            mysql_close($conn);
+            
 			//select deceased ID
+            $conn 		= mysql_connect(constant('server'),constant('user'),constant('pass'));
+        				  mysql_select_db(constant('mydb'));
 			$selectIdDeceased = "SELECT intDeceasedId FROM tbldeceased WHERE intDeceasedId = '".$intDeceasedId."'";
 			$resultIdDeceased = mysql_query($conn,$selectIdDeceased);
 			$row = mysql_fetch_array($resultIdDeceased);
 			$intDeceasedId = $row['intDeceasedId'];
-
+            mysql_close($conn);
 			//select service ID
+            $conn 		= mysql_connect(constant('server'),constant('user'),constant('pass'));
+        				  mysql_select_db(constant('mydb'));
 			$selectIdService = "SELECT intServiceID FROM tblservice WHERE strServiceName LIKE 'Interment'";
 			$resultIdService = mysql_query($conn,$selectIdService);
 			$row = mysql_fetch_array($resultIdService);
 			$intServiceID = $row['intServiceID'];
-
+            mysql_close($conn);
+            
+            $conn 		= mysql_connect(constant('server'),constant('user'),constant('pass'));
+        				  mysql_select_db(constant('mydb'));
 			//insert transaction deceased
 			$sqlTransDeceased = "INSERT INTO `dbholygarden`.`tbltransactiondeceased` (`dateTransactionDeceased`, `intCustomerid`, `intServiceId`, `intDeceasedId`, `deciAmountPaid`, `intTransactionType`) 
                                                                                 VALUES ('$tfDate', '$intCustomerId', '$intServiceID', '$intDeceasedId', '$tfAmountPaid', '$tfTransactionType')";
             $resultTransDeceased = mysql_query($conn,$sql);
+            mysql_close($conn);
 
 
 		}//end function createDeceasedLot

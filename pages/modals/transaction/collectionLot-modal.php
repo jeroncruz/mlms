@@ -268,6 +268,7 @@
                             <div class='form-group'>
                                 <div class="col-md-offset-8 col-md-8"> 
                                     <button type='submit' class='btn btn-success' name= 'btnCollectLot' onclick = "window.open('../modals/transaction/collectionLot-pdf.php?intAvailUnitId=<?php echo $intAvailUnitId?>')">Collect</button>
+                                    <!--<button type='submit' class='btn btn-success' name= 'btnCollectLot' >Collect</button>-->
                                     <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
                                 </div>
                             </div>
@@ -302,8 +303,8 @@
                                 </div>
                             </div>
                             <?php 
-
-                                $result2 =mysql_query("SELECT * FROM tblcollectionlot where intAvaiUnitId='$intAvailUnitId'");
+                                
+                                $result2 =mysql_query("SELECT * FROM tblcollectionlot where intAvailUnitId='$intAvailUnitId'");
                                 $num2= mysql_num_rows($result2);
                                 if($num2>0){
                                     while($row2=mysql_fetch_array($result2)){

@@ -153,7 +153,7 @@ class downpayment{
         $sql = "SELECT c.intCustomerId, c.strFirstName, c.strMiddleName, c.strLastName, l.strLotName, a.intAvailUnitId, a.strModeOfPayment, a.intStatus, a.boolDownpaymentStatus, a.intInterestId, a.deciDownpayment, a.datDueDate, i.intNoOfYear, i.deciRegularInterest, i.deciAtNeedInterest FROM                     tblcustomer c
                     INNER JOIN tblavailunit a ON a.intCustomerId = c.intCustomerId
                     INNER JOIN tblinterest i ON a.intInterestId = i.intInterestId
-                    INNER JOIN tbllot l ON a.intLotID = l.intLotID WHERE a.intStatus = 0 AND a.boolDownpaymentStatus = 0 ORDER BY c.strLastName ASC";
+                    INNER JOIN tbllot l ON a.intLotID = l.intLotID WHERE a.intStatus = 0 AND a.boolDownpaymentStatus = 0 AND a.boolForfeitedNotice is null ORDER BY c.strLastName ASC";
 
         $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
         mysql_select_db(constant('mydb'));
@@ -206,9 +206,9 @@ class downpayment{
     function viewDownpaymentAsh(){
         
         $sql = "SELECT c.intCustomerId, c.strFirstName, c.strMiddleName, c.strLastName, l.strUnitName, a.intAvailUnitAshId, a.strModeOfPayment, a.intStatus, a.boolDownpaymentStatus, a.intInterestId, a.deciDownpayment, a.datDueDate, i.intNoOfYear, i.deciRegularInterest, i.deciAtNeedInterest FROM                     tblcustomer c
-                    INNER JOIN tblavailunitash a ON a.intCustomerId = c.intCustomerId
+                    INNER JOIN tblavailunitash a ON a.intCustomerId = c.intCustomerId   
                     INNER JOIN tblinterest i ON a.intInterestId = i.intInterestId
-                    INNER JOIN tblacunit l ON a.intUnitID = l.intUnitID WHERE a.intStatus = 0 AND a.boolDownpaymentStatus = 0 ORDER BY c.strLastName ASC";
+                    INNER JOIN tblacunit l ON a.intUnitID = l.intUnitID WHERE a.intStatus = 0 AND a.boolDownpaymentStatus = 0  AND a.boolForfeitedNotice is null ORDER BY c.strLastName ASC";
 
         $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
         mysql_select_db(constant('mydb'));
@@ -267,7 +267,7 @@ class collection{
                     INNER JOIN tblinterest i ON a.intInterestId = i.intInterestId
                     INNER JOIN tbllot l ON a.intLotID = l.intLotID
                     INNER JOIN tblblock b ON b.intBlockID =l.intBlockID
-                    INNER JOIN tbltypeoflot tl ON tl.intTypeID = b.intTypeID WHERE a.intStatus = 0 AND a.boolDownpaymentStatus = 1 ORDER BY c.strLastName ASC";
+                    INNER JOIN tbltypeoflot tl ON tl.intTypeID = b.intTypeID WHERE a.intStatus = 0 AND a.boolDownpaymentStatus = 1  AND a.boolForfeitedNotice is null ORDER BY c.strLastName ASC";
 
         $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
         mysql_select_db(constant('mydb'));
@@ -328,7 +328,7 @@ class collection{
                     INNER JOIN tblavailunitash a ON a.intCustomerId = c.intCustomerId
                     INNER JOIN tblinterest i ON a.intInterestId = i.intInterestId
                     INNER JOIN tblacunit l ON a.intUnitID = l.intUnitID
-                    INNER JOIN tbllevelash tl ON tl.intLevelAshID = l.intLevelAshID WHERE a.intStatus = 0 AND a.boolDownpaymentStatus = 1 ORDER BY c.strLastName ASC";
+                    INNER JOIN tbllevelash tl ON tl.intLevelAshID = l.intLevelAshID WHERE a.intStatus = 0 AND a.boolDownpaymentStatus = 1 AND a.boolForfeitedNotice IS NULL ORDER BY c.strLastName ASC";
 
         $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
         mysql_select_db(constant('mydb'));
@@ -387,68 +387,29 @@ class collection{
 
 class unitManagement{
 
-    function viewLot(){
+    function viewService(){
         
-		$sql = "Select l.intLotID, l.strLotName, b.strBlockName, t.strTypeName, t.deciSellingPrice, t.intNoOfLot, s.strSectionName, l.intLotStatus, l.intStatus 
-                    FROM tbllot l  
-                        INNER JOIN tblBlock b ON l.intBlockID = b.intBlockID 
-                        INNER JOIN	tbltypeoflot t ON b.intTypeID = t.intTypeID
-                        INNER JOIN tblsection s	ON b.intSectionID = s.intSectionID WHERE l.intStatus = '0' AND l.intLotStatus='2' OR l.intLotStatus='3' ORDER BY  strLotName ASC";
+		$sql1 = "SELECT s.intServiceID, s.strServiceName, s.dblServicePrice, d.dblPercent, d.strDescription FROM tblservice s
+                INNER JOIN tbldiscount d ON d.intServiceID = s.intServiceID
+                INNER JOIN tblservicetype st ON st.intServiceTypeId = s.intServiceTypeId WHERE s.intStatus = 0 AND st.strServiceTypeName = 'Service Scheduling' ORDER BY s.strServiceName ASC";
 
-        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+        $conn1 = mysql_connect(constant('server'),constant('user'),constant('pass'));
         mysql_select_db(constant('mydb'));
-        $result = mysql_query($sql,$conn);
-        
+        $result1 = mysql_query($sql1,$conn1);
 
+        while($row1 = mysql_fetch_array($result1)){ 
 
-        while($row = mysql_fetch_array($result)){ 
-			  
-          $intLotID =$row['intLotID'];
-          $strLotName =$row['strLotName'];
-          $strBlockName =$row['strBlockName'];
-          $strTypeName=$row['strTypeName'];
-          $intNoOfLot=$row['intNoOfLot'];
-          $deciSellingPrice=$row['deciSellingPrice'];
-          $strSectionName =$row['strSectionName'];
-          $intStatus =$row['intStatus'];
-                      
-          echo 
-			  "<tr>
-                    <td style ='font-size:18px;'>$strLotName</td>
-                    <td style ='font-size:18px;'>$strBlockName</td>
-                    <td style ='font-size:18px;'>$strTypeName</td>
-                    <td style ='font-size:18px;'>$strSectionName</td>
-                    
-                    <td align='center'>
-                        <button type='button' class='btn  btn-success btn-md' title='LIST OF DECEASED' data-toggle='modal' data-target='#listDeceasedLot$intLotID'>
-                            <i class='glyphicon glyphicon-eye-open'></i>
-                        </button>
-                        <button type='button' class='btn  btn-success btn-md' title='ADD DECEASED' data-toggle='modal' data-target='#addDeceasedLot$intLotID'>
-                            <i class='glyphicon glyphicon-plus'></i>
-                        </button>
-                        <button type='button' class='btn  btn-success btn-md' title='TRANSFER DECEASED' data-toggle='modal' data-target='#transferDeceasedLot$intLotID'>
-                            <i class='glyphicon glyphicon-transfer'></i>
-                        </button>
-                        <button type='button' class='btn  btn-success btn-md' title='TRANSFER OWNERSHIP' data-toggle='modal' data-target='#transferOwnershipLot$intLotID'>
-                            <i class='glyphicon glyphicon-transfer'></i>
-                        </button>
-                    </td>";
-                    // require('../modals/transaction/listDeceasedLot-modal.php');
-                    require('../modals/transaction/addDeceasedLot-modal.php');
-                    // require('../modals/transaction/transferDeceasedLot-modal.php');
-                    // require('../modals/transaction/transferOwnershipLot-modal.php');
-                    // require('../modals/transaction/atneed-modal.php');
+        $intServiceID   =$row1['intServiceID'];
+        $strServiceName =$row1['strServiceName'];
+        $dblServicePrice=$row1['dblServicePrice'];
+        $dblPercent     =$row1['dblPercent'];
+        $strDescription =$row1['strDescription'];
 
-                    
-              echo"</tr>";
-                
-                    
-                
-            }//while($row = mysql_fetch_array($result))
-            mysql_close($conn);         
-            
-              
-    }//function viewLot()    
+        echo '<option value ="'.$intServiceID.'">'.$strServiceName.'</option>';
+
+        }//while($row1 = mysql_fetch_array($result1))
+        mysql_close($conn1);
+    }//function viewSErvice
     
 	
 	function selectBlock(){

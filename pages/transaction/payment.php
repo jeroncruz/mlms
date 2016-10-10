@@ -1,3 +1,4 @@
+
 <?php
 require ("../controller/connection.php");
 require('../controller/trans-viewdata.php');
@@ -74,7 +75,7 @@ if (isset($_POST['btnCollectLot'])){
     
     $updatedBalance = $tfBalanceFinal - $tfamortizationFinal;
     $change = $tfAmountFinal - $tfamortizationFinal;
-                      
+    echo "$updatedBalance----$tfBalanceFinal----$tfamortizationFinal";
     if($tfAmountFinal >= $tfamortizationFinal){
     
         $createPayment =  new createPaymentLot();
@@ -114,6 +115,54 @@ if (isset($_POST['btnCollectAsh'])){
         $alertChange -> alertChange();        
     }//else
 }//if
+$conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
+        mysql_select_db(constant('mydb'));
+        
+//select grace
+$sqlSelectGrace=mysql_query("SELECT * from tblbusinessdependency where intBusinessDependencyId='7'",$conn);
+$rowSelectGrace=mysql_fetch_array($sqlSelectGrace);
+$grace=$rowSelectGrace['deciBusinessDependencyValue'];
+
+$now=date('Y-m-d');
+// undo lot
+$sqlUndo=mysql_query("SELECT * FROM tblavailunit WHERE datDueDate>='$now' AND intStatus=0 AND boolDownpaymentStatus=0 AND strModeOfPayment!='Spotcash' AND boolForfeitedNotice=1;",$conn);
+$numUndo=mysql_num_rows($sqlUndo);
+if($numUndo>0){
+    while($rowUndo=mysql_fetch_array($sqlUndo)){
+        $id=$rowUndo['intAvailUnitId'];
+        mysql_query("UPDATE tblavailunit SET boolForfeitedNotice =NULL WHERE intAvailUnitId='$id'",$conn);
+    }//while   
+}//if
+// undo ash
+$sqlUndoAsh=mysql_query("SELECT * FROM tblavailunitash WHERE datDueDate>='$now' AND intStatus=0 AND boolDownpaymentStatus=0 AND strModeOfPayment!='Spotcash' AND boolForfeitedNotice=1;",$conn);
+$numUndoAsh=mysql_num_rows($sqlUndoAsh);
+if($numUndoAsh>0){
+    while($rowUndoAsh=mysql_fetch_array($sqlUndoAsh)){
+        $id=$rowUndoAsh['intAvailUnitAshId'];
+        mysql_query("UPDATE tblavailunitash SET boolForfeitedNotice =NULL WHERE intAvailUnitAshId='$id'",$conn);
+    }//while   
+}//if
+
+//change status LOT
+$sql=mysql_query("SELECT * FROM tblavailunit WHERE DATEDIFF('$now',dateAvailUnit)>=5 AND intStatus=0 AND boolDownpaymentStatus=0 AND strModeOfPayment!='Spotcash';",$conn);
+$num=mysql_num_rows($sql);
+if($num>0){
+    while($row=mysql_fetch_array($sql)){
+        $id=$row['intAvailUnitId'];
+        mysql_query("UPDATE tblavailunit SET boolForfeitedNotice=1 WHERE intAvailUnitId='$id'",$conn);
+    }//while   
+}//if
+
+
+//change status ASH
+$sqlAsh=mysql_query("SELECT * FROM tblavailunitash WHERE DATEDIFF('$now',dateAvailUnit)>=5 AND intStatus=0 AND boolDownpaymentStatus=0 AND strModeOfPayment!='Spotcash';",$conn);
+$numAsh=mysql_num_rows($sqlAsh);
+if($numAsh>0){
+    while($rowASh=mysql_fetch_array($sqlAsh)){
+        $id=$rowASh['intAvailUnitAshId'];
+        mysql_query("UPDATE tblavailunitash SET boolForfeitedNotice=1 WHERE intAvailUnitAshId='$id'",$conn);
+    }//while   
+}//if
 
 ?>
 
@@ -151,6 +200,10 @@ if (isset($_POST['btnCollectAsh'])){
 	<script type="text/javascript" src="../../build/js/jquery-3.1.0.js"></script>
 	<script type="text/javascript" src="../../build/js/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript" src="../../build/js/autoNumeric-min.js"></script>
+    <script src="../../dist/sweetalert.min.js"></script> 
+    <script src="../../dist/sweetalert.js"></script> 
+    <script src="../../dev/sweetalert.es6.js"></script> 
+    <link rel="stylesheet" type="text/css" href="../../dist/sweetalert.css">
 	
 	<script type="text/javascript">
 		$(document).ready(function(){

@@ -165,7 +165,7 @@ function Footer()
     $this->SetFont('Arial','I',8);
     // Page number
         $this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0,'C');
-        $date = date('F d, Y h:i:sa');
+        $date = date('F d, Y h:i:sa',strtotime("+6 hours"));
         $this->Cell(0,10,$date,0,0,'R');
 }
 

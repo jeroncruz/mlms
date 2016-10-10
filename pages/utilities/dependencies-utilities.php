@@ -38,30 +38,30 @@ if (isset($_POST['btnSave'])){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap -->
+    <title>Business Dependency- Utilities</title>
+
+     <!-- Bootstrap -->
     <link href="../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="../../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- NProgress -->
-    <!--<link href="../vendors/nprogress/nprogress.css" rel="stylesheet">-->
-    <!-- Ion.RangeSlider -->
-    <link href="../../vendors/normalize-css/normalize.css" rel="stylesheet">
-    <link href="../../vendors/ion.rangeSlider/css/ion.rangeSlider.css" rel="stylesheet">
-    <link href="....//vendors/ion.rangeSlider/css/ion.rangeSlider.skinFlat.css" rel="stylesheet">
-    <!-- Bootstrap Colorpicker -->
-    <link href="../../vendors/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+    <link href="../../vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- jQuery custom content scroller -->
+    <link href="../../vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet"/>
 
-    <link href="../../vendors/cropper/dist/cropper.min.css" rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href="../../build/css/custom.min.css" rel="stylesheet">
 
-
-    <title>Dependencies</title>
-
-    
-     <script type="text/javascript" src="../../build/js/jquery-3.1.0.js"></script>
-     <script type="text/javascript" src="../../build/js/jquery-1.9.1.min.js"></script>
-     <script type="text/javascript" src="../../build/js/autoNumeric-min.js"></script>
+    <!-- Datatables -->
+    <link href="../../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="../../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="../../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="../../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="../../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+	
+	<script type="text/javascript" src="../../build/js/jquery-3.1.0.js"></script>
+	<script type="text/javascript" src="../../build/js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="../../build/js/autoNumeric-min.js"></script>
      
      <script>
          $( document ).ready(function() {
@@ -251,15 +251,11 @@ if (isset($_POST['btnSave'])){
                                                         
 
                                                         ?>
-                                                        <input type="number" id="gracePeriod" class="form-control input-md" name=<?php echo"7";?> value="<?php echo"$fResult";?>" required>
+                                                        <input type="text" id="gracePeriod" class="form-control input-md" name=<?php echo"7";?> value="<?php echo"$fResult";?>" required>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 
-                                                <div class="form-group">
-                                                    <label class="col-md-4"  align="right" style="margin-top:.30em">Day/s Before Forfeting Reservation w/ No Downpayment:</label>
-                                                    <div class="col-md-2">
-                                                        <div class="input-group">
 
                                                         <?php
                                                             $sql = "SELECT * FROM tblbusinessdependency WHERE intBusinessDependencyId='8'";
@@ -271,17 +267,8 @@ if (isset($_POST['btnSave'])){
                                                             $qResult = round ($reservationNoDown, 0);
                                                         
                                                         ?>
-                                                        <input type="number" id="reservationNoDown" class="form-control input-md" name=<?php echo"8";?> value="<?php echo"$qResult";?>"  required>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div><!--ROW-->
-                                             
-                                            <div class="row">
-                                                <div class="form-group">
-                                                    <label class="col-md-4"  align="right" style="margin-top:.30em">Day/s Before Forfeting Reservation w/out Full Payment:</label>
-                                                    <div class="col-md-2">
-                                                        <div class="input-group">
+                                                        <input type="hidden" id="reservationNoDown" class="form-control input-md" name=<?php echo"8";?> value="<?php echo"$qResult";?>"  required>
+                                                        
 
                                                         <?php
                                                             $sql = "SELECT * FROM tblbusinessdependency WHERE intBusinessDependencyId='9'";
@@ -295,11 +282,8 @@ if (isset($_POST['btnSave'])){
 
                                                         
                                                         ?>
-                                                        <input type="number" id="reservationNotFull" class="form-control input-md" name=<?php echo"9";?>  value="<?php echo $wResult;?>"  required>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                
+                                                        <input type="hidden" id="reservationNotFull" class="form-control input-md" name=<?php echo"9";?>  value="<?php echo $wResult;?>"  required>
+                                                        
                                                 <div class="form-group">
                                                     <label class="col-md-4"  align="right" style="margin-top:.30em">Overdue months for forfeiting ownership:</label>
                                                     <div class="col-md-2">
@@ -318,7 +302,7 @@ if (isset($_POST['btnSave'])){
                                                             echo round($number, 2);*/
                                                         
                                                         ?>
-                                                        <input type="number" id="overdue" class="form-control input-md" name=<?php echo"10";?> value="<?php echo round($overdue,2);?>"  required>
+                                                        <input type="text" id="overdue" class="form-control input-md" name=<?php echo"10";?> value="<?php echo round($overdue,2);?>"  required>
                                                         </div>
                                                     </div>
                                                 </div>

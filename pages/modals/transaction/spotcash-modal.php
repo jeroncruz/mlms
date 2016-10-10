@@ -16,6 +16,7 @@
                                 <div class='panel-body'>
                                     
                                     <input type='hidden'  name='tfLotId' value='<?php echo"$intLotID";?>'  readonly>
+                                    <input type='hidden'  name='tfStatus' value='0'  readonly>
                                     <div class='form-group'>
                                         <label class='col-md-7' style = 'font-size: 18px; margin-top:.50em;' align='right'>Lot Name:</label>
                                         <div class='col-md-5'>

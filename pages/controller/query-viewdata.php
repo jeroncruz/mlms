@@ -186,8 +186,10 @@ class lot{
               $LotStatus ="Available";
           }else if($intLotStatus==1){
               $LotStatus="Reserved";
+          }else if($intLotStatus==2){
+              $LotStatus="Owned";
           }else{
-              $LotStatus="Occupied";
+              $LotStatus="At-Need";
           }
                       
           echo 
@@ -400,8 +402,10 @@ class ashUnit{
                 $AshStatus="Available";
             }else if($intUnitStatus==1){
                 $AshStatus="Reserved";
+            }else if($intUnitStatus==2){
+                $AshStatus="Owned";
             }else{
-                $AshStatus="Occupied";
+                $AshStatus="At-Need";
             }
               
 			 echo "<tr>

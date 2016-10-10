@@ -183,10 +183,12 @@ if (isset($_POST['btnArchive'])){
                                                             
                                                             <div class="col-md-4">
                                                                 <select class="form-control" name = "filter2">
-                                                                    <option value=""> --Choose Status--</option>
+                                                                    <option value=""> --Choose AshCrypt Status--</option>
                                                                     <option value="0"> Available</option>
                                                                     <option value="1"> Reserve</option>
-                                                                    <option value="2"> Occupied</option>
+                                                                    <option value="2"> Owned</option>
+                                                                    <option value="3"> At-Need</option>
+																						
                                                                 </select>
                                                             </div>
                                                             
@@ -245,8 +247,10 @@ if (isset($_POST['btnArchive'])){
                                                                         $AshStatus="Available";
                                                                     }else if($intUnitStatus==1){
                                                                         $AshStatus="Reserved";
+                                                                    }else if($intUnitStatus==2){
+                                                                        $AshStatus="Owned";
                                                                     }else{
-                                                                        $AshStatus="Occupied";
+                                                                        $AshStatus="At-Need";
                                                                     }
                                                                     
                                                                     echo "<tr>

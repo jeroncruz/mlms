@@ -363,14 +363,6 @@ class createDiscount{
 
 	function Create($serviceName,$tfDescription,$tfPercentValue,$tfStatus){
 
-        $conn = mysql_connect(constant('server'),constant('user'),constant('pass'));
-        mysql_select_db(constant('mydb'));
-
-        $sql = "Select * from tbldiscount WHERE strDescription like '$tfDescription'";
-        $result = mysql_query($sql);
-        $check_duplicate = mysql_num_rows($result);
-
-        if($check_duplicate == 0){
 
 			$sql = "INSERT INTO `dbholygarden`.`tbldiscount` (`intServiceID`,`strDescription`, `dblPercent`, `intStatus`) 
 												VALUES ('$serviceName','$tfDescription','$tfPercentValue','$tfStatus')";
@@ -383,12 +375,6 @@ class createDiscount{
                 $alertDiscount -> alertSuccess();
 			 
 			}//if
-
-		}else{
-				//echo "<script>alert('Duplicate Data!')</script>";
-                $alertDiscount1 = new alerts();
-                $alertDiscount1 -> alertWarning();
-		}//else
     }//function
 }//createDiscount
 
@@ -426,11 +412,11 @@ class createCustomer{
 
 class createAvailUnit{
 
-    function Create($tfLotId,$selectCustomer,$dateCreated,$tfModeOfPayment,$tfAmountFinal){
+    function Create($tfLotId,$tfStatus,$selectCustomer,$dateCreated,$tfModeOfPayment,$tfAmountFinal){
 
-		$sql = "INSERT INTO `dbholygarden`.`tblavailunit` (`intLotId`,`intCustomerId`,`dateAvailUnit`,`strModeOfPayment`,`deciAmountPaid`) 
-                                                VALUES ('$tfLotId','$selectCustomer','$dateCreated','$tfModeOfPayment','$tfAmountFinal')";
-                                            
+		$sql = "INSERT INTO `dbholygarden`.`tblavailunit` (`intLotId`,`intStatus`,`intCustomerId`,`dateAvailUnit`,`strModeOfPayment`,`deciAmountPaid`) 
+                                                VALUES ('$tfLotId','$tfStatus','$selectCustomer','$dateCreated','$tfModeOfPayment','$tfAmountFinal')";
+
         $sql1 = "UPDATE `dbholygarden`.`tbllot` 
                             SET `intLotStatus`='2' WHERE `intLotID`= '$tfLotId'";
         
@@ -502,10 +488,10 @@ class createAvailUnit{
 
 class createAvailUnitAsh{
     
-    function createSpotAsh($tfUnitId,$selectCustomer,$dateCreated,$tfModeOfPayment,$tfAmountFinal){
+    function createSpotAsh($tfUnitId,$tfStatus,$selectCustomer,$dateCreated,$tfModeOfPayment,$tfAmountFinal){
 
-		$sql = "INSERT INTO `dbholygarden`.`tblavailunitash` (`intUnitId`,`intCustomerId`,`dateAvailUnit`,`strModeOfPayment`,`deciAmountPaid`) 
-                                                VALUES ('$tfUnitId','$selectCustomer','$dateCreated','$tfModeOfPayment','$tfAmountFinal')";
+		$sql = "INSERT INTO `dbholygarden`.`tblavailunitash` (`intUnitId`,`intStatus`,`intCustomerId`,`dateAvailUnit`,`strModeOfPayment`,`deciAmountPaid`) 
+                                                VALUES ('$tfUnitId','$tfStatus','$selectCustomer','$dateCreated','$tfModeOfPayment','$tfAmountFinal')";
                                             
         $sql1 = "UPDATE `dbholygarden`.`tblacunit` 
                             SET `intUnitStatus`='2' WHERE `intUnitID`= '$tfUnitId'";
@@ -647,6 +633,24 @@ class createPaymentAsh{
              
           
             if(mysql_query($sql1,$conn)){
+                ?>
+                    <script type="text/javascript">
+
+                            swal({ 
+                              title: "Success",
+                               text: "Record has been saved!",
+                                type: "success"
+                              },
+                              function(){
+                                  window.open('../modals/transaction/reserveAsh-pdf.php?unitId=<?php echo $tfAvailUnitAshId; ?>');
+                                  window.location.href='payment.php';
+
+                              
+                            
+                            });
+                                            
+                    </script>
+                <?php
                  mysql_close($conn);
                    
             }//if
@@ -672,6 +676,23 @@ class createPaymentAsh{
              
             
             if(mysql_query($sql1,$conn)){
+                ?>
+                <script type="text/javascript">
+                    
+                            swal({ 
+                              title: "Success",
+                               text: "Record has been saved!",
+                                type: "success"
+                              },
+                              function(){
+                                  window.open('../modals/transaction/collectionAsh-pdf.php?unitId=<?php echo $tfAvailUnitAshId ?>');
+                                  window.location.href='payment.php';
+
+                              
+                            
+                            });
+                </script>
+                <?php
                  mysql_close($conn);
                    
             }//if
